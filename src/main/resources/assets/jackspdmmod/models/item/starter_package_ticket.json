@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "jackspdmmod:item/starter_package_ticket"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "jackspdmmod:item/digimon_spawn_gacha"
+  }
+}

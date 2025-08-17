@@ -1,0 +1,54 @@
+[227월2025 14:24:20.967] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher running: args [--mod, jackspdmmod, --all, --output, D:\Minecraft Projects\Forge\Jacks-PDM-Mod\src\generated\resources, --existing, D:\Minecraft Projects\Forge\Jacks-PDM-Mod\src\main\resources, --gameDir, ., --launchTarget, fmluserdevdata, --fml.mcpVersion, 20210115.111550, --fml.mcVersion, 1.16.5, --fml.forgeGroup, net.minecraftforge, --fml.forgeVersion, 36.2.42, --assetIndex, 1.16, --assetsDir, C:\Users\user\.gradle\caches\forge_gradle\assets]
+[227월2025 14:24:20.969] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher 8.1.3+8.1.3+main-8.1.x.c94d18ec starting: java version 1.8.0_452 by Temurin
+[227월2025 14:24:21.184] [main/INFO] [net.minecraftforge.fml.loading.FixSSL/CORE]: Added Lets Encrypt root certificates as additional trust
+[227월2025 14:24:21.214] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.4 Source=file:/C:/Users/user/.gradle/caches/modules-2/files-2.1/org.spongepowered/mixin/0.8.4/4ec7d77d9ab32596ca0b78bb123956734767e3a/mixin-0.8.4.jar Service=ModLauncher Env=CLIENT
+[227월2025 14:24:21.245] [main/WARN] [net.minecraftforge.fml.loading.FMLConfig/CORE]: Configuration file D:\Minecraft Projects\Forge\Jacks-PDM-Mod\run-data\config\fml.toml is not correct. Correcting
+[227월2025 14:24:21.249] [main/WARN] [net.minecraftforge.fml.loading.FMLConfig/CORE]: Incorrect key [defaultConfigPath] was corrected from null to defaultconfigs
+[227월2025 14:24:22.141] [main/INFO] [cpw.mods.modlauncher.LaunchServiceHandler/MODLAUNCHER]: Launching target 'fmluserdevdata' with arguments [--gameDir, ., --assetsDir, C:\Users\user\.gradle\caches\forge_gradle\assets, --mod, jackspdmmod, --all, --output, D:\Minecraft Projects\Forge\Jacks-PDM-Mod\src\generated\resources, --existing, D:\Minecraft Projects\Forge\Jacks-PDM-Mod\src\main\resources, --assetIndex, 1.16]
+[227월2025 14:24:22.265] [main/INFO] [net.minecraftforge.fml.DatagenModLoader/]: Initializing Data Gatherer for mods [jackspdmmod]
+[227월2025 14:24:25.402] [modloading-worker-2/INFO] [net.minecraftforge.common.ForgeMod/FORGEMOD]: Forge mod loading, version 36.2.42, for MC 1.16.5 with MCP 20210115.111550
+[227월2025 14:24:25.404] [modloading-worker-15/INFO] [Pixelmon/]: Patched lifecycle fields.
+[227월2025 14:24:25.408] [modloading-worker-2/INFO] [net.minecraftforge.common.MinecraftForge/FORGE]: MinecraftForge v36.2.42 Initialized
+[227월2025 14:24:26.480] [modloading-worker-15/ERROR] [net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Failed to register automatic subscribers. ModID: pixelmon, class com.pixelmonmod.pixelmon.Pixelmon
+java.lang.ExceptionInInitializerError: null
+	at java.lang.Class.forName0(Native Method) ~[?:1.8.0_452]
+	at java.lang.Class.forName(Class.java:348) ~[?:1.8.0_452]
+	at net.minecraftforge.fml.AutomaticEventSubscriber.lambda$inject$6(AutomaticEventSubscriber.java:61) ~[forge:?]
+	at java.util.ArrayList.forEach(ArrayList.java:1259) ~[?:1.8.0_452]
+	at net.minecraftforge.fml.AutomaticEventSubscriber.inject(AutomaticEventSubscriber.java:48) ~[forge:?]
+	at net.minecraftforge.fml.javafmlmod.FMLModContainer.constructMod(FMLModContainer.java:77) ~[forge:36.2]
+	at net.minecraftforge.fml.ModContainer.lambda$buildTransitionHandler$4(ModContainer.java:106) ~[forge:?]
+	at java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1640) [?:1.8.0_452]
+	at java.util.concurrent.CompletableFuture$AsyncRun.exec(CompletableFuture.java:1632) [?:1.8.0_452]
+	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289) [?:1.8.0_452]
+	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056) [?:1.8.0_452]
+	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692) [?:1.8.0_452]
+	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:175) [?:1.8.0_452]
+Caused by: java.lang.NullPointerException
+	at com.pixelmonmod.pixelmon.client.ClientProxy.<clinit>(ClientProxy.java:168) ~[pixelmon:1.16.5-9.1.13]
+	... 13 more
+[227월2025 14:24:26.495] [main/FATAL] [net.minecraftforge.fml.ModLoader/LOADING]: Failed to complete lifecycle event CONSTRUCT, 1 errors found
+[227월2025 14:24:26.496] [main/INFO] [STDERR/]: [java.lang.ThreadGroup:uncaughtException:1052]: java.lang.RuntimeException: java.lang.reflect.InvocationTargetException
+[227월2025 14:24:26.496] [main/INFO] [STDERR/]: [java.lang.ThreadGroup:uncaughtException:1052]: 	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:39)
+[227월2025 14:24:26.496] [main/INFO] [STDERR/]: [java.lang.ThreadGroup:uncaughtException:1052]: 	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:54)
+[227월2025 14:24:26.496] [main/INFO] [STDERR/]: [java.lang.ThreadGroup:uncaughtException:1052]: 	at cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:72)
+[227월2025 14:24:26.496] [main/INFO] [STDERR/]: [java.lang.ThreadGroup:uncaughtException:1052]: 	at cpw.mods.modlauncher.Launcher.run(Launcher.java:82)
+[227월2025 14:24:26.496] [main/INFO] [STDERR/]: [java.lang.ThreadGroup:uncaughtException:1052]: 	at cpw.mods.modlauncher.Launcher.main(Launcher.java:66)
+[227월2025 14:24:26.496] [main/INFO] [STDERR/]: [java.lang.ThreadGroup:uncaughtException:1052]: 	at net.minecraftforge.userdev.LaunchTesting.main(LaunchTesting.java:94)
+[227월2025 14:24:26.496] [main/INFO] [STDERR/]: [java.lang.ThreadGroup:uncaughtException:1061]: Caused by: java.lang.reflect.InvocationTargetException
+[227월2025 14:24:26.497] [main/INFO] [STDERR/]: [java.lang.ThreadGroup:uncaughtException:1061]: 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+[227월2025 14:24:26.497] [main/INFO] [STDERR/]: [java.lang.ThreadGroup:uncaughtException:1061]: 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+[227월2025 14:24:26.497] [main/INFO] [STDERR/]: [java.lang.ThreadGroup:uncaughtException:1061]: 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+[227월2025 14:24:26.497] [main/INFO] [STDERR/]: [java.lang.ThreadGroup:uncaughtException:1061]: 	at java.lang.reflect.Method.invoke(Method.java:498)
+[227월2025 14:24:26.497] [main/INFO] [STDERR/]: [java.lang.ThreadGroup:uncaughtException:1061]: 	at net.minecraftforge.userdev.FMLUserdevDataLaunchProvider.lambda$launchService$0(FMLUserdevDataLaunchProvider.java:37)
+[227월2025 14:24:26.497] [main/INFO] [STDERR/]: [java.lang.ThreadGroup:uncaughtException:1061]: 	at cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:37)
+[227월2025 14:24:26.497] [main/INFO] [STDERR/]: [java.lang.ThreadGroup:uncaughtException:1061]: 	... 5 more
+[227월2025 14:24:26.497] [main/INFO] [STDERR/]: [java.lang.Throwable:printStackTrace:644]: Caused by: net.minecraftforge.fml.LoadingFailedException: Loading errors encountered: [
+	fml.modloading.failedtoloadmod
+]
+[227월2025 14:24:26.497] [main/INFO] [STDERR/]: [java.lang.Throwable:printStackTrace:644]: 	at net.minecraftforge.fml.ModLoader.waitForTransition(ModLoader.java:255)
+[227월2025 14:24:26.497] [main/INFO] [STDERR/]: [java.lang.Throwable:printStackTrace:644]: 	at net.minecraftforge.fml.ModLoader.dispatchAndHandleError(ModLoader.java:222)
+[227월2025 14:24:26.497] [main/INFO] [STDERR/]: [java.lang.Throwable:printStackTrace:644]: 	at net.minecraftforge.fml.ModLoader.gatherAndInitializeMods(ModLoader.java:180)
+[227월2025 14:24:26.499] [main/INFO] [STDERR/]: [java.lang.Throwable:printStackTrace:644]: 	at net.minecraftforge.fml.DatagenModLoader.begin(DatagenModLoader.java:46)
+[227월2025 14:24:26.499] [main/INFO] [STDERR/]: [java.lang.Throwable:printStackTrace:644]: 	at net.minecraft.data.Main.main(Main.java:45)
+[227월2025 14:24:26.499] [main/INFO] [STDERR/]: [java.lang.Throwable:printStackTrace:644]: 	... 11 more

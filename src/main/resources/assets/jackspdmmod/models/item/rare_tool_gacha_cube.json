@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "jackspdmmod:item/rare_tool_gacha_cube"
+  }
+}
