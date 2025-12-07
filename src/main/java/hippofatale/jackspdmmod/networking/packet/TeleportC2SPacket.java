@@ -8,19 +8,19 @@ import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class TownTeleportC2SPacket {
-    private int townIndex;
+public class TeleportC2SPacket {
+    private int teleportIndex;
 
-    public TownTeleportC2SPacket(int townIndex) {
-        this.townIndex = townIndex;
+    public TeleportC2SPacket(int teleportIndex) {
+        this.teleportIndex = teleportIndex;
     }
 
-    public TownTeleportC2SPacket(ByteBuf buf) {
-        this.townIndex = buf.readInt();
+    public TeleportC2SPacket(ByteBuf buf) {
+        this.teleportIndex = buf.readInt();
     }
 
     public void toBytes(ByteBuf buf) {
-        buf.writeInt(townIndex);
+        buf.writeInt(teleportIndex);
     }
 
     public boolean handle(Supplier<NetworkEvent.Context> supplier) {
@@ -28,8 +28,8 @@ public class TownTeleportC2SPacket {
         context.enqueueWork(() -> {
             ServerPlayerEntity player = context.getSender();
             if (player != null) {
-                player.moveTo(TeleportData.getTownCoordinates(townIndex));
-                player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.teleported", TeleportData.getTownText(townIndex)), false);
+                player.moveTo(TeleportData.getTeleportCoordinates(teleportIndex));
+                player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.teleported", TeleportData.getTeleportName(teleportIndex)), false);
             }
         });
         return true;

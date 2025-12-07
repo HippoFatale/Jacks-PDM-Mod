@@ -25,7 +25,8 @@ public class TitleData {
             new TranslationTextComponent("title.jackspdmmod.blacklisted").withStyle(TextFormatting.GRAY),
             new TranslationTextComponent("title.jackspdmmod.gold_rich").withStyle(TextFormatting.GOLD),
             new TranslationTextComponent("title.jackspdmmod.diamond_rich").withStyle(TextFormatting.AQUA),
-            new TranslationTextComponent("title.jackspdmmod.pdm_season1_champion").withStyle(TextFormatting.DARK_RED)
+            new TranslationTextComponent("title.jackspdmmod.pdm_season1_champion").withStyle(TextFormatting.DARK_RED),
+            new TranslationTextComponent("title.jackspdmmod.pdm_season2_champion").withStyle(TextFormatting.GOLD)
     });
 
     public static ITextComponent getTitleText(int titleIndex) {

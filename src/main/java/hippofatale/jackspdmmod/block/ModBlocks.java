@@ -3,6 +3,7 @@ package hippofatale.jackspdmmod.block;
 import hippofatale.jackspdmmod.JacksPDMMod;
 import hippofatale.jackspdmmod.block.custom.OreSeedBlock;
 import hippofatale.jackspdmmod.block.custom.PlacardBlock;
+import hippofatale.jackspdmmod.block.custom.SlotMachineBlock;
 import hippofatale.jackspdmmod.home.HomeSize;
 import hippofatale.jackspdmmod.home.HomeType;
 import hippofatale.jackspdmmod.item.ModItemGroup;
@@ -35,6 +36,10 @@ public class ModBlocks {
             () -> new PlacardBlock(AbstractBlock.Properties.of(Material.WOOD), HomeType.PERSONAL, HomeSize.MEDIUM, new BigDecimal("500000.0"), WoodType.OAK));
     public static final RegistryObject<Block> CLUB_LARGE_PLACARD_BLOCK = registerBlock("club_large_placard",
             () -> new PlacardBlock(AbstractBlock.Properties.of(Material.WOOD), HomeType.CLUB, HomeSize.LARGE, new BigDecimal("1000000.0"), WoodType.SPRUCE));
+
+    //slot machine
+    public static final RegistryObject<Block> SLOT_MACHINE = registerBlock("slot_machine",
+            () -> new SlotMachineBlock(AbstractBlock.Properties.of(Material.STONE)));
 
     public static <T extends Block>RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);

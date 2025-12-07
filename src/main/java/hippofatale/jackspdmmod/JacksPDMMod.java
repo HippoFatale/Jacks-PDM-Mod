@@ -3,23 +3,19 @@ package hippofatale.jackspdmmod;
 import com.pixelmonmod.pixelmon.Pixelmon;
 import hippofatale.jackspdmmod.block.ModBlocks;
 import hippofatale.jackspdmmod.club.Club;
-import hippofatale.jackspdmmod.club.ClubData;
 import hippofatale.jackspdmmod.events.ModEvents;
-import hippofatale.jackspdmmod.events.TitleEvents;
+import hippofatale.jackspdmmod.events.UnlockTitleEvents;
 import hippofatale.jackspdmmod.home.Home;
-import hippofatale.jackspdmmod.home.HomeData;
 import hippofatale.jackspdmmod.item.ModItems;
-import hippofatale.jackspdmmod.market.MarketData;
 import hippofatale.jackspdmmod.networking.ModMessages;
 import hippofatale.jackspdmmod.storage.PlayerStorageInventory;
 import hippofatale.jackspdmmod.teleport.PlayerTeleportUnlock;
 import hippofatale.jackspdmmod.tileentity.ModTileEntities;
 import hippofatale.jackspdmmod.title.PlayerTitle;
+import hippofatale.jackspdmmod.util.MiniGameType;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.renderer.tileentity.SignTileEntityRenderer;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.MinecraftForge;
@@ -43,10 +39,7 @@ import org.apache.logging.log4j.Logger;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -104,6 +97,13 @@ public class JacksPDMMod
         put("carrot", 32);
     }};
 
+    //mini-game
+    public static boolean isMiniGameOpen = false;
+    public static boolean isMiniGameRunning = false;
+    public static MiniGameType miniGameType = MiniGameType.DICE_OF_FORTUNE;
+    public static Map<Integer, UUID> diceOfFortune = new HashMap<>();
+    public static List<Integer> diceNumbers = new ArrayList<>();
+
     public JacksPDMMod() {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
@@ -123,8 +123,8 @@ public class JacksPDMMod
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(ModEvents.class);
         Pixelmon.EVENT_BUS.register(ModEvents.class);
-        MinecraftForge.EVENT_BUS.register(TitleEvents.class);
-        Pixelmon.EVENT_BUS.register(TitleEvents.class);
+        MinecraftForge.EVENT_BUS.register(UnlockTitleEvents.class);
+        Pixelmon.EVENT_BUS.register(UnlockTitleEvents.class);
     }
 
     private void setup(final FMLCommonSetupEvent event)

@@ -19,7 +19,6 @@ public class MenuCommand {
     private int openMenu(CommandSource source) throws CommandSyntaxException {
         ServerPlayerEntity player = source.getPlayerOrException();
         ModMessages.sendToPlayer(new SetMenuScreenS2CPacket(), player);
-//        new TickDelay(() -> ModMessages.sendToPlayer(new SetMenuScreenS2CPacket(), player), 1);
         return 1;
     }
 

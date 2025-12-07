@@ -24,9 +24,9 @@ import static hippofatale.jackspdmmod.JacksPDMMod.*;
 
 public class ClubCommand {
     public ClubCommand(CommandDispatcher<CommandSource> dispatcher) {
-        dispatcher.register(Commands.literal("동아리")
-                .then(Commands.literal("만들기").then(Commands.argument("동아리명", StringArgumentType.string()).executes((command) -> {
-                    return createClub(command.getSource(), StringArgumentType.getString(command, "동아리명"));})))
+        dispatcher.register(Commands.literal("문파")
+                .then(Commands.literal("만들기").then(Commands.argument("문파명", StringArgumentType.string()).executes((command) -> {
+                    return createClub(command.getSource(), StringArgumentType.getString(command, "문파명"));})))
 
                 .then(Commands.literal("초대").then(Commands.argument("플레이어", EntityArgument.player()).executes((command) -> {
                     return invite(command.getSource(), EntityArgument.getPlayer(command, "플레이어"));})))
@@ -34,13 +34,13 @@ public class ClubCommand {
                 .then(Commands.literal("추방").then(Commands.argument("플레이어", EntityArgument.player()).executes((command) -> {
                     return kick(command.getSource(), EntityArgument.getPlayer(command, "플레이어"));})))
 
-                .then(Commands.literal("가입").then(Commands.argument("동아리명", StringArgumentType.string()).executes((command) -> {
-                    return join(command.getSource(), StringArgumentType.getString(command, "동아리명"));})))
+                .then(Commands.literal("가입").then(Commands.argument("문파명", StringArgumentType.string()).executes((command) -> {
+                    return join(command.getSource(), StringArgumentType.getString(command, "문파명"));})))
 
                 .then(Commands.literal("탈퇴").executes((command) -> {
                     return leave(command.getSource());}))
 
-                .then(Commands.literal("회장위임").then(Commands.argument("플레이어", EntityArgument.player()).executes((command) -> {
+                .then(Commands.literal("수장위임").then(Commands.argument("플레이어", EntityArgument.player()).executes((command) -> {
                     return changePresident(command.getSource(), EntityArgument.getPlayer(command, "플레이어"));})))
 
                 .then(Commands.literal("정보").executes((command) -> {

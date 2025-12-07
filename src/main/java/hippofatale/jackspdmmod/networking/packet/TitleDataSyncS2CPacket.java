@@ -8,8 +8,7 @@ import java.util.function.Supplier;
 
 public class TitleDataSyncS2CPacket {
     private int displayingTitleIndex = 0;
-//    private int[] titleUnlockedList = {1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    private int[] titleUnlockedList = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+    private int[] titleUnlockedList = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
 
     public TitleDataSyncS2CPacket(int displayingTitleIndex, int[] titleUnlockedList) {
         this.displayingTitleIndex = displayingTitleIndex;

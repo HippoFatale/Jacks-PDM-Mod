@@ -3,17 +3,17 @@ package hippofatale.jackspdmmod.teleport;
 import net.minecraft.nbt.CompoundNBT;
 
 public class PlayerTeleportUnlock {
-     private int[] townUnlockedList = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-//     private int[] townUnlockedList = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+//     private int[] teleportUnlockedList = {1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+     private int[] teleportUnlockedList = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
      private boolean homeUnlocked = false;
      private boolean clubHomeUnlocked = false;
 
-     public int[] getTownUnlockedList() {
-         return townUnlockedList;
+     public int[] getTeleportUnlockedList() {
+         return teleportUnlockedList;
      }
 
-     public int getTownUnlocked(int townIndex) {
-         return townUnlockedList[townIndex];
+     public int getTeleportUnlocked(int townIndex) {
+         return teleportUnlockedList[townIndex];
      }
 
      public boolean getHomeUnlocked() {
@@ -24,8 +24,8 @@ public class PlayerTeleportUnlock {
          return clubHomeUnlocked;
      }
 
-     public void unlockTown(int townIndex) {
-         this.townUnlockedList[townIndex] =  1;
+     public void unlockTeleport(int teleportIndex) {
+         this.teleportUnlockedList[teleportIndex] =  1;
      }
 
      public void setHomeUnlocked(boolean isUnlocked) {
@@ -37,19 +37,19 @@ public class PlayerTeleportUnlock {
      }
 
      public void copyFrom(PlayerTeleportUnlock source) {
-         this.townUnlockedList = source.townUnlockedList.clone();
+         this.teleportUnlockedList = source.teleportUnlockedList.clone();
          this.homeUnlocked = source.homeUnlocked;
          this.clubHomeUnlocked = source.clubHomeUnlocked;
      }
 
      public void saveNBTData(CompoundNBT nbt) {
-         nbt.putIntArray("town_unlocked_list", townUnlockedList);
+         nbt.putIntArray("town_unlocked_list", teleportUnlockedList);
          nbt.putBoolean("home_unlocked", homeUnlocked);
          nbt.putBoolean("club_home_unlocked", clubHomeUnlocked);
      }
 
      public void loadNBTData(CompoundNBT nbt) {
-         townUnlockedList = nbt.getIntArray("town_unlocked_list").clone();
+         teleportUnlockedList = nbt.getIntArray("town_unlocked_list").clone();
          homeUnlocked = nbt.getBoolean("home_unlocked");
          clubHomeUnlocked = nbt.getBoolean("club_home_unlocked");
      }

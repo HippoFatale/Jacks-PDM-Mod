@@ -10,8 +10,7 @@ import java.util.List;
 
 public class ClientTitleData {
     private static int displayingTitleIndex = 0;
-    private static int[] titleUnlockedList = {1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-//    private static int[] titleUnlockedList = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+    private static int[] titleUnlockedList = {1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
     public static int getTitleUnlocked(int titleIndex) {
         return titleUnlockedList[titleIndex];
@@ -52,7 +51,8 @@ public class ClientTitleData {
             new TranslationTextComponent("title.jackspdmmod.blacklisted").withStyle(TextFormatting.GRAY),
             new TranslationTextComponent("title.jackspdmmod.gold_rich").withStyle(TextFormatting.GOLD),
             new TranslationTextComponent("title.jackspdmmod.diamond_rich").withStyle(TextFormatting.AQUA),
-            new TranslationTextComponent("title.jackspdmmod.pdm_season1_champion").withStyle(TextFormatting.DARK_RED)
+            new TranslationTextComponent("title.jackspdmmod.pdm_season1_champion").withStyle(TextFormatting.DARK_RED),
+            new TranslationTextComponent("title.jackspdmmod.pdm_season2_champion").withStyle(TextFormatting.GOLD)
     });
 
     public static ITextComponent getTitleText(int titleIndex) {

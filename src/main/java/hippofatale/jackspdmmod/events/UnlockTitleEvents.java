@@ -1,7 +1,6 @@
 package hippofatale.jackspdmmod.events;
 
 import com.pixelmonmod.pixelmon.api.economy.EconomyEvent;
-import com.pixelmonmod.pixelmon.api.events.BeatTrainerEvent;
 import com.pixelmonmod.pixelmon.api.events.PokemonReceivedEvent;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import hippofatale.jackspdmmod.networking.ModMessages;
@@ -19,7 +18,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.math.BigDecimal;
 
-public class TitleEvents {
+public class UnlockTitleEvents {
     private static void unlockTitle(ServerPlayerEntity player, int titleIndex) {
         player.getCapability(PlayerTitleProvider.PLAYER_TITLE).ifPresent(playerTitle -> {
             if (playerTitle.getTitleUnlocked(titleIndex) == 0) {

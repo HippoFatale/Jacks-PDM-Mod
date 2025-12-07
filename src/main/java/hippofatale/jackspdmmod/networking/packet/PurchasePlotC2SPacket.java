@@ -63,8 +63,8 @@ public class PurchasePlotC2SPacket {
                             } else {
                                 player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.not_enough_pokedollars"), false);
                             }
-                            break;
                         }
+                        break;
                     }
                     case CLUB: {
                         if (!playerClubs.containsKey(player.getUUID())) {
@@ -90,8 +90,8 @@ public class PurchasePlotC2SPacket {
                             } else {
                                 player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.not_enough_pokedollars"), false);
                             }
-                            break;
                         }
+                        break;
 //                        if (playerClub.getClubPoints() >= placard.getPlotPrice().intValue()) {
 //                            playerClub.takeClubPoints(placard.getPlotPrice().intValue());
 //                            placard.setPurchased(true);

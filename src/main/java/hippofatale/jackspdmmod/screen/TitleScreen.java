@@ -13,7 +13,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 
 public class TitleScreen extends Screen {
     private ITextComponent title = new TranslationTextComponent("menu.jackspdmmod.title");
-    private int buttonWidth = 60;
+    private int buttonWidth = 80;
+    private int bigButtonWidth = 120;
     private int buttonHeight = 20;
 
     protected TitleScreen() {
@@ -24,24 +25,26 @@ public class TitleScreen extends Screen {
     protected void init() {
         super.init();
 
-        this.addButton(new Button((this.width - buttonWidth) / 2 - buttonWidth * (-1), this.height / 2 - buttonHeight * 3 - 10, buttonWidth, buttonHeight,
+        this.addButton(new Button((this.width - buttonWidth) / 2 - buttonWidth * (-1), this.height / 2 - buttonHeight * 4 - 10, buttonWidth, buttonHeight,
                 new TranslationTextComponent("menu.jackspdmmod.remove_title"), TitleScreen::removeTitle));
 
-        titleButton(this.width / 2 - buttonWidth * 2, this.height / 2 - buttonHeight * 2, 1, TitleScreen::displayTitle1, false);
-        titleButton(this.width / 2 - buttonWidth * 1, this.height / 2 - buttonHeight * 2, 2, TitleScreen::displayTitle2, false);
-        titleButton(this.width / 2 - buttonWidth * 0, this.height / 2 - buttonHeight * 2, 3, TitleScreen::displayTitle3, false);
-        titleButton(this.width / 2 - buttonWidth * (-1), this.height / 2 - buttonHeight * 2, 4, TitleScreen::displayTitle4, false);
-        titleButton(this.width / 2 - buttonWidth * 2, this.height / 2 - buttonHeight * 1, 5, TitleScreen::displayTitle5, false);
-        titleButton(this.width / 2 - buttonWidth * 1, this.height / 2 - buttonHeight * 1, 6, TitleScreen::displayTitle6, false);
-        titleButton(this.width / 2 - buttonWidth * 0, this.height / 2 - buttonHeight * 1, 7, TitleScreen::displayTitle7, false);
-        titleButton(this.width / 2 - buttonWidth * (-1), this.height / 2 - buttonHeight * 1, 8, TitleScreen::displayTitle8, false);
-        titleButton(this.width / 2 - buttonWidth * 2, this.height / 2 - buttonHeight * 0, 9, TitleScreen::displayTitle9, false);
-        titleButton(this.width / 2 - buttonWidth * 1, this.height / 2 - buttonHeight * 0, 10, TitleScreen::displayTitle10, false);
-        titleButton(this.width / 2 - buttonWidth * 0, this.height / 2 - buttonHeight * 0, 11, TitleScreen::displayTitle11, false);
-        titleButton(this.width / 2 - buttonWidth * (-1), this.height / 2 - buttonHeight * 0, 12, TitleScreen::displayTitle12, false);
-        titleButton(this.width / 2 - buttonWidth * 2, this.height / 2 - buttonHeight * (-1), 13, TitleScreen::displayTitle13, true);
-        titleButton(this.width / 2 - buttonWidth * 1, this.height / 2 - buttonHeight * (-1), 14, TitleScreen::displayTitle14, true);
-        titleButtonBig(this.width / 2 - buttonWidth * 0, this.height / 2 - buttonHeight * (-1), 15, TitleScreen::displayTitle15, true);
+        titleButton((this.width - buttonWidth) / 2 - buttonWidth * 1, this.height / 2 - buttonHeight * 3, 1, TitleScreen::displayTitle1, false);
+        titleButton((this.width - buttonWidth) / 2 - buttonWidth * 0, this.height / 2 - buttonHeight * 3, 2, TitleScreen::displayTitle2, false);
+        titleButton((this.width - buttonWidth) / 2 - buttonWidth * -1, this.height / 2 - buttonHeight * 3, 3, TitleScreen::displayTitle3, false);
+        titleButton((this.width - buttonWidth) / 2 - buttonWidth * 1, this.height / 2 - buttonHeight * 2, 4, TitleScreen::displayTitle4, false);
+        titleButton((this.width - buttonWidth) / 2 - buttonWidth * 0, this.height / 2 - buttonHeight * 2, 5, TitleScreen::displayTitle5, false);
+        titleButton((this.width - buttonWidth) / 2 - buttonWidth * -1, this.height / 2 - buttonHeight * 2, 6, TitleScreen::displayTitle6, false);
+        titleButton((this.width - buttonWidth) / 2 - buttonWidth * 1, this.height / 2 - buttonHeight * 1, 7, TitleScreen::displayTitle7, false);
+        titleButton((this.width - buttonWidth) / 2 - buttonWidth * 0, this.height / 2 - buttonHeight * 1, 8, TitleScreen::displayTitle8, false);
+        titleButton((this.width - buttonWidth) / 2 - buttonWidth * -1, this.height / 2 - buttonHeight * 1, 9, TitleScreen::displayTitle9, false);
+        titleButton((this.width - buttonWidth) / 2 - buttonWidth * 1, this.height / 2 - buttonHeight * 0, 10, TitleScreen::displayTitle10, false);
+        titleButton((this.width - buttonWidth) / 2 - buttonWidth * 0, this.height / 2 - buttonHeight * 0, 11, TitleScreen::displayTitle11, false);
+        titleButton((this.width - buttonWidth) / 2 - buttonWidth * -1, this.height / 2 - buttonHeight * 0, 12, TitleScreen::displayTitle12, false);
+        titleButton((this.width - buttonWidth) / 2 - buttonWidth * 1, this.height / 2 - buttonHeight * -1, 13, TitleScreen::displayTitle13, true);
+        titleButton((this.width - buttonWidth) / 2 - buttonWidth * 0, this.height / 2 - buttonHeight * -1, 14, TitleScreen::displayTitle14, true);
+
+        titleButtonBig(this.width / 2 - bigButtonWidth * 1, this.height / 2 - buttonHeight * -2 + 10, 15, TitleScreen::displayTitle15, true);
+        titleButtonBig(this.width / 2 - bigButtonWidth * 0, this.height / 2 - buttonHeight * -2 + 10, 16, TitleScreen::displayTitle16, true);
     }
 
     private void titleButton(int x, int y, int titleIndex, Button.IPressable button, boolean isHidden) {
@@ -56,18 +59,18 @@ public class TitleScreen extends Screen {
     }
     private void titleButtonBig(int x, int y, int titleIndex, Button.IPressable button, boolean isHidden) {
         if (ClientTitleData.getTitleUnlocked(titleIndex) == 1) {
-            this.addButton(new Button(x, y, buttonWidth * 2, buttonHeight,
+            this.addButton(new Button(x, y, bigButtonWidth, buttonHeight,
                     ClientTitleData.getTitleText(titleIndex), button));
         }
         else if (!isHidden){
-            this.addButton(new Button(x, y, buttonWidth * 2, buttonHeight,
+            this.addButton(new Button(x, y, bigButtonWidth, buttonHeight,
                     new StringTextComponent("???"), TitleScreen::doesNotHaveTitle));
         }
     }
 
     @Override
     public void render(MatrixStack p_230430_1_, int p_230430_2_, int p_230430_3_, float p_230430_4_) {
-        drawCenteredString(p_230430_1_, this.font, title, (this.width - buttonWidth) / 2, this.height / 2 - buttonHeight * 3 - 5, 16777215);
+        drawCenteredString(p_230430_1_, this.font, title, (this.width - buttonWidth) / 2, this.height / 2 - buttonHeight * 4 - 5, 16777215);
         super.render(p_230430_1_, p_230430_2_, p_230430_3_, p_230430_4_);
     }
 
@@ -139,6 +142,10 @@ public class TitleScreen extends Screen {
     }
     private static void displayTitle15(Button button) {
         ModMessages.sendToServer(new TitleDisplayC2SPacket(15));
+        Minecraft.getInstance().setScreen(null);
+    }
+    private static void displayTitle16(Button button) {
+        ModMessages.sendToServer(new TitleDisplayC2SPacket(16));
         Minecraft.getInstance().setScreen(null);
     }
 

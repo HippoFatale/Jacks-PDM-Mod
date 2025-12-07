@@ -28,20 +28,10 @@ public class ModMessages {
         INSTANCE = net;
 
         //teleport
-        net.messageBuilder(SchoolTeleportC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .decoder(SchoolTeleportC2SPacket::new)
-                .encoder(SchoolTeleportC2SPacket::toBytes)
-                .consumer(SchoolTeleportC2SPacket::handle)
-                .add();
-        net.messageBuilder(MineTeleportC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .decoder(MineTeleportC2SPacket::new)
-                .encoder(MineTeleportC2SPacket::toBytes)
-                .consumer(MineTeleportC2SPacket::handle)
-                .add();
-        net.messageBuilder(TownTeleportC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .decoder(TownTeleportC2SPacket::new)
-                .encoder(TownTeleportC2SPacket::toBytes)
-                .consumer(TownTeleportC2SPacket::handle)
+        net.messageBuilder(TeleportC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(TeleportC2SPacket::new)
+                .encoder(TeleportC2SPacket::toBytes)
+                .consumer(TeleportC2SPacket::handle)
                 .add();
         net.messageBuilder(TeleportDataSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
                 .decoder(TeleportDataSyncS2CPacket::new)
@@ -123,12 +113,24 @@ public class ModMessages {
                 .encoder(SetStarterPackageTicketScreenS2CPacket::toBytes)
                 .consumer(SetStarterPackageTicketScreenS2CPacket::handle)
                 .add();
+        net.messageBuilder(SetSlotMachineScreenS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(SetSlotMachineScreenS2CPacket::new)
+                .encoder(SetSlotMachineScreenS2CPacket::toBytes)
+                .consumer(SetSlotMachineScreenS2CPacket::handle)
+                .add();
 
         //item
         net.messageBuilder(StarterPackageTicketSelectC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
                 .decoder(StarterPackageTicketSelectC2SPacket::new)
                 .encoder(StarterPackageTicketSelectC2SPacket::toBytes)
                 .consumer(StarterPackageTicketSelectC2SPacket::handle)
+                .add();
+
+        //slot machine
+        net.messageBuilder(PlaySlotMachineC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(PlaySlotMachineC2SPacket::new)
+                .encoder(PlaySlotMachineC2SPacket::toBytes)
+                .consumer(PlaySlotMachineC2SPacket::handle)
                 .add();
     }
 
