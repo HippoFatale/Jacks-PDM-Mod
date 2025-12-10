@@ -79,6 +79,11 @@ public class ModMessages {
                 .encoder(MarketSellAllOresC2SPacket::toBytes)
                 .consumer(MarketSellAllOresC2SPacket::handle)
                 .add();
+        net.messageBuilder(MarketSellAllOfTypeC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(MarketSellAllOfTypeC2SPacket::new)
+                .encoder(MarketSellAllOfTypeC2SPacket::toBytes)
+                .consumer(MarketSellAllOfTypeC2SPacket::handle)
+                .add();
         net.messageBuilder(CropPriceDataSyncRequestC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
                 .decoder(CropPriceDataSyncRequestC2SPacket::new)
                 .encoder(CropPriceDataSyncRequestC2SPacket::toBytes)

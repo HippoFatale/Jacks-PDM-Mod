@@ -101,13 +101,35 @@ public class WorldProtectionEvents {
     }
 
 
+    public static boolean isInMine(BlockPos blockPos) {
+        int minX = -494;
+        int maxX = -60;
+        int minZ = 1264;
+        int maxZ = 1506;
+
+        if (blockPos.getX() < minX) {
+            return false;
+        }
+        if (blockPos.getX() > maxX) {
+            return false;
+        }
+        if (blockPos.getZ() < minZ) {
+            return false;
+        }
+        if (blockPos.getZ() > maxZ) {
+            return false;
+        }
+
+        return true;
+    }
+
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onBreakBlock(BlockEvent.BreakEvent event) {
         if (!event.getWorld().isClientSide()) {
             ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
             BlockPos blockPos = event.getPos();
 
-            if (event.getWorld().getBlockState(blockPos).getBlock().is(Tags.Blocks.ORES)) {
+            if (event.getWorld().getBlockState(blockPos).getBlock().is(Tags.Blocks.ORES) && isInMine(blockPos)) {
                 return;
             }
 

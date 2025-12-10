@@ -161,6 +161,7 @@
   "message.jackspdmmod.mini_game_announce": "5분 뒤 %s시 %s분에 %s 미니 게임이 시작합니다. §e/참가§r 명령어로 참여할 수 있습니다.",
   "message.jackspdmmod.mini_game_not_open": "미니 게임 참가 신청 기간이 아닙니다.",
   "message.jackspdmmod.mini_game_started": "%s 미니 게임의 참가 신청이 끝났습니다.",
+  "message.jackspdmmod.mini_game_riding_forbidden": "미니 게임 참가 중에 라이딩은 금지되어 있습니다.",
 
   "message.jackspdmmod.magma_fall_winner": "§d마그마 드롭§r 미니 게임에서 우승했습니다. 축하합니다!",
   "message.jackspdmmod.magma_fall_number_of_survivors": "생존자가 %s명 남았습니다.",
@@ -168,8 +169,9 @@
   "message.jackspdmmod.magma_remove_block": "%s 바닥이 사라졌습니다!",
 
   "message.jackspdmmod.jump_map_race_goal": "§e달려라 점프맵§r 미니 게임을 완료했습니다!",
+  "message.jackspdmmod.jump_map_race_fail": "§e달려라 점프맵§r 미니 게임에서 탈락했습니다....",
 
-  "message.jackspdmmod.dice_of_fortune_winner": "%s님이 §e[운명의 주사위]§r 미니 게임에서 %s(으)로 우승했습니다. 축하합니다!",
+  "message.jackspdmmod.dice_of_fortune_winner": "%s님이 §e운명의 주사위§r 미니 게임에서 %s(으)로 우승했습니다. 축하합니다!",
   "message.jackspdmmod.dice_of_fortune_already_joinded": "이번 회차의 운명의 주사위 미니 게임에 이미 참가했습니다. 주사위 숫자는 %s입니다.",
   "message.jackspdmmod.dice_of_fortune_100": "주사위에서 우주의 기운이 느껴집니다!: %s",
   "message.jackspdmmod.dice_of_fortune_99": "주사위가 눈부시게 빛납니다!: %s",
@@ -180,5 +182,11 @@
   "message.jackspdmmod.dice_of_fortune_1": "주사위가 초라하게 바닥에 떨어졌습니다....: %s",
 
   "message.jackspdmmod.slot_machine_1st_place": "축하합니다! 포인트를 10배 획득했습니다!",
-  "message.jackspdmmod.slot_machine_last_place": "꽝! 다음 기회에...."
+  "message.jackspdmmod.slot_machine_last_place": "꽝! 다음 기회에....",
+
+  "message.jackspdmmod.sold_items": "아이템을 성공적으로 판매했습니다.",
+  "message.jackspdmmod.not_enough_items": "아이템이 없거나 부족합니다.",
+  "message.jackspdmmod.sold_all_ores": "모든 광물을 판매해서 %s포인트를 획득했습니다.",
+  "message.jackspdmmod.not_enough_ores": "광물이 없거나 부족합니다.",
+  "message.jackspdmmod.sold_all_items_of_type": "선택한 아이템을 모두 판매해서 %s포인트를 획득했습니다."
 }

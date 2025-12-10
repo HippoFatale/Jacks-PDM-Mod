@@ -1,5 +1,7 @@
 package hippofatale.jackspdmmod.events;
 
+import com.pixelmonmod.pixelmon.entities.bikes.BikeEntity;
+import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
 import hippofatale.jackspdmmod.util.MiniGameType;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -15,6 +17,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -137,8 +140,8 @@ public class MiniGameEvents {
     }
 
     //magma fall
-    private static final BlockPos magmaFallFieldPivot = new BlockPos(-402, 122, -1938); //TODO set magma fall field coordinates
     private static final int magmaFallFieldSize = 8;
+    private static final BlockPos magmaFallFieldPivot = new BlockPos(-527 - magmaFallFieldSize, 103, -1894 - magmaFallFieldSize);
     private static List<Integer> magmaFallRemoveIndex = new ArrayList<>();
     private static final List<Block> magmaFallBlocks = Arrays.asList(new Block[]{
             Blocks.RED_WOOL,
@@ -161,7 +164,7 @@ public class MiniGameEvents {
             new StringTextComponent("분홍색").withStyle(TextFormatting.LIGHT_PURPLE)
     });
 
-    public static boolean isPlayerInMagmaFallField(ServerPlayerEntity player) {
+    public static boolean isPlayerOnMagmaFallField(ServerPlayerEntity player) {
         int playerX = player.blockPosition().getX();
         int playerY = player.blockPosition().getY();
         int playerZ = player.blockPosition().getZ();
@@ -233,7 +236,7 @@ public class MiniGameEvents {
                 //count survivors
                 List<ServerPlayerEntity> survivingPlayers = new ArrayList<>();
                 for (ServerPlayerEntity player : world.getServer().getPlayerList().getPlayers()) {
-                    if (isPlayerInMagmaFallField(player) /*&& player.gameMode.isSurvival()*/) {
+                    if (isPlayerOnMagmaFallField(player) /*&& player.gameMode.isSurvival()*/) {
                         survivingPlayers.add(player);
                     }
                 }
@@ -288,7 +291,7 @@ public class MiniGameEvents {
 
                     //announce survivors
                     for (ServerPlayerEntity player : world.getServer().getPlayerList().getPlayers()) {
-                        if (isPlayerInMagmaFallField(player)) {
+                        if (isPlayerOnMagmaFallField(player)) {
                             player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.magma_fall_number_of_survivors", new StringTextComponent(Integer.toString(survivingPlayers.size())).withStyle(TextFormatting.AQUA)), false);
                             player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.magma_fall_countdown", new StringTextComponent("10").withStyle(TextFormatting.YELLOW)), false);
                         }
@@ -304,7 +307,7 @@ public class MiniGameEvents {
 
                 //countdown 5
                 for (ServerPlayerEntity player : world.getServer().getPlayerList().getPlayers()) {
-                    if (isPlayerInMagmaFallField(player)) {
+                    if (isPlayerOnMagmaFallField(player)) {
                         player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.magma_fall_countdown", new StringTextComponent("5").withStyle(TextFormatting.RED)), false);
                     }
                 }
@@ -317,7 +320,7 @@ public class MiniGameEvents {
 
                 //countdown 4
                 for (ServerPlayerEntity player : world.getServer().getPlayerList().getPlayers()) {
-                    if (isPlayerInMagmaFallField(player)) {
+                    if (isPlayerOnMagmaFallField(player)) {
                         player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.magma_fall_countdown", new StringTextComponent("4").withStyle(TextFormatting.RED)), false);
                     }
                 }
@@ -330,7 +333,7 @@ public class MiniGameEvents {
 
                 //countdown 3
                 for (ServerPlayerEntity player : world.getServer().getPlayerList().getPlayers()) {
-                    if (isPlayerInMagmaFallField(player)) {
+                    if (isPlayerOnMagmaFallField(player)) {
                         player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.magma_fall_countdown", new StringTextComponent("3").withStyle(TextFormatting.DARK_RED)), false);
                     }
                 }
@@ -343,7 +346,7 @@ public class MiniGameEvents {
 
                 //countdown 2
                 for (ServerPlayerEntity player : world.getServer().getPlayerList().getPlayers()) {
-                    if (isPlayerInMagmaFallField(player)) {
+                    if (isPlayerOnMagmaFallField(player)) {
                         player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.magma_fall_countdown", new StringTextComponent("2").withStyle(TextFormatting.DARK_RED)), false);
                     }
                 }
@@ -356,7 +359,7 @@ public class MiniGameEvents {
 
                 //countdown 1
                 for (ServerPlayerEntity player : world.getServer().getPlayerList().getPlayers()) {
-                    if (isPlayerInMagmaFallField(player)) {
+                    if (isPlayerOnMagmaFallField(player)) {
                         player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.magma_fall_countdown", new StringTextComponent("1").withStyle(TextFormatting.DARK_RED)), false);
                     }
                 }
@@ -392,7 +395,7 @@ public class MiniGameEvents {
                     }
                 }
                 for (ServerPlayerEntity player : world.getServer().getPlayerList().getPlayers()) {
-                    if (isPlayerInMagmaFallField(player)) {
+                    if (isPlayerOnMagmaFallField(player)) {
                         player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.magma_remove_block", magmaFallNames.get(selectedBlockIndex)), false);
                     }
                 }
@@ -403,25 +406,56 @@ public class MiniGameEvents {
     }
 
     //jump map race
-    private static final BlockPos jumpMapGoal = new BlockPos(-383, 118, -1999); //TODO set jump map goal
+    private static final int jumpMapRaceFailY = 83;
+    public static boolean isInJumpMapRaceGoal(ServerPlayerEntity player) {
+        int playerX = player.blockPosition().getX();
+        int playerZ = player.blockPosition().getZ();
+        int playerY = player.blockPosition().getY();
+
+        int minX = -560;
+        int maxX = -559;
+        int minZ = -1871;
+        int maxZ = -1870;
+        int mapY = 103;
+
+        if (playerX < minX) {
+            return false;
+        }
+        if (playerX > maxX) {
+            return false;
+        }
+        if (playerZ < minZ) {
+            return false;
+        }
+        if (playerZ > maxZ) {
+            return false;
+        }
+
+        return playerY == mapY + 1;
+    }
 
     @SubscribeEvent
-    public static void OnJumpMapRaceGoal(TickEvent.PlayerTickEvent event) {
+    public static void OnJumpMapRace(TickEvent.PlayerTickEvent event) {
         if (!(miniGameType == MiniGameType.JUMP_MAP_RACE && isMiniGameRunning)) {
             return;
         }
 
         if (event.player instanceof ServerPlayerEntity) {
             ServerPlayerEntity player = (ServerPlayerEntity) event.player;
-            BlockPos playerPos = player.blockPosition();
-            //give prize
-            if (playerPos.equals(jumpMapGoal) /*&& player.gameMode.isSurvival()*/) {
+            //goal
+            if (isInJumpMapRaceGoal(player) && player.gameMode.isSurvival()) {
                 player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.jump_map_race_goal"), false);
                 player.inventory.add(new ItemStack(Items.NETHER_STAR, 1));
                 player.moveTo(returnPoint);
             }
-        }
 
+            //fail
+            if (isInJumpMapRaceMap(player) && player.blockPosition().getY() <= jumpMapRaceFailY && player.gameMode.isSurvival()) {
+                player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.jump_map_race_fail"), false);
+                player.moveTo(returnPoint);
+            }
+
+        }
     }
 
     //dice of fortune
@@ -463,6 +497,84 @@ public class MiniGameEvents {
             } else {
                 //if winner not present
                 diceOfFortune.remove(winningNumber);
+            }
+        }
+    }
+
+    //anti-cheat
+    public static boolean isInMagmaFallMap(ServerPlayerEntity player) {
+        int playerX = player.blockPosition().getX();
+        int playerZ = player.blockPosition().getZ();
+        int playerY = player.blockPosition().getY();
+        int minX = -540;
+        int maxX = -515;
+        int minZ = -1909;
+        int maxZ = -1879;
+        int maxY = 116;
+
+        if (playerX < minX) {
+            return false;
+        }
+        if (playerX > maxX) {
+            return false;
+        }
+        if (playerZ < minZ) {
+            return false;
+        }
+        if (playerZ > maxZ) {
+            return false;
+        }
+
+        return playerY < maxY;
+    }
+
+    public static boolean isInJumpMapRaceMap(ServerPlayerEntity player) {
+        int playerX = player.blockPosition().getX();
+        int playerZ = player.blockPosition().getZ();
+        int playerY = player.blockPosition().getY();
+        int minX = -583;
+        int maxX = -558;
+        int minZ = -1899;
+        int maxZ = -1869;
+        int maxY = 116;
+
+        if (playerX < minX) {
+            return false;
+        }
+        if (playerX > maxX) {
+            return false;
+        }
+        if (playerZ < minZ) {
+            return false;
+        }
+        if (playerZ > maxZ) {
+            return false;
+        }
+
+        return playerY < maxY;
+    }
+
+    //no riding
+    @SubscribeEvent
+    public static void onRiding(TickEvent.PlayerTickEvent event) {
+        if (event.player instanceof ServerPlayerEntity) {
+            ServerPlayerEntity player = (ServerPlayerEntity) event.player;
+            if ((player.getVehicle() instanceof PixelmonEntity || player.getVehicle() instanceof BikeEntity) && player.gameMode.isSurvival()) {
+                if (isInJumpMapRaceMap(player) || isInMagmaFallMap(player)) {
+                    player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.mini_game_riding_forbidden").withStyle(TextFormatting.RED), false);
+                    player.moveTo(returnPoint);
+                }
+            }
+        }
+    }
+
+    //tp when logged in
+    @SubscribeEvent
+    public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+        if (event.getPlayer() instanceof ServerPlayerEntity) {
+            ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
+            if ((isInJumpMapRaceMap(player) || isInMagmaFallMap(player)) && player.gameMode.isSurvival()) {
+                player.moveTo(returnPoint);
             }
         }
     }

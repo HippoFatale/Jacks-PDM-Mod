@@ -31,12 +31,10 @@ public class JoinMiniGameCommand {
 
         switch (miniGameType) {
             case MAGMA_FALL:
-                //TODO tp to map
-                player.moveTo(-382, 119, -1918);
+                player.moveTo(-527, 104, -1894);
                 break;
             case JUMP_MAP_RACE:
-                //TODO tp to map
-                player.moveTo(-382, 119, -1918);
+                player.moveTo(-559, 85, -1870);
                 break;
             case DICE_OF_FORTUNE:
                 UUID playerUUID = player.getUUID();

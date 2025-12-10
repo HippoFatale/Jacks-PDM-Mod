@@ -21,8 +21,7 @@ public class ItemRestrictionEvents {
     //item ban
     private static boolean isBannedItem(Item item) {
         List<Item> bannedItemList = Arrays.asList(new Item[]{
-                PixelmonItems.gold_bottle_cap,
-                PixelmonItems.silver_bottle_cap
+
         });
         for (Item listedItem : bannedItemList) {
             if (item.equals(listedItem)) {
@@ -73,6 +72,10 @@ public class ItemRestrictionEvents {
         if (!event.getEntity().level.isClientSide()) {
             if (event.getEntity() instanceof ServerPlayerEntity) {
                 ServerPlayerEntity player = (ServerPlayerEntity) event.getEntity();
+                if (player.isCreative()) {
+                    return;
+                }
+
                 if (isBannedItem(event.getItem().getItem())) {
                     event.setCanceled(true);
                     for (int i = 0; i < player.inventory.getContainerSize(); i++) {
@@ -89,6 +92,10 @@ public class ItemRestrictionEvents {
     public static void onBannedItemInteract(PlayerInteractEvent.EntityInteract event) {
         if (!event.getWorld().isClientSide()) {
             ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
+            if (player.isCreative()) {
+                return;
+            }
+
             if (isBannedItem(player.getItemInHand(event.getHand()).getItem())) {
                 event.setCanceled(true);
                 for (int i = 0; i < player.inventory.getContainerSize(); i++) {
@@ -106,6 +113,10 @@ public class ItemRestrictionEvents {
     public static void onItemCrafted(PlayerEvent.ItemCraftedEvent event) {
         if (!event.getPlayer().level.isClientSide()) {
             ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
+            if (player.isCreative()) {
+                return;
+            }
+            
             ItemStack craftedItem = event.getCrafting();
             int craftedAmount = craftedItem.getCount();
             int count = 0;

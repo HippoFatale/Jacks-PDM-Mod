@@ -2,6 +2,7 @@ package hippofatale.jackspdmmod.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.pixelmonmod.pixelmon.battles.BattleRegistry;
 import hippofatale.jackspdmmod.networking.ModMessages;
 import hippofatale.jackspdmmod.networking.packet.SetMenuScreenS2CPacket;
 import hippofatale.jackspdmmod.util.TickDelay;
@@ -18,6 +19,7 @@ public class MenuCommand {
 
     private int openMenu(CommandSource source) throws CommandSyntaxException {
         ServerPlayerEntity player = source.getPlayerOrException();
+//        BattleRegistry.getBattle(player);
         ModMessages.sendToPlayer(new SetMenuScreenS2CPacket(), player);
         return 1;
     }

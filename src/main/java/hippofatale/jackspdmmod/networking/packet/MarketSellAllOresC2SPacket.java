@@ -7,6 +7,8 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -33,37 +35,38 @@ public class MarketSellAllOresC2SPacket {
         context.enqueueWork(() -> {
             ServerPlayerEntity player = context.getSender();
             if (player != null) {
-                int soldPackages = 0;
-                for (int i = 0; i < 7; i++) {
-                    Item sellingItem = MarketData.getItem(i);
-                    String sellingItemName = MarketData.getItemName(i);
-                    int packageQuantity = marketQuantities.get(sellingItemName);
-                    int owningCount = 0;
-                    for (int j = 0; j < player.inventory.getContainerSize(); j++) {
-                        if (player.inventory.getItem(j).sameItem(sellingItem.getDefaultInstance())) {
-                            owningCount = owningCount + player.inventory.getItem(j).getCount();
-                        }
-                    }
-                    int sellingPackages = owningCount / packageQuantity;
-                    for (int j = 0; j < sellingPackages * packageQuantity; j++) {
-                        for (int k = 0; k < player.inventory.getContainerSize(); k++) {
-                            if (player.inventory.getItem(k).sameItem(sellingItem.getDefaultInstance())) {
-                                player.inventory.getItem(k).shrink(1);
-                                break;
+                int totalEarned = 0;
+                BankAccount account = (BankAccount) BankAccountProxy.getBankAccount(player).orElse(null);
+                if (account != null) {
+                    for (int i = 0; i < 7; i++) {
+                        Item sellingItem = MarketData.getItem(i);
+                        String sellingItemName = MarketData.getItemName(i);
+                        int packageQuantity = marketQuantities.get(sellingItemName);
+                        int owningCount = 0;
+                        for (int j = 0; j < player.inventory.getContainerSize(); j++) {
+                            if (player.inventory.getItem(j).sameItem(sellingItem.getDefaultInstance())) {
+                                owningCount = owningCount + player.inventory.getItem(j).getCount();
                             }
                         }
-                    }
-                    soldPackages = soldPackages + sellingPackages;
+                        int sellingPackages = owningCount / packageQuantity;
+                        for (int j = 0; j < sellingPackages * packageQuantity; j++) {
+                            for (int k = 0; k < player.inventory.getContainerSize(); k++) {
+                                if (player.inventory.getItem(k).sameItem(sellingItem.getDefaultInstance())) {
+                                    player.inventory.getItem(k).shrink(1);
+                                    break;
+                                }
+                            }
+                        }
 
-                    BankAccount account = (BankAccount) BankAccountProxy.getBankAccount(player).orElse(null);
-                    if (account != null) {
+                        totalEarned =  totalEarned + marketPrices.get(sellingItemName) * sellingPackages;
                         account.add(marketPrices.get(sellingItemName) * sellingPackages);
                     }
-                }
-                if (soldPackages > 0) {
-                    player.displayClientMessage(new StringTextComponent("판매할 수 있는 모든 광물을 성공적으로 판매했습니다."), false);
-                } else {
-                    player.displayClientMessage(new StringTextComponent("광물이 없거나 부족합니다."), false);
+
+                    if (totalEarned > 0) {
+                        player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.sold_all_ores", new StringTextComponent(Integer.toString(totalEarned)).withStyle(TextFormatting.YELLOW)), false);
+                    } else {
+                        player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.not_enough_ores"), false);
+                    }
                 }
             }
         });

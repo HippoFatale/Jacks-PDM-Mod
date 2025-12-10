@@ -61,13 +61,6 @@ public class ModEvents {
         }
     }
 
-//    //little PD on battle win
-//    @SubscribeEvent
-//    public static void onGetWinMoney(BeatTrainerEvent event) {
-//        Random random = new Random();
-//        event.trainer.winMoney = random.nextInt(5) + 1;
-//    }
-
     //display title
     @SubscribeEvent
     public static void onPlayerNameFormat(PlayerEvent.NameFormat event) {
@@ -97,7 +90,7 @@ public class ModEvents {
 
                 List<Vector3d> coordinates = TeleportData.getTeleportCoordinatesList();
                 for (Vector3d coordinate : coordinates) {
-                    if (new Vector3d(npc.getX(), npc.getY(), npc.getZ()).distanceTo(coordinate) < 3) {
+                    if (new Vector3d(npc.getX(), npc.getY(), npc.getZ()).distanceTo(coordinate) < 5) {
                         int townIndex = coordinates.indexOf(coordinate);
                         player.getCapability(PlayerTeleportUnlockProvider.PLAYER_TELEPORT_UNLOCK).ifPresent(playerTeleportUnlock -> {
                             if (playerTeleportUnlock.getTeleportUnlocked(townIndex) == 0) {

@@ -109,7 +109,7 @@ public class TMTradeTicketCommand {
                     }
                 }
                 case 9: {
-                    if (id < 1 || id > 229) {
+                    if (id < 1 || id > 224) {
                         player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.id_out_of_range"), false);
                         return 0;
                     } else {
