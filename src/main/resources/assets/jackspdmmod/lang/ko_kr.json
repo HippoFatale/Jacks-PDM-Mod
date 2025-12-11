@@ -104,6 +104,8 @@
   "message.jackspdmmod.inventory_is_full": "소지품이 가득 찼습니다.",
   "message.jackspdmmod.inventory_need_free_slot": "소지품에 빈 공간이 %s 칸 필요합니다.",
 
+  "message.jackspdmmod.menu_not_allowed_in_battle": "포켓몬 배틀 중에는 메뉴를 사용할 수 없습니다.",
+
   "message.jackspdmmod.teleport_not_visited": "해당 마을을 아직 방문하지 않았습니다.",
   "message.jackspdmmod.teleport_unlocked": "이제 %s로 텔레포트할 수 있습니다.",
   "message.jackspdmmod.teleported": "%s(으)로 텔레포트했습니다.",
@@ -161,7 +163,10 @@
   "message.jackspdmmod.mini_game_announce": "5분 뒤 %s시 %s분에 %s 미니 게임이 시작합니다. §e/참가§r 명령어로 참여할 수 있습니다.",
   "message.jackspdmmod.mini_game_not_open": "미니 게임 참가 신청 기간이 아닙니다.",
   "message.jackspdmmod.mini_game_started": "%s 미니 게임의 참가 신청이 끝났습니다.",
-  "message.jackspdmmod.mini_game_riding_forbidden": "미니 게임 참가 중에 라이딩은 금지되어 있습니다.",
+  "message.jackspdmmod.mini_game_riding_forbidden": "미니 게임 참가 중에 탈것 탑승은 금지되어 있습니다.",
+  "message.jackspdmmod.mini_game_joined": "이번 회차의 %s 미니 게임에 참가 신청을 완료했습니다.",
+  "message.jackspdmmod.mini_game_join_notice": "미니 게임이 시작할 때 포켓몬 배틀 진행 중이거나 탈것에 탑승하고 있는 상태면 미니 게임 맵으로 이동되지 않습니다.",
+  "message.jackspdmmod.mini_game_already_joined": "이번 회차의 미니 게임에 이미 참가 신청이 되어있습니다.",
 
   "message.jackspdmmod.magma_fall_winner": "§d마그마 드롭§r 미니 게임에서 우승했습니다. 축하합니다!",
   "message.jackspdmmod.magma_fall_number_of_survivors": "생존자가 %s명 남았습니다.",
@@ -172,6 +177,7 @@
   "message.jackspdmmod.jump_map_race_fail": "§e달려라 점프맵§r 미니 게임에서 탈락했습니다....",
 
   "message.jackspdmmod.dice_of_fortune_winner": "%s님이 §e운명의 주사위§r 미니 게임에서 %s(으)로 우승했습니다. 축하합니다!",
+  "message.jackspdmmod.dice_of_fortune_join_notice": "운명의 주사위 미니 게임이 시작할 때 접속 중이 아니면 추첨 대상자에서 제외됩니다.",
   "message.jackspdmmod.dice_of_fortune_already_joinded": "이번 회차의 운명의 주사위 미니 게임에 이미 참가했습니다. 주사위 숫자는 %s입니다.",
   "message.jackspdmmod.dice_of_fortune_100": "주사위에서 우주의 기운이 느껴집니다!: %s",
   "message.jackspdmmod.dice_of_fortune_99": "주사위가 눈부시게 빛납니다!: %s",
@@ -183,6 +189,9 @@
 
   "message.jackspdmmod.slot_machine_1st_place": "축하합니다! 포인트를 10배 획득했습니다!",
   "message.jackspdmmod.slot_machine_last_place": "꽝! 다음 기회에....",
+  "message.jackspdmmod.open_casino": "도박장 텔레포트를 §a활성화§r했습니다.",
+  "message.jackspdmmod.close_casino": "도박장 텔레포트를 §c비활성화§r했습니다.",
+  "message.jackspdmmod.casino_is_closed": "지금은 도박장이 닫혀있습니다.",
 
   "message.jackspdmmod.sold_items": "아이템을 성공적으로 판매했습니다.",
   "message.jackspdmmod.not_enough_items": "아이템이 없거나 부족합니다.",

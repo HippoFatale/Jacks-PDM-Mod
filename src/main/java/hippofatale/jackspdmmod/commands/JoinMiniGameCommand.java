@@ -29,16 +29,24 @@ public class JoinMiniGameCommand {
             return 0;
         }
 
+        UUID playerUUID = player.getUUID();
         switch (miniGameType) {
             case MAGMA_FALL:
-                player.moveTo(-527, 104, -1894);
-                break;
             case JUMP_MAP_RACE:
-                player.moveTo(-559, 85, -1870);
-                break;
-            case DICE_OF_FORTUNE:
-                UUID playerUUID = player.getUUID();
+                //already joined
+                if (miniGameApplicants.contains(playerUUID)) {
+                    player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.mini_game_already_joined").withStyle(TextFormatting.YELLOW), false);
+                    return 0;
+                }
 
+                //add to list
+                miniGameApplicants.add(playerUUID);
+                player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.mini_game_joined", miniGameType.getName()), false);
+                player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.mini_game_join_notice").withStyle(TextFormatting.YELLOW), false);
+
+                break;
+
+            case DICE_OF_FORTUNE:
                 //already joined
                 if (diceOfFortune.containsValue(playerUUID)) {
                     for (Integer number : diceOfFortune.keySet()) {
@@ -76,6 +84,8 @@ public class JoinMiniGameCommand {
                     player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.dice_of_fortune_1",
                             new StringTextComponent(Integer.toString(pickedNumber)).withStyle(TextFormatting.GRAY)), false);
                 }
+                player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.dice_of_fortune_join_notice").withStyle(TextFormatting.YELLOW), false);
+
 
                 break;
         }

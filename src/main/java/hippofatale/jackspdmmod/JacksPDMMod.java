@@ -96,13 +96,15 @@ public class JacksPDMMod
         put("potato", 32);
         put("carrot", 32);
     }};
-
     //mini-game
     public static boolean isMiniGameOpen = false;
     public static boolean isMiniGameRunning = false;
     public static MiniGameType miniGameType = MiniGameType.DICE_OF_FORTUNE;
+    public static List<UUID> miniGameApplicants = new ArrayList<>();
     public static Map<Integer, UUID> diceOfFortune = new HashMap<>();
     public static List<Integer> diceNumbers = new ArrayList<>();
+    //casino
+    public static boolean isCasinoOpen = false;
 
     public JacksPDMMod() {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();

@@ -1,10 +1,12 @@
 package hippofatale.jackspdmmod.events;
 
+import com.pixelmonmod.pixelmon.battles.BattleRegistry;
 import com.pixelmonmod.pixelmon.entities.bikes.BikeEntity;
 import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
 import hippofatale.jackspdmmod.util.MiniGameType;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -47,11 +49,11 @@ public class MiniGameEvents {
 
         //timer
         LocalTime currentTime = LocalTime.now(ZoneId.of("Asia/Seoul"));
-        if (currentTime.getMinute() % 15 == 10) {
+        if (currentTime.getHour() % 3 == 2 && currentTime.getMinute() == 55) {
             //enable join command
             isMiniGameOpen = true;
 
-            //
+            //end prev mini-game
             isMiniGameRunning = false;
 
             //set start time
@@ -90,6 +92,7 @@ public class MiniGameEvents {
                 default:
             }
 
+            miniGameApplicants.clear();
             //announce mini-game join begin
             List<ServerPlayerEntity> players = world.getServer().getPlayerList().getPlayers();
             for (ServerPlayerEntity player : players) {
@@ -126,11 +129,30 @@ public class MiniGameEvents {
             switch (miniGameType) {
                 case MAGMA_FALL:
                     isMiniGameRunning = true;
+
+                    //teleport applicants to map
+                    for (UUID playerUUID : miniGameApplicants) {
+                        ServerPlayerEntity player = (ServerPlayerEntity) world.getPlayerByUUID(playerUUID);
+                        if (player != null && BattleRegistry.getBattle(player) == null) {
+                            player.moveTo(-527, 104, -1894);
+                        }
+                    }
+
                     break;
+
                 case JUMP_MAP_RACE:
                     isMiniGameRunning = true;
-                    //TODO remove wall
+
+                    //teleport applicants to map
+                    for (UUID playerUUID : miniGameApplicants) {
+                        ServerPlayerEntity player = (ServerPlayerEntity) world.getPlayerByUUID(playerUUID);
+                        if (player != null && BattleRegistry.getBattle(player) == null) {
+                            player.moveTo(-559, 85, -1870);
+                        }
+                    }
+
                     break;
+
                 case DICE_OF_FORTUNE:
                     diceOfFortuneResult(world);
                     break;
@@ -236,7 +258,7 @@ public class MiniGameEvents {
                 //count survivors
                 List<ServerPlayerEntity> survivingPlayers = new ArrayList<>();
                 for (ServerPlayerEntity player : world.getServer().getPlayerList().getPlayers()) {
-                    if (isPlayerOnMagmaFallField(player) /*&& player.gameMode.isSurvival()*/) {
+                    if (isPlayerOnMagmaFallField(player) && player.gameMode.isSurvival()) {
                         survivingPlayers.add(player);
                     }
                 }
@@ -251,7 +273,7 @@ public class MiniGameEvents {
                     }
                 }
 
-                if (/*survivingPlayers.size() <= 1 ||*/ remainingBlocks <= 1) {
+                if (survivingPlayers.size() <= 1 || remainingBlocks <= 1) {
                     //give prize
                     for (ServerPlayerEntity player : survivingPlayers) {
                         player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.magma_fall_winner"), false);
@@ -406,7 +428,7 @@ public class MiniGameEvents {
     }
 
     //jump map race
-    private static final int jumpMapRaceFailY = 83;
+    private static final double jumpMapRaceFailY = 84.5;
     public static boolean isInJumpMapRaceGoal(ServerPlayerEntity player) {
         int playerX = player.blockPosition().getX();
         int playerZ = player.blockPosition().getZ();
@@ -450,7 +472,7 @@ public class MiniGameEvents {
             }
 
             //fail
-            if (isInJumpMapRaceMap(player) && player.blockPosition().getY() <= jumpMapRaceFailY && player.gameMode.isSurvival()) {
+            if (isInJumpMapRaceMap(player) && player.position().y < jumpMapRaceFailY && player.gameMode.isSurvival()) {
                 player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.jump_map_race_fail"), false);
                 player.moveTo(returnPoint);
             }
@@ -559,10 +581,14 @@ public class MiniGameEvents {
     public static void onRiding(TickEvent.PlayerTickEvent event) {
         if (event.player instanceof ServerPlayerEntity) {
             ServerPlayerEntity player = (ServerPlayerEntity) event.player;
-            if ((player.getVehicle() instanceof PixelmonEntity || player.getVehicle() instanceof BikeEntity) && player.gameMode.isSurvival()) {
-                if (isInJumpMapRaceMap(player) || isInMagmaFallMap(player)) {
-                    player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.mini_game_riding_forbidden").withStyle(TextFormatting.RED), false);
+            if (isInJumpMapRaceMap(player) || isInMagmaFallMap(player)) {
+                if ((player.getVehicle() instanceof PixelmonEntity || player.getVehicle() instanceof BikeEntity) && player.gameMode.isSurvival()) {
+                    Entity vehicle = player.getVehicle();
+                    player.stopRiding();
                     player.moveTo(returnPoint);
+                    vehicle.moveTo(returnPoint);
+                    player.startRiding(vehicle);
+                    player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.mini_game_riding_forbidden").withStyle(TextFormatting.RED), false);
                 }
             }
         }

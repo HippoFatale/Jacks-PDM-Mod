@@ -66,7 +66,7 @@ public class ClientTeleportData {
             new Vector3d(-93, 44, -8),
             new Vector3d(213, 39, -394),
             new Vector3d(-423, 45, 1359),
-            new Vector3d(0, 0, 0), //TODO update casino coordinates
+            new Vector3d(-818, 130, -702),
 
             //towns
             new Vector3d(-229, 38.5, -408),

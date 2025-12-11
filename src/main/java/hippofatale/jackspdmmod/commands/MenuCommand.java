@@ -9,6 +9,8 @@ import hippofatale.jackspdmmod.util.TickDelay;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 
 public class MenuCommand {
     public MenuCommand(CommandDispatcher<CommandSource> dispatcher) {
@@ -19,7 +21,10 @@ public class MenuCommand {
 
     private int openMenu(CommandSource source) throws CommandSyntaxException {
         ServerPlayerEntity player = source.getPlayerOrException();
-//        BattleRegistry.getBattle(player);
+        if (BattleRegistry.getBattle(player) != null) {
+            player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.menu_not_allowed_in_battle").withStyle(TextFormatting.YELLOW), false);
+            return 0;
+        }
         ModMessages.sendToPlayer(new SetMenuScreenS2CPacket(), player);
         return 1;
     }

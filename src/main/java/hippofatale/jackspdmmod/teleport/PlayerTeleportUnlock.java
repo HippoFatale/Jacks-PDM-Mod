@@ -3,8 +3,8 @@ package hippofatale.jackspdmmod.teleport;
 import net.minecraft.nbt.CompoundNBT;
 
 public class PlayerTeleportUnlock {
-//     private int[] teleportUnlockedList = {1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-     private int[] teleportUnlockedList = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+     private int[] teleportUnlockedList = {1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+//     private int[] teleportUnlockedList = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
      private boolean homeUnlocked = false;
      private boolean clubHomeUnlocked = false;
 

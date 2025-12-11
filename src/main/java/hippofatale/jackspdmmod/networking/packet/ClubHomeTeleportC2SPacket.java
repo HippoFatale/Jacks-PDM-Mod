@@ -1,7 +1,9 @@
 package hippofatale.jackspdmmod.networking.packet;
 
 import hippofatale.jackspdmmod.home.HomeData;
+import hippofatale.jackspdmmod.teleport.TeleportData;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -32,7 +34,15 @@ public class ClubHomeTeleportC2SPacket {
                 if (!playerClubs.containsKey(player.getUUID())) {
                     player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.not_in_club"), false);
                 } else if (clubNameHomes.get(playerClubs.get(player.getUUID())) != null) {
-                    player.moveTo(HomeData.getHomeFromBelongingClubName(player.getUUID()).getTeleportPoint());
+                    if (player.getVehicle() != null) {
+                        Entity vehicle = player.getVehicle();
+                        player.stopRiding();
+                        player.moveTo(HomeData.getHomeFromBelongingClubName(player.getUUID()).getTeleportPoint());
+                        vehicle.moveTo(HomeData.getHomeFromBelongingClubName(player.getUUID()).getTeleportPoint());
+                        player.startRiding(vehicle);
+                    } else {
+                        player.moveTo(HomeData.getHomeFromBelongingClubName(player.getUUID()).getTeleportPoint());
+                    }
                     player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.teleported", new TranslationTextComponent("menu.jackspdmmod.teleport_club_home")), false);
                 } else {
                     player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.no_club_home"), false);
