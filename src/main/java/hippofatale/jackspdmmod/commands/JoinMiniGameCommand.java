@@ -58,6 +58,12 @@ public class JoinMiniGameCommand {
                     }
                 }
 
+                //full
+                if (diceNumbers.isEmpty()) {
+                    player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.dice_of_fortune_full").withStyle(TextFormatting.YELLOW), false);
+                    return 0;
+                }
+
                 //pick number
                 int pickedIndex = (int) (Math.random() * diceNumbers.size());
                 int pickedNumber = diceNumbers.remove(pickedIndex);

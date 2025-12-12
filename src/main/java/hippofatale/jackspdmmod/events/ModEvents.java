@@ -97,7 +97,7 @@ public class ModEvents {
                             if (playerTeleportUnlock.getTeleportUnlocked(townIndex) == 0) {
                                 playerTeleportUnlock.unlockTeleport(townIndex);
                                 ModMessages.sendToPlayer(new TeleportDataSyncS2CPacket(playerTeleportUnlock.getTeleportUnlockedList(), playerTeleportUnlock.getHomeUnlocked(), playerTeleportUnlock.getClubHomeUnlocked()), player);
-                                player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.town_unlocked", TeleportData.getTeleportName(townIndex)), false);
+                                player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.teleport_unlocked", TeleportData.getTeleportName(townIndex)), false);
                             }
                         });
                         return;

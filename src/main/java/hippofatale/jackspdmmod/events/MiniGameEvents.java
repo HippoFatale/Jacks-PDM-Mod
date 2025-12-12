@@ -23,7 +23,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -34,7 +34,7 @@ public class MiniGameEvents {
     private static final Vector3d returnPoint =
         new Vector3d(-93, 44, -8); //to town hall(spawn)
 //        new Vector3d(-382, 119, -1918); //to mini-game arcade lobby
-    private static LocalTime startTime;
+    private static LocalDateTime startTime;
 
     @SubscribeEvent
     public static void onMiniGameAnnounce(TickEvent.WorldTickEvent event) {
@@ -48,7 +48,7 @@ public class MiniGameEvents {
         }
 
         //timer
-        LocalTime currentTime = LocalTime.now(ZoneId.of("Asia/Seoul"));
+        LocalDateTime currentTime = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
         if (currentTime.getHour() % 3 == 2 && currentTime.getMinute() == 55) {
             //enable join command
             isMiniGameOpen = true;
@@ -114,7 +114,7 @@ public class MiniGameEvents {
         }
 
         //timer
-        LocalTime currentTime = LocalTime.now(ZoneId.of("Asia/Seoul"));
+        LocalDateTime currentTime = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
         if (currentTime.isAfter(startTime) && isMiniGameOpen) {
             //disable join command
             isMiniGameOpen = false;
@@ -134,7 +134,9 @@ public class MiniGameEvents {
                     for (UUID playerUUID : miniGameApplicants) {
                         ServerPlayerEntity player = (ServerPlayerEntity) world.getPlayerByUUID(playerUUID);
                         if (player != null && BattleRegistry.getBattle(player) == null) {
-                            player.moveTo(-527, 104, -1894);
+                            player.moveTo(magmaFallFieldPivot.getX() + Math.random() * magmaFallFieldSize * 2 + 0.5,
+                                    magmaFallFieldPivot.getY(),
+                                    -magmaFallFieldPivot.getZ() + Math.random() * magmaFallFieldSize * 2 + 0.5);
                         }
                     }
 
@@ -212,7 +214,7 @@ public class MiniGameEvents {
 
     public static void initMagmaFall(World world) {
         magmaFallSequence = 0;
-        magmaFallSequenceTime = startTime;
+        magmaFallSequenceTime = startTime.plusSeconds(15);
         magmaFallRemoveIndex.clear();
         for (int i = 0; i < magmaFallBlocks.size(); i++) {
             magmaFallRemoveIndex.add(i);
@@ -235,7 +237,7 @@ public class MiniGameEvents {
     }
 
     private static int magmaFallSequence = 0;
-    private static LocalTime magmaFallSequenceTime;
+    private static LocalDateTime magmaFallSequenceTime;
     @SubscribeEvent
     public static void onMagmaFall(TickEvent.WorldTickEvent event) {
         World world = event.world;
@@ -246,7 +248,7 @@ public class MiniGameEvents {
             return;
         }
 
-        LocalTime currentTime = LocalTime.now(ZoneId.of("Asia/Seoul"));
+        LocalDateTime currentTime = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
         if (magmaFallSequenceTime == null || currentTime.isBefore(magmaFallSequenceTime)) {
             return;
         }

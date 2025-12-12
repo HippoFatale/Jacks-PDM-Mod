@@ -179,6 +179,7 @@
   "message.jackspdmmod.dice_of_fortune_winner": "%s님이 §e운명의 주사위§r 미니 게임에서 %s(으)로 우승했습니다. 축하합니다!",
   "message.jackspdmmod.dice_of_fortune_join_notice": "운명의 주사위 미니 게임이 시작할 때 접속 중이 아니면 추첨 대상자에서 제외됩니다.",
   "message.jackspdmmod.dice_of_fortune_already_joinded": "이번 회차의 운명의 주사위 미니 게임에 이미 참가했습니다. 주사위 숫자는 %s입니다.",
+  "message.jackspdmmod.dice_of_fortune_full": "이번 회차의 운명의 주사위 미니 게임의 정원이 가득 찼습니다.",
   "message.jackspdmmod.dice_of_fortune_100": "주사위에서 우주의 기운이 느껴집니다!: %s",
   "message.jackspdmmod.dice_of_fortune_99": "주사위가 눈부시게 빛납니다!: %s",
   "message.jackspdmmod.dice_of_fortune_95": "주사위에서 빛이 반짝입니다!: %s",
