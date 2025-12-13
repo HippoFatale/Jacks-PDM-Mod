@@ -149,7 +149,10 @@ public class MiniGameEvents {
                     for (UUID playerUUID : miniGameApplicants) {
                         ServerPlayerEntity player = (ServerPlayerEntity) world.getPlayerByUUID(playerUUID);
                         if (player != null && BattleRegistry.getBattle(player) == null) {
-                            player.moveTo(-559, 85, -1870);
+//                            player.moveTo(-559, 85, -1870);
+                            player.moveTo(-570 -4 + Math.random() * 8,
+                                    85,
+                                    -1884 -4 + Math.random() * 8);
                         }
                     }
 
@@ -474,7 +477,7 @@ public class MiniGameEvents {
             }
 
             //fail
-            if (isInJumpMapRaceMap(player) && player.position().y < jumpMapRaceFailY && player.gameMode.isSurvival()) {
+            if (isInJumpMapRaceMap(player) && player.fallDistance >= 5 /*player.position().y < jumpMapRaceFailY*/ && player.gameMode.isSurvival()) {
                 player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.jump_map_race_fail"), false);
                 player.moveTo(returnPoint);
             }

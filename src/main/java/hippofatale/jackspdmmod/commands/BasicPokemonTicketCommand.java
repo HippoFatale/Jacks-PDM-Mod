@@ -11,6 +11,7 @@ import com.pixelmonmod.pixelmon.api.command.PixelmonCommandUtils;
 import com.pixelmonmod.pixelmon.api.events.PokedexEvent;
 import com.pixelmonmod.pixelmon.api.events.PokemonReceivedEvent;
 import com.pixelmonmod.pixelmon.api.pokedex.PokedexRegistrationStatus;
+import com.pixelmonmod.pixelmon.api.pokemon.InitializeCategory;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.api.pokemon.species.Stats;
 import com.pixelmonmod.pixelmon.api.storage.PlayerPartyStorage;
@@ -34,7 +35,7 @@ public class BasicPokemonTicketCommand extends PixelCommand {
 
     @Override
     public void execute(CommandSource sender, String[] args) throws CommandException, CommandSyntaxException {
-        if (args.length == 1) {
+        if (args.length >= 1) {
             GameProfile profile = PixelmonCommandUtils.requireEntityPlayer(sender).getGameProfile();
             ServerPlayerEntity player = PixelmonCommandUtils.getEntityPlayer(profile.getId());
             PlayerPartyStorage pps = StorageProxy.getParty(profile.getId());
@@ -47,10 +48,18 @@ public class BasicPokemonTicketCommand extends PixelCommand {
                 PixelmonCommandUtils.endCommand("message.jackspdmmod.does_not_have_item", new Object[0]);
             }
 
+            //create pokemon from args spec
             Pokemon pokemon = spec.create();
             Stats stats = pokemon.getForm();
+
+            //init
             pokemon.setSpecies(stats.getBaseEvolution(), true);
+            pokemon.initialize(InitializeCategory.INTRINSIC_FORCEFUL);
+
+            //set data
             pokemon.setLevel(5);
+            pokemon.setForm(stats);
+
             if (pokemon.isLegendary()) {
                 PixelmonCommandUtils.endCommand("message.jackspdmmod.legendary_not_allowed", new Object[0]);
             }
