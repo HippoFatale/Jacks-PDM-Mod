@@ -150,6 +150,7 @@
   "message.jackspdmmod.not_enough_club_points": "문파 자금이 부족합니다.",
   "message.jackspdmmod.demolished_personal_home": "개인 땅을 철거했습니다.",
   "message.jackspdmmod.demolished_club_home": "문파 땅을 철거했습니다.",
+  "message.jackspdmmod.already_sold_home": "이미 팔린 땅입니다.",
 
   "message.jackspdmmod.does_not_have_item": "손에 아이템이 없습니다.",
   "message.jackspdmmod.legendary_not_allowed": "일반 선택권으로 전설 포켓몬, 환상 포켓몬, 디지몬을 선택할 수 없습니다.",

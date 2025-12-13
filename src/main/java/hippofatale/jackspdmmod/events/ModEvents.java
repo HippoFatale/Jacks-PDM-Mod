@@ -3,6 +3,7 @@ package hippofatale.jackspdmmod.events;
 import com.pixelmonmod.pixelmon.entities.npcs.NPCEntity;
 import hippofatale.jackspdmmod.club.ClubData;
 import hippofatale.jackspdmmod.commands.*;
+import hippofatale.jackspdmmod.home.Home;
 import hippofatale.jackspdmmod.home.HomeData;
 import hippofatale.jackspdmmod.market.MarketData;
 import hippofatale.jackspdmmod.networking.ModMessages;
@@ -13,6 +14,7 @@ import hippofatale.jackspdmmod.teleport.TeleportData;
 import hippofatale.jackspdmmod.title.PlayerTitleProvider;
 import hippofatale.jackspdmmod.title.TitleData;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -22,12 +24,13 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppingEvent;
 import net.minecraftforge.server.command.ConfigCommand;
 
 import java.time.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static hippofatale.jackspdmmod.JacksPDMMod.*;
 
@@ -146,16 +149,33 @@ public class ModEvents {
 //        }
 //    }
 
-    //spawn
+    //data
     @SubscribeEvent
     public static void onLoadDataAtStart(FMLServerAboutToStartEvent event) {
+        //load data at start
         ClubData.loadClubData();
         HomeData.loadHomeData();
         MarketData.loadMarketData();
+
+        //debugging: check data
+        Map<UUID, BlockPos> personalHomePoses = new HashMap<>();
+        for (Map.Entry<UUID, Home> entry : personalHomes.entrySet()) {
+            personalHomePoses.put(entry.getKey(), entry.getValue().getPlacardPos());
+        }
+        Map<String, BlockPos> clubHomePoses = new HashMap<>();
+        for (Map.Entry<String, Home> entry : clubNameHomes.entrySet()) {
+            clubHomePoses.put(entry.getKey(), entry.getValue().getPlacardPos());
+        }
+
+        //debugging: modify data
+        //last modified: 2025 Dec 14 2.2.2
+        HomeData.removeClubHomeData("test");
+        HomeData.removeClubHomeData("scon");
     }
 
     @SubscribeEvent
     public static void onSaveDataAtStopping(FMLServerStoppingEvent event) {
+        //save data at stop
         ClubData.saveClubData();
         HomeData.saveHomeData();
         MarketData.saveMarketData();

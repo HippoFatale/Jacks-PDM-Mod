@@ -43,4 +43,22 @@ public class HomeData {
     public static Home getHomeFromBelongingClubName(UUID playerUUID) {
         return clubNameHomes.get(ClubData.getBelongingClub(playerUUID).getClubName());
     }
+
+    public static boolean removePersonalHomeData(UUID playerUUID) {
+        if (personalHomes.containsKey(playerUUID)) {
+            personalHomes.remove(playerUUID);
+            saveHomeData();
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean removeClubHomeData(String clubName) {
+        if (clubNameHomes.containsKey(clubName)) {
+            clubNameHomes.remove(clubName);
+            saveHomeData();
+            return true;
+        }
+        return false;
+    }
 }

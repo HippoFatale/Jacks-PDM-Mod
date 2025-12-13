@@ -12,6 +12,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3i;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fml.network.NetworkEvent;
 
@@ -46,6 +47,10 @@ public class PurchasePlotC2SPacket {
             }
             if (tileEntity != null) {
                 PlacardTile placard = (PlacardTile) tileEntity;
+                if (placard.getPurchased()) {
+                    player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.already_sold_home").withStyle(TextFormatting.YELLOW), false);
+                    return;
+                }
                 switch (placard.getPlotType()) {
                     case PERSONAL: {
                         if (personalHomes.getOrDefault(player.getUUID(), null) != null) {

@@ -135,8 +135,8 @@ public class MiniGameEvents {
                         ServerPlayerEntity player = (ServerPlayerEntity) world.getPlayerByUUID(playerUUID);
                         if (player != null && BattleRegistry.getBattle(player) == null) {
                             player.moveTo(magmaFallFieldPivot.getX() + Math.random() * magmaFallFieldSize * 2 + 0.5,
-                                    magmaFallFieldPivot.getY(),
-                                    -magmaFallFieldPivot.getZ() + Math.random() * magmaFallFieldSize * 2 + 0.5);
+                                    magmaFallFieldPivot.getY() + 1,
+                                    magmaFallFieldPivot.getZ() + Math.random() * magmaFallFieldSize * 2 + 0.5);
                         }
                     }
 
