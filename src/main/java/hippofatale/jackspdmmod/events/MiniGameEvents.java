@@ -477,7 +477,7 @@ public class MiniGameEvents {
             }
 
             //fail
-            if (isInJumpMapRaceMap(player) && player.fallDistance >= 5 /*player.position().y < jumpMapRaceFailY*/ && player.gameMode.isSurvival()) {
+            if (isInJumpMapRaceMap(player) && player.fallDistance > 3 /*player.position().y < jumpMapRaceFailY*/ && player.gameMode.isSurvival()) {
                 player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.jump_map_race_fail"), false);
                 player.moveTo(returnPoint);
             }
