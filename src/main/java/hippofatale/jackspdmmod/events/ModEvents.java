@@ -167,10 +167,10 @@ public class ModEvents {
             clubHomePoses.put(entry.getKey(), entry.getValue().getPlacardPos());
         }
 
-        //debugging: modify data
-        //last modified: 2025 Dec 14 2.2.2
-        HomeData.removeClubHomeData("test");
-        HomeData.removeClubHomeData("scon");
+//        //debugging: modify data
+//        //last modified: 2025 Dec 14 2.2.2
+//        HomeData.removeClubHomeData("test");
+//        HomeData.removeClubHomeData("scon");
     }
 
     @SubscribeEvent
