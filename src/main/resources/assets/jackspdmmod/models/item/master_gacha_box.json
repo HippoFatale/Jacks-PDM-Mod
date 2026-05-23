@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "jackspdmmod:item/master_gacha_box"
+  }
+}

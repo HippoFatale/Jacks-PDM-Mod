@@ -35,20 +35,20 @@ public class GachaSpawnItem extends Item {
             player.getItemInHand(hand).shrink(1);
             PokemonSpecification spec = PokemonSpecificationProxy.create();
             Pokemon pokemon = spec.create();
-        switch (speciesType) {
-            case ('L'): {
-                pokemon.setSpecies(getRandomLegendary(), true);
-                break;
+            switch (speciesType) {
+                case ('L'): {
+                    pokemon.setSpecies(getRandomLegendary(), true);
+                    break;
+                }
+                case ('M'): {
+                    pokemon.setSpecies(getRandomMythical(), true);
+                    break;
+                }
+                case ('D'): {
+                    pokemon.setSpecies(getRandomDigimon(), true);
+                    break;
+                }
             }
-            case ('M'): {
-                pokemon.setSpecies(getRandomMythical(), true);
-                break;
-            }
-            case ('D'): {
-                pokemon.setSpecies(getRandomDigimon(), true);
-                break;
-            }
-        }
             PixelmonEntity entity = PokemonSpecificationProxy.create().create(world);
             entity.setPokemon(pokemon);
             BlockPos pos = new BlockPos(player.position());
@@ -61,7 +61,7 @@ public class GachaSpawnItem extends Item {
         return super.use(world, player, hand);
     }
 
-    public static Species getRandomDigimon() {
+    private static Species getRandomDigimon() {
         Set<Integer> species = new HashSet<>();
         species.add(2002);
         species.add(2155);
@@ -96,14 +96,14 @@ public class GachaSpawnItem extends Item {
         return (Species) fromDex((Integer) CollectionHelper.getRandomElement(species)).orElse(null);
     }
 
-    public static Species getRandomMythical() {
+    private static Species getRandomMythical() {
         Set<Integer> species = new IntOpenHashSet(PixelmonSpecies.getMythicals());
         species.removeAll(PixelmonSpecies.getGenerationDex(20));
         species.remove(PixelmonSpecies.ARCEUS.getValueUnsafe().getDex());
         return (Species) fromDex((Integer) CollectionHelper.getRandomElement(species)).orElse(null);
     }
 
-    public static Species getRandomLegendary() {
+    private static Species getRandomLegendary() {
         Set<Integer> species = new IntOpenHashSet(PixelmonSpecies.getLegendaries(true));
         species.removeAll(PixelmonSpecies.getGenerationDex(20));
         return (Species) fromDex((Integer) CollectionHelper.getRandomElement(species)).orElse(null);

@@ -5,6 +5,7 @@ import com.pixelmonmod.pixelmon.entities.bikes.BikeEntity;
 import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
 import hippofatale.jackspdmmod.util.MiniGameType;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -169,7 +170,6 @@ public class MiniGameEvents {
     //magma fall
     private static final int magmaFallFieldSize = 8;
     private static final BlockPos magmaFallFieldPivot = new BlockPos(-527 - magmaFallFieldSize, 103, -1894 - magmaFallFieldSize);
-    private static List<Integer> magmaFallRemoveIndex = new ArrayList<>();
     private static final List<Block> magmaFallBlocks = Arrays.asList(new Block[]{
             Blocks.RED_WOOL,
             Blocks.ORANGE_WOOL,
@@ -180,6 +180,35 @@ public class MiniGameEvents {
             Blocks.PURPLE_WOOL,
             Blocks.PINK_WOOL,
     });
+    public static ITextComponent getMagmaFallBlockText(Block block) {
+        if (block.is(Blocks.RED_WOOL)) {
+            return new StringTextComponent("빨간색").withStyle(TextFormatting.RED);
+        }
+        if (block.is(Blocks.ORANGE_WOOL)) {
+            return new StringTextComponent("주황색").withStyle(TextFormatting.GOLD);
+        }
+        if (block.is(Blocks.YELLOW_WOOL)) {
+            return new StringTextComponent("노란색").withStyle(TextFormatting.YELLOW);
+        }
+        if (block.is(Blocks.GREEN_WOOL)) {
+            return new StringTextComponent("초록색").withStyle(TextFormatting.DARK_GREEN);
+        }
+        if (block.is(Blocks.LIGHT_BLUE_WOOL)) {
+            return new StringTextComponent("하늘색").withStyle(TextFormatting.AQUA);
+        }
+        if (block.is(Blocks.BLUE_WOOL)) {
+            return new StringTextComponent("파란색").withStyle(TextFormatting.BLUE);
+        }
+        if (block.is(Blocks.PURPLE_WOOL)) {
+            return new StringTextComponent("보라색").withStyle(TextFormatting.DARK_PURPLE);
+        }
+        if (block.is(Blocks.PINK_WOOL)) {
+            return new StringTextComponent("분홍색").withStyle(TextFormatting.LIGHT_PURPLE);
+        }
+
+        return new StringTextComponent("");
+    }
+
     private static final List<ITextComponent> magmaFallNames = Arrays.asList(new ITextComponent[]{
             new StringTextComponent("빨간색").withStyle(TextFormatting.RED),
             new StringTextComponent("주황색").withStyle(TextFormatting.GOLD),
@@ -217,11 +246,8 @@ public class MiniGameEvents {
 
     public static void initMagmaFall(World world) {
         magmaFallSequence = 0;
-        magmaFallSequenceTime = startTime.plusSeconds(15);
-        magmaFallRemoveIndex.clear();
-        for (int i = 0; i < magmaFallBlocks.size(); i++) {
-            magmaFallRemoveIndex.add(i);
-        }
+        magmaFallTickCount = 0;
+        magmaFallSequenceTick = 0 + 15 * 20;
 
         List<Integer> colorPattern = new ArrayList<>();
         for (int i = 0; i < magmaFallFieldSize * magmaFallFieldSize; i++) {
@@ -239,8 +265,24 @@ public class MiniGameEvents {
         }
     }
 
+    public static Set<Block> getRemainingBlocks(World world) {
+        Set<Block> remainingBlocks = new HashSet<>();
+
+        for (int i = 0; i <= magmaFallFieldSize * 2; i++ ) {
+            for (int j = 0; j <= magmaFallFieldSize * 2; j++) {
+                if (!world.getBlockState(magmaFallFieldPivot.offset(i, 0, j)).equals(Blocks.AIR.defaultBlockState())
+                && !world.getBlockState(magmaFallFieldPivot.offset(i, 0, j)).equals(Blocks.GLASS.defaultBlockState())) {
+                    remainingBlocks.add(world.getBlockState(magmaFallFieldPivot.offset(i, 0, j)).getBlock());
+                }
+            }
+        }
+
+        return remainingBlocks;
+    }
+
     private static int magmaFallSequence = 0;
-    private static LocalDateTime magmaFallSequenceTime;
+    private static int magmaFallTickCount;
+    private static int magmaFallSequenceTick;
     @SubscribeEvent
     public static void onMagmaFall(TickEvent.WorldTickEvent event) {
         World world = event.world;
@@ -251,14 +293,14 @@ public class MiniGameEvents {
             return;
         }
 
-        LocalDateTime currentTime = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
-        if (magmaFallSequenceTime == null || currentTime.isBefore(magmaFallSequenceTime)) {
+        if (magmaFallTickCount < magmaFallSequenceTick) {
+            magmaFallTickCount++;
             return;
         }
 
         switch (magmaFallSequence) {
             case 0:
-                magmaFallSequenceTime = magmaFallSequenceTime.plusSeconds(5);
+                magmaFallSequenceTick = magmaFallSequenceTick + 5 * 20;
 
                 //count survivors
                 List<ServerPlayerEntity> survivingPlayers = new ArrayList<>();
@@ -269,16 +311,16 @@ public class MiniGameEvents {
                 }
 
                 //count blocks
-                int remainingBlocks = 0;
+                int remainingBlocksCount = 0;
                 for (int i = 0; i <= magmaFallFieldSize * 2; i++) {
                     for (int j = 0; j <= magmaFallFieldSize * 2; j++) {
                         if (!world.getBlockState(magmaFallFieldPivot.offset(i, 0, j)).equals(Blocks.AIR.defaultBlockState())) {
-                            remainingBlocks++;
+                            remainingBlocksCount++;
                         }
                     }
                 }
 
-                if (survivingPlayers.size() <= 1 || remainingBlocks <= 1) {
+                if (survivingPlayers.size() <= 1 || remainingBlocksCount <= 1) {
                     //give prize
                     for (ServerPlayerEntity player : survivingPlayers) {
                         player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.magma_fall_winner"), false);
@@ -288,22 +330,18 @@ public class MiniGameEvents {
                     isMiniGameRunning = false;
                 } else {
                     //recolor
-                    if (magmaFallRemoveIndex.size() == 1) {
-                        magmaFallRemoveIndex.clear();
-                        for (int i = 0; i < magmaFallBlocks.size(); i++) {
-                            magmaFallRemoveIndex.add(i);
+                    if (getRemainingBlocks(world).size() == 1) {
+                        List<Integer> recolorPattern = new ArrayList<>();
+                        for (int i = 0; i < magmaFallFieldSize * getRemainingBlocks(world).size(); i++) {
+                            recolorPattern.add(i);
                         }
 
                         for (int i = 0; i <= magmaFallFieldSize * 2; i++ ) {
                             for (int j = 0; j <= magmaFallFieldSize * 2; j++) {
                                 if (!world.getBlockState(magmaFallFieldPivot.offset(i, 0, j)).equals(Blocks.AIR.defaultBlockState())) {
-                                    world.setBlock(magmaFallFieldPivot.offset(i, 0, j), magmaFallBlocks.get(magmaFallRemoveIndex.remove((int) (Math.random() * magmaFallRemoveIndex.size()))).defaultBlockState(), Constants.BlockFlags.BLOCK_UPDATE);
+                                    world.setBlock(magmaFallFieldPivot.offset(i, 0, j), magmaFallBlocks.get(recolorPattern.remove((int) (Math.random() * recolorPattern.size()))).defaultBlockState(), Constants.BlockFlags.BLOCK_UPDATE);
                                 }
                             }
-                        }
-
-                        for (int i = 0; i < magmaFallBlocks.size(); i++) {
-                            magmaFallRemoveIndex.add(i);
                         }
                     }
 
@@ -330,7 +368,7 @@ public class MiniGameEvents {
                 break;
 
             case 1:
-                magmaFallSequenceTime = magmaFallSequenceTime.plusSeconds(1);
+                magmaFallSequenceTick = magmaFallSequenceTick + 1 * 20;
 
                 //countdown 5
                 for (ServerPlayerEntity player : world.getServer().getPlayerList().getPlayers()) {
@@ -343,7 +381,7 @@ public class MiniGameEvents {
                 break;
 
             case 2:
-                magmaFallSequenceTime = magmaFallSequenceTime.plusSeconds(1);
+                magmaFallSequenceTick = magmaFallSequenceTick + 1 * 20;
 
                 //countdown 4
                 for (ServerPlayerEntity player : world.getServer().getPlayerList().getPlayers()) {
@@ -356,7 +394,7 @@ public class MiniGameEvents {
                 break;
 
             case 3:
-                magmaFallSequenceTime = magmaFallSequenceTime.plusSeconds(1);
+                magmaFallSequenceTick = magmaFallSequenceTick + 1 * 20;
 
                 //countdown 3
                 for (ServerPlayerEntity player : world.getServer().getPlayerList().getPlayers()) {
@@ -369,7 +407,7 @@ public class MiniGameEvents {
                 break;
 
             case 4:
-                magmaFallSequenceTime = magmaFallSequenceTime.plusSeconds(1);
+                magmaFallSequenceTick = magmaFallSequenceTick + 1 * 20;
 
                 //countdown 2
                 for (ServerPlayerEntity player : world.getServer().getPlayerList().getPlayers()) {
@@ -382,7 +420,7 @@ public class MiniGameEvents {
                 break;
 
             case 5:
-                magmaFallSequenceTime = magmaFallSequenceTime.plusSeconds(1);
+                magmaFallSequenceTick = magmaFallSequenceTick + 1 * 20;
 
                 //countdown 1
                 for (ServerPlayerEntity player : world.getServer().getPlayerList().getPlayers()) {
@@ -395,7 +433,7 @@ public class MiniGameEvents {
                 break;
 
             case 6:
-                magmaFallSequenceTime = magmaFallSequenceTime.plusSeconds(5);
+                magmaFallSequenceTick = magmaFallSequenceTick + 5 * 20;
 
                 //remove glass
                 for (int i = 0; i <= magmaFallFieldSize * 2; i++ ) {
@@ -410,26 +448,34 @@ public class MiniGameEvents {
                 break;
 
             case 7:
-                magmaFallSequenceTime = magmaFallSequenceTime.plusSeconds(5);
+                magmaFallSequenceTick = magmaFallSequenceTick + 5 * 20;
 
                 //remove block
-                int selectedBlockIndex = magmaFallRemoveIndex.remove((int) (Math.random() * magmaFallRemoveIndex.size()));
+                if (getRemainingBlocks(world).size() <= 1) {
+                    magmaFallSequence = 0;
+                    break;
+                }
+
+                List<Block> remainingBlocksList = new ArrayList<>(getRemainingBlocks(world));
+                Block removingBlock = remainingBlocksList.get((int) (Math.random() * remainingBlocksList.size()));
                 for (int i = 0; i <= magmaFallFieldSize * 2; i++ ) {
                     for (int j = 0; j <= magmaFallFieldSize * 2; j++) {
-                        if (world.getBlockState(magmaFallFieldPivot.offset(i, 0, j)).equals(magmaFallBlocks.get(selectedBlockIndex).defaultBlockState())) {
+                        if (world.getBlockState(magmaFallFieldPivot.offset(i, 0, j)).equals(removingBlock.defaultBlockState())) {
                             world.setBlock(magmaFallFieldPivot.offset(i, 0, j), Blocks.AIR.defaultBlockState(), Constants.BlockFlags.BLOCK_UPDATE);
                         }
                     }
                 }
                 for (ServerPlayerEntity player : world.getServer().getPlayerList().getPlayers()) {
                     if (isPlayerOnMagmaFallField(player)) {
-                        player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.magma_remove_block", magmaFallNames.get(selectedBlockIndex)), false);
+                        player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.magma_remove_block", getMagmaFallBlockText(removingBlock)), false);
                     }
                 }
 
                 magmaFallSequence = 0;
                 break;
         }
+
+        magmaFallTickCount++;
     }
 
     //jump map race
