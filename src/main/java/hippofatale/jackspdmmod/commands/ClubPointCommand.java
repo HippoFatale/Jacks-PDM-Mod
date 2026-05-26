@@ -15,7 +15,7 @@ import static hippofatale.jackspdmmod.JacksPDMMod.playerClubs;
 
 public class ClubPointCommand {
     public ClubPointCommand(CommandDispatcher<CommandSource> dispatcher) {
-        dispatcher.register(Commands.literal("문파자금")
+        dispatcher.register(Commands.literal("길드자금")
                 .then(Commands.literal("인출").then(Commands.argument("수치", IntegerArgumentType.integer(100, 6400)).executes((command) -> {
                     return withdrawClubPoints(command.getSource(), IntegerArgumentType.getInteger(command, "수치"));})))
         );

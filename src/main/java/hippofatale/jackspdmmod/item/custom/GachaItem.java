@@ -8,6 +8,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -25,27 +28,44 @@ public class GachaItem extends Item {
     public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         if (!world.isClientSide()) {
             if (getEmptySlots(player) > 0) {
-                ItemStack gachaResult = new ItemStack(null);
+                ITextComponent gachaName = null;
+                ItemStack gachaResult = null;
+                ITextComponent resultName = null;
+                int quantity = 0;
                 switch (gachaCode) {
                     case ('R'): {
+                        gachaName = (new ItemStack(ModItems.RARE_TOOL_GACHA_CUBE.get())).getHoverName().copy().withStyle(TextFormatting.DARK_PURPLE);
                         gachaResult = new ItemStack(getRareToolGachaCubeItem());
+                        resultName = gachaResult.getHoverName().copy().withStyle(TextFormatting.YELLOW);
                         break;
                     }
                     case ('G'): {
+                        gachaName = (new ItemStack(ModItems.GREAT_GACHA_BOX.get())).getHoverName().copy().withStyle(TextFormatting.BLUE);
                         gachaResult = getGreatGachaBoxItem();
+                        resultName = gachaResult.getHoverName().copy().withStyle(TextFormatting.YELLOW);
                         break;
                     }
                     case ('U'): {
+                        gachaName = (new ItemStack(ModItems.ULTRA_GACHA_BOX.get())).getHoverName().copy().withStyle(TextFormatting.GRAY);
                         gachaResult = getUltraGachaBoxItem();
+                        resultName = gachaResult.getHoverName().copy().withStyle(TextFormatting.YELLOW);
                         break;
                     }
                     case ('M'): {
+                        gachaName = (new ItemStack(ModItems.MASTER_GACHA_BOX.get())).getHoverName().copy().withStyle(TextFormatting.LIGHT_PURPLE);;
                         gachaResult = getMasterGachaBoxItem();
+                        resultName = gachaResult.getHoverName().copy().withStyle(TextFormatting.YELLOW);
                         break;
                     }
+                    default: {
+                        return super.use(world, player, hand);
+                    }
                 }
+                quantity = gachaResult.getCount();
                 player.inventory.add(gachaResult);
                 player.getItemInHand(hand).shrink(1);
+                player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.gacha_result",
+                        gachaName.copy().withStyle(TextFormatting.BOLD), resultName.copy().withStyle(TextFormatting.BOLD), quantity), false);
             }
             else {
                 player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.inventory_is_full"), false);
@@ -107,15 +127,17 @@ public class GachaItem extends Item {
                 new ItemStack(PixelmonItems.rare_candy, 10),
                 new ItemStack(ModItems.SHINY_TRADE_TICKET.get()),
                 new ItemStack(ModItems.BASIC_SELECTION_TICKET.get()),
-                new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pixelmon", "ultra_ball")), 10)
+                new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pixelmon", "ultra_ball")), 10),
+                new ItemStack(PixelmonItems.silver_bottle_cap)
         });
 
         List<Integer> gachaChanceList = Arrays.asList(new Integer[]{
-                1,
                 2,
+                3,
+                4,
                 2,
-                1,
-                4
+                8,
+                1
         });
 
         List<ItemStack> gachaTableList = getGachaTableList(gachaItemList, gachaChanceList);
@@ -130,14 +152,16 @@ public class GachaItem extends Item {
                 new ItemStack(ModItems.MYTHICAL_SPAWN_GACHA.get()),
                 new ItemStack(ModItems.DIGIMON_SPAWN_GACHA.get()),
                 new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pixelmon", "master_ball"))),
-                new ItemStack(ModItems.INVITATION_CARD.get())
+                new ItemStack(ModItems.INVITATION_CARD.get()),
+                new ItemStack(PixelmonItems.gold_bottle_cap)
         });
 
         List<Integer> gachaChanceList = Arrays.asList(new Integer[]{
+                21,
+                2, 2, 2,
                 12,
-                1, 1, 1,
-                6,
-                9
+                18,
+                3
         });
 
         List<ItemStack> gachaTableList = getGachaTableList(gachaItemList, gachaChanceList);

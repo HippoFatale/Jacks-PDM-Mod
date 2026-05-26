@@ -46,6 +46,36 @@ public class SlotMachineScreen extends Screen {
 
     @Override
     public void render(MatrixStack p_230430_1_, int p_230430_2_, int p_230430_3_, float p_230430_4_) {
+        int leftX = this.width / 2 - 140;
+        int topY = this.height / 2 - 90;
+        int rightX = this.width / 2 + 140;
+        int bottomY = this.height / 2 + 90;
+        //background
+        fill(p_230430_1_, leftX, topY - 9, rightX, bottomY, 0xff1556bc); //blue outline
+        fill(p_230430_1_, leftX + 2, topY - 7, rightX - 2, bottomY, 0xff000000); //black fill
+        minecraft.getTextureManager().bind(new ResourceLocation("jackspdmmod:textures/gui/screen_top_left.png"));
+        blit(p_230430_1_, leftX, topY - 8,0, 0f, 0f, 16, 16, 16, 16);
+        //title
+        fill(p_230430_1_, this.width / 2, topY - 16, rightX - 16, topY, 0xff1556bc);
+        minecraft.getTextureManager().bind(new ResourceLocation("jackspdmmod:textures/gui/screen_title_left.png"));
+        blit(p_230430_1_, this.width / 2 - 16, topY - 16,0, 0f, 0f, 16, 16, 16, 16);
+        minecraft.getTextureManager().bind(new ResourceLocation("jackspdmmod:textures/gui/screen_title_right.png"));
+        blit(p_230430_1_, rightX - 16, topY - 16, 0,  0f, 0f, 16, 16, 16, 16);
+        //bottom
+        fill(p_230430_1_, leftX - 12, bottomY, rightX - 12, bottomY + 12, 0xff1556bc);
+        fill(p_230430_1_, leftX - 10, bottomY, rightX - 12, bottomY + 10, 0xff000000);
+        fill(p_230430_1_, leftX - 12, bottomY, this.width / 2 - 12, bottomY + 2, 0xff1556bc);
+        minecraft.getTextureManager().bind(new ResourceLocation("jackspdmmod:textures/gui/screen_bottom_right.png"));
+        blit(p_230430_1_, rightX - 16, bottomY,0, 0f, 0f, 16, 16, 16, 16);
+        minecraft.getTextureManager().bind(new ResourceLocation("jackspdmmod:textures/gui/screen_bottom_center.png"));
+        blit(p_230430_1_, this.width / 2 - 12, bottomY,0, 0f, 0f, 16, 16, 16, 16);
+        //bottom dec
+        hLine(p_230430_1_, this.width / 2, rightX - 16, bottomY + 5, 0xff1556bc); //blue arrow
+        fill(p_230430_1_, leftX - 4, bottomY + 5, leftX - 2, bottomY + 7, 0xff1556bc); //dots
+        fill(p_230430_1_, leftX + 4, bottomY + 5, leftX + 6, bottomY + 7, 0xff1556bc);
+        fill(p_230430_1_, leftX + 12, bottomY + 5, leftX + 14, bottomY + 7, 0xff1556bc);
+
+
         fillGradient(p_230430_1_, this.width / 2 - squareWidth / 2 - 10 - squareWidth, this.height / 2 - squareHeight,
                 this.width / 2 - squareWidth / 2 - 10, this.height / 2, 0xffffffff, 0xff808080);
         fillGradient(p_230430_1_, this.width / 2 - squareWidth / 2, this.height / 2 - squareHeight,
@@ -53,7 +83,7 @@ public class SlotMachineScreen extends Screen {
         fillGradient(p_230430_1_, this.width / 2 + squareWidth / 2 + 10 , this.height / 2 - squareHeight,
                 this.width / 2 + squareWidth / 2 + 10 + squareWidth, this.height / 2, 0xffffffff, 0xff808080);
 
-        drawCenteredString(p_230430_1_, this.font, new TranslationTextComponent("menu.jackspdmmod.slot_machine_cost"), this.width / 2 - 35, this.height / 2 + 25, 16777215);
+        drawCenteredString(p_230430_1_, this.font, new TranslationTextComponent("menu.jackspdmmod.slot_machine_cost"), this.width / 2 - 35, this.height / 2 + 25, 0xffffff);
 
         minecraft.getTextureManager().bind(imagePaths.get(reel0));
         blit(p_230430_1_, this.width / 2 - squareWidth / 2 - 10 - squareWidth / 2 - imageSize / 2, this.height / 2 - squareHeight / 2 - imageSize / 2, 10,

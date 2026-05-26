@@ -22,7 +22,7 @@ public class TitleCommand {
             return command.hasPermission(2);})
                 .then(Commands.argument("플레이어", EntityArgument.players()).then(Commands.argument("칭호번호", IntegerArgumentType.integer(1, 15)).executes((command) -> {
                     return unlockTitle(command.getSource(), EntityArgument.getPlayers(command, "플레이어"), IntegerArgumentType.getInteger(command, "칭호번호"), true);}).
-                        then(Commands.literal("뺐기").executes((command) -> {
+                        then(Commands.literal("뺏기").executes((command) -> {
                             return unlockTitle(command.getSource(), EntityArgument.getPlayers(command, "플레이어"), IntegerArgumentType.getInteger(command, "칭호번호"), false);})))));
     }
 

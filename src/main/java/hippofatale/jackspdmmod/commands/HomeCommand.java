@@ -38,7 +38,7 @@ public class HomeCommand {
                         .then(Commands.literal("주기").then(Commands.argument("플레이어", EntityArgument.player()).executes((command) -> {
                             return shareHome(command.getSource(), EntityArgument.getPlayer(command, "플레이어"), true);})))
 
-                        .then(Commands.literal("뺐기").then(Commands.argument("플레이어", EntityArgument.player()).executes((command) -> {
+                        .then(Commands.literal("뺏기").then(Commands.argument("플레이어", EntityArgument.player()).executes((command) -> {
                             return shareHome(command.getSource(), EntityArgument.getPlayer(command, "플레이어"), false);})))
 
                         .then(Commands.literal("정보").executes((command) -> {

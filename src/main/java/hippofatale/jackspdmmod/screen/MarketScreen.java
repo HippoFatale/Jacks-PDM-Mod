@@ -15,6 +15,7 @@ import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 
 import java.util.Arrays;
@@ -23,7 +24,7 @@ import java.util.List;
 import static hippofatale.jackspdmmod.JacksPDMMod.marketPrices;
 
 public class MarketScreen extends Screen {
-    private ITextComponent title = new TranslationTextComponent("menu.jackspdmmod.market");
+    private ITextComponent title = new StringTextComponent("· ").append(new TranslationTextComponent("menu.jackspdmmod.market"));
     private int buttonWidth = 60;
     private int buttonHeight = 20;
     private final List<ResourceLocation> imagePaths = Arrays.asList(new ResourceLocation[]{
@@ -85,6 +86,38 @@ public class MarketScreen extends Screen {
 
     @Override
     public void render(MatrixStack p_230430_1_, int p_230430_2_, int p_230430_3_, float p_230430_4_) {
+        int leftX = this.width / 2 - 130;
+        int topY = this.height / 2 - 100;
+        int rightX = this.width / 2 + 165;
+        int bottomY = this.height / 2 + 80;
+        //background
+        fill(p_230430_1_, leftX, topY - 9, rightX, bottomY, 0xff1556bc); //blue outline
+        fill(p_230430_1_, leftX + 2, topY - 7, rightX - 2, bottomY, 0xff000000); //black fill
+        minecraft.getTextureManager().bind(new ResourceLocation("jackspdmmod:textures/gui/screen_top_left.png"));
+        blit(p_230430_1_, leftX, topY - 8,10, 0f, 0f, 16, 16, 16, 16);
+        //title
+        fill(p_230430_1_, this.width / 2, topY - 16, rightX - 16, topY, 0xff1556bc);
+        minecraft.getTextureManager().bind(new ResourceLocation("jackspdmmod:textures/gui/screen_title_left.png"));
+        blit(p_230430_1_, this.width / 2 - 16, topY - 16,10, 0f, 0f, 16, 16, 16, 16);
+        minecraft.getTextureManager().bind(new ResourceLocation("jackspdmmod:textures/gui/screen_title_right.png"));
+        blit(p_230430_1_, rightX - 16, topY - 16, 10,  0f, 0f, 16, 16, 16, 16);
+        //bottom
+        fill(p_230430_1_, leftX - 12, bottomY, rightX - 12, bottomY + 12, 0xff1556bc);
+        fill(p_230430_1_, leftX - 10, bottomY, rightX - 12, bottomY + 10, 0xff000000);
+        fill(p_230430_1_, leftX - 12, bottomY, this.width / 2 - 12, bottomY + 2, 0xff1556bc);
+        minecraft.getTextureManager().bind(new ResourceLocation("jackspdmmod:textures/gui/screen_bottom_right.png"));
+        blit(p_230430_1_, rightX - 16, bottomY,10, 0f, 0f, 16, 16, 16, 16);
+        minecraft.getTextureManager().bind(new ResourceLocation("jackspdmmod:textures/gui/screen_bottom_center.png"));
+        blit(p_230430_1_, this.width / 2 - 12, bottomY,10, 0f, 0f, 16, 16, 16, 16);
+        //bottom dec
+        hLine(p_230430_1_, this.width / 2, rightX - 16, bottomY + 5, 0xff1556bc); //blue arrow
+        fill(p_230430_1_, leftX - 4, bottomY + 5, leftX - 2, bottomY + 7, 0xff1556bc); //dots
+        fill(p_230430_1_, leftX + 4, bottomY + 5, leftX + 6, bottomY + 7, 0xff1556bc);
+        fill(p_230430_1_, leftX + 12, bottomY + 5, leftX + 14, bottomY + 7, 0xff1556bc);
+
+        drawCenteredString(p_230430_1_, this.font, title.copy().withStyle(TextFormatting.BOLD), (this.width / 2 + rightX - 16) / 2, topY - 12, 0xffffff);
+
+
         minecraft.getTextureManager().bind(imagePaths.get(0));
         blit(p_230430_1_, this.width / 2 - buttonWidth * 2, (this.height - buttonHeight) / 2 - buttonHeight * 4,
                 10, 0f, 0f, 16, 16, 16, 16);
