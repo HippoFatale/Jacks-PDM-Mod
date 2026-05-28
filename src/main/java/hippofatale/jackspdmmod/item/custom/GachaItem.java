@@ -1,19 +1,16 @@
 package hippofatale.jackspdmmod.item.custom;
 
-import com.pixelmonmod.pixelmon.api.registries.PixelmonItems;
 import hippofatale.jackspdmmod.item.ModItems;
+import hippofatale.jackspdmmod.util.GachaLists;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.*;
 
@@ -35,25 +32,31 @@ public class GachaItem extends Item {
                 switch (gachaCode) {
                     case ('R'): {
                         gachaName = (new ItemStack(ModItems.RARE_TOOL_GACHA_CUBE.get())).getHoverName().copy().withStyle(TextFormatting.DARK_PURPLE);
-                        gachaResult = new ItemStack(getRareToolGachaCubeItem());
+                        gachaResult = new ItemStack(getGachaCubeResult(GachaLists.getRareToolGacha()));
                         resultName = gachaResult.getHoverName().copy().withStyle(TextFormatting.YELLOW);
                         break;
                     }
                     case ('G'): {
                         gachaName = (new ItemStack(ModItems.GREAT_GACHA_BOX.get())).getHoverName().copy().withStyle(TextFormatting.BLUE);
-                        gachaResult = getGreatGachaBoxItem();
+                        gachaResult = getGachaBoxResult(GachaLists.getGreatGacha());
                         resultName = gachaResult.getHoverName().copy().withStyle(TextFormatting.YELLOW);
                         break;
                     }
                     case ('U'): {
                         gachaName = (new ItemStack(ModItems.ULTRA_GACHA_BOX.get())).getHoverName().copy().withStyle(TextFormatting.GRAY);
-                        gachaResult = getUltraGachaBoxItem();
+                        gachaResult = getGachaBoxResult(GachaLists.getUltraGacha());
                         resultName = gachaResult.getHoverName().copy().withStyle(TextFormatting.YELLOW);
                         break;
                     }
                     case ('M'): {
                         gachaName = (new ItemStack(ModItems.MASTER_GACHA_BOX.get())).getHoverName().copy().withStyle(TextFormatting.LIGHT_PURPLE);;
-                        gachaResult = getMasterGachaBoxItem();
+                        gachaResult = getGachaBoxResult(GachaLists.getMasterGacha());
+                        resultName = gachaResult.getHoverName().copy().withStyle(TextFormatting.YELLOW);
+                        break;
+                    }
+                    case ('A'): {
+                        gachaName = (new ItemStack(ModItems.ALL_TOOL_GACHA_CUBE.get())).getHoverName().copy().withStyle(TextFormatting.DARK_GREEN);
+                        gachaResult = new ItemStack(getGachaCubeResult(GachaLists.getAllToolGacha()));
                         resultName = gachaResult.getHoverName().copy().withStyle(TextFormatting.YELLOW);
                         break;
                     }
@@ -85,102 +88,11 @@ public class GachaItem extends Item {
         return emptySlots;
     }
 
-    private static Item getRareToolGachaCubeItem() {
-        List<Item> gachaItemList = Arrays.asList(new Item[]{
-                PixelmonItems.leftovers,
-                PixelmonItems.life_orb,
-                PixelmonItems.choice_band,
-                PixelmonItems.choice_scarf,
-                PixelmonItems.choice_specs,
-                PixelmonItems.sitrus_berry,
-                PixelmonItems.lum_berry,
-                PixelmonItems.muscle_band,
-                PixelmonItems.black_glasses,
-                PixelmonItems.black_sludge,
-                PixelmonItems.focus_sash,
-                PixelmonItems.focus_band,
-        });
-        return gachaItemList.get(random.nextInt(gachaItemList.size()));
+    private Item getGachaCubeResult(List<Item> gachaCubeList) {
+        return gachaCubeList.get(random.nextInt(gachaCubeList.size()));
     }
 
-    private static ItemStack getGreatGachaBoxItem() {
-        List<ItemStack> gachaItemList = Arrays.asList(new ItemStack[]{
-                new ItemStack(PixelmonItems.rare_candy, 2),
-                new ItemStack(ModItems.RARE_TOOL_GACHA_CUBE.get()),
-                new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pixelmon", "great_ball")), 5)
-        });
-
-        List<Integer> gachaChanceList = Arrays.asList(new Integer[]{
-                2,
-                1,
-                1
-        });
-
-        List<ItemStack> gachaTableList = getGachaTableList(gachaItemList, gachaChanceList);
-
-        return gachaTableList.get(random.nextInt(gachaTableList.size()));
-    }
-
-    private static ItemStack getUltraGachaBoxItem() {
-        List<ItemStack> gachaItemList = Arrays.asList(new ItemStack[]{
-                new ItemStack(ModItems.RARE_TOOL_GACHA_CUBE.get()),
-                new ItemStack(PixelmonItems.rare_candy, 10),
-                new ItemStack(ModItems.SHINY_TRADE_TICKET.get()),
-                new ItemStack(ModItems.BASIC_SELECTION_TICKET.get()),
-                new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pixelmon", "ultra_ball")), 10),
-                new ItemStack(PixelmonItems.silver_bottle_cap)
-        });
-
-        List<Integer> gachaChanceList = Arrays.asList(new Integer[]{
-                2,
-                3,
-                4,
-                2,
-                8,
-                1
-        });
-
-        List<ItemStack> gachaTableList = getGachaTableList(gachaItemList, gachaChanceList);
-
-        return gachaTableList.get(random.nextInt(gachaTableList.size()));
-    }
-
-    private static ItemStack getMasterGachaBoxItem() {
-        List<ItemStack> gachaItemList = Arrays.asList(new ItemStack[]{
-                new ItemStack(ModItems.RARE_TOOL_GACHA_CUBE.get()),
-                new ItemStack(ModItems.LEGENDARY_SPAWN_GACHA.get()),
-                new ItemStack(ModItems.MYTHICAL_SPAWN_GACHA.get()),
-                new ItemStack(ModItems.DIGIMON_SPAWN_GACHA.get()),
-                new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pixelmon", "master_ball"))),
-                new ItemStack(ModItems.INVITATION_CARD.get()),
-                new ItemStack(PixelmonItems.gold_bottle_cap)
-        });
-
-        List<Integer> gachaChanceList = Arrays.asList(new Integer[]{
-                21,
-                2, 2, 2,
-                12,
-                18,
-                3
-        });
-
-        List<ItemStack> gachaTableList = getGachaTableList(gachaItemList, gachaChanceList);
-
-        return gachaTableList.get(random.nextInt(gachaTableList.size()));
-    }
-
-    private static List<ItemStack> getGachaTableList(List<ItemStack> itemStackList, List<Integer> chanceList) {
-        List<ItemStack> gachaTableList = new ArrayList<>(Collections.emptyList());
-
-        if (itemStackList.size() != chanceList.size()) {
-            return itemStackList;
-        }
-
-        for (int i = 0; i < itemStackList.size(); i++) {
-            for (int j = 0; j < chanceList.get(i); j++) {
-                gachaTableList.add(itemStackList.get(i));
-            }
-        }
-        return gachaTableList;
+    private ItemStack getGachaBoxResult(List<ItemStack> gachaBoxList) {
+        return gachaBoxList.get(random.nextInt(gachaBoxList.size())).copy();
     }
 }

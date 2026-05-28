@@ -34,6 +34,8 @@
   "item.jackspdmmod.ultra_gacha_box.tooltip": "사용 시 §e랜덤 아이템§r를 획득합니다.",
   "item.jackspdmmod.master_gacha_box": "PD 상급 럭키 박스",
   "item.jackspdmmod.master_gacha_box.tooltip": "사용 시 §e랜덤 아이템§r를 획득합니다.",
+  "item.jackspdmmod.all_tool_gacha_cube": "전체 도구 가챠 큐브",
+  "item.jackspdmmod.all_tool_gacha_cube.tooltip": "사용 시 §e랜덤 도구§r를 획득합니다.",
   "item.jackspdmmod.personal_small_placard": "개인 소형 땅",
   "item.jackspdmmod.personal_medium_placard": "개인 중형 땅",
   "item.jackspdmmod.club_large_placard": "길드 대형 땅",
@@ -78,7 +80,7 @@
   "title.jackspdmmod.legendary_owner": "전설오너",
   "title.jackspdmmod.mythical_owner": "환상오너",
   "title.jackspdmmod.digidestined": "선택받은아이",
-  "title.jackspdmmod.no_server_no_life": "유닛서버인생",
+  "title.jackspdmmod.no_server_no_life": "PD서버인생",
   "title.jackspdmmod.everyones_neighbor": "모두의 이웃",
   "title.jackspdmmod.blacklisted": "블랙리스트",
   "title.jackspdmmod.gold_rich": "골드리치",
@@ -108,6 +110,8 @@
   "minigame.jackspdmmod.jump_map_race": "달려라 점프맵",
   "minigame.jackspdmmod.dice_of_fortune": "운명의 주사위",
 
+
+  "message.jackspdmmod.welcome": "§e§l포켓몬§r§r§l과 §r§9§l디지몬§r§r§l이 공존하는 세상! §r§b§lPD몬스터§r§r§l 서버!§r",
 
   "message.jackspdmmod.inventory_is_full": "소지품이 가득 찼습니다.",
   "message.jackspdmmod.inventory_need_free_slot": "소지품에 빈 공간이 %s칸 필요합니다.",

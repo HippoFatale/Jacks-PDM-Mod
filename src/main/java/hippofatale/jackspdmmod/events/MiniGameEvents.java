@@ -50,7 +50,7 @@ public class MiniGameEvents {
 
         //timer
         LocalDateTime currentTime = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
-        if (currentTime.getHour() % 3 == 2 && currentTime.getMinute() == 55) {
+        if (/*currentTime.getHour() % 3 == 2 &&*/ currentTime.getMinute() == 55) {
             //enable join command
             isMiniGameOpen = true;
 

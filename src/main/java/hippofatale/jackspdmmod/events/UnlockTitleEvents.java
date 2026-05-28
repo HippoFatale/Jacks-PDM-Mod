@@ -15,9 +15,13 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
 import java.math.BigDecimal;
 
+import static hippofatale.jackspdmmod.JacksPDMMod.MOD_ID;
+
+@Mod.EventBusSubscriber(modid = MOD_ID)
 public class UnlockTitleEvents {
     private static void unlockTitle(ServerPlayerEntity player, int titleIndex) {
         player.getCapability(PlayerTitleProvider.PLAYER_TITLE).ifPresent(playerTitle -> {

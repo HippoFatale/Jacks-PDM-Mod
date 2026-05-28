@@ -233,6 +233,18 @@ public class ModItems {
                     super.appendHoverText(itemStack, world, tooltip, flag);
                 }
             });
+    public static final RegistryObject<Item> ALL_TOOL_GACHA_CUBE = ITEMS.register("all_tool_gacha_cube",
+            () -> new GachaItem(new Item.Properties().tab(ModItemGroup.JACKS_PDM_GROUP), 'A') {
+                @Override
+                public void appendHoverText(ItemStack itemStack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
+                    if (Screen.hasShiftDown()) {
+                        tooltip.add(new TranslationTextComponent("item.jackspdmmod.all_tool_gacha_cube.tooltip"));
+                    } else {
+                        tooltip.add(new TranslationTextComponent("item.jackspdmmod.tooltip_shift"));
+                    }
+                    super.appendHoverText(itemStack, world, tooltip, flag);
+                }
+            });
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

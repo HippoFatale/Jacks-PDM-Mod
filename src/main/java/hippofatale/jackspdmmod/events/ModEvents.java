@@ -1,5 +1,6 @@
 package hippofatale.jackspdmmod.events;
 
+import com.pixelmonmod.pixelmon.api.registries.PixelmonItems;
 import com.pixelmonmod.pixelmon.entities.npcs.NPCEntity;
 import hippofatale.jackspdmmod.club.ClubData;
 import hippofatale.jackspdmmod.commands.*;
@@ -13,20 +14,25 @@ import hippofatale.jackspdmmod.teleport.PlayerTeleportUnlockProvider;
 import hippofatale.jackspdmmod.teleport.TeleportData;
 import hippofatale.jackspdmmod.title.PlayerTitleProvider;
 import hippofatale.jackspdmmod.title.TitleData;
+import hippofatale.jackspdmmod.util.GachaLists;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppingEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.server.command.ConfigCommand;
 
 import java.time.*;
@@ -34,6 +40,7 @@ import java.util.*;
 
 import static hippofatale.jackspdmmod.JacksPDMMod.*;
 
+@Mod.EventBusSubscriber(modid = MOD_ID)
 public class ModEvents {
     //commands
     @SubscribeEvent
@@ -54,6 +61,23 @@ public class ModEvents {
         ConfigCommand.register(event.getDispatcher());
     }
 
+    //first join reward
+    @SubscribeEvent
+    public static void onPlayerFirstJoin(PlayerEvent.PlayerLoggedInEvent event) {
+        if (!event.getPlayer().level.isClientSide()) {
+            ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
+            if (!player.getPersistentData().getBoolean("join_reward_claimed")) {
+                player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.welcome"), false);
+
+                player.inventory.add(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pixelmon", "poke_ball")), 10));
+                player.inventory.add(new ItemStack(PixelmonItems.exp_share));
+
+                player.getPersistentData().putBoolean("join_reward_claimed", true);
+            }
+        }
+    }
+
+    //sync data at login
     @SubscribeEvent
     public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
         if (!event.getPlayer().level.isClientSide()) {
@@ -179,5 +203,15 @@ public class ModEvents {
         ClubData.saveClubData();
         HomeData.saveHomeData();
         MarketData.saveMarketData();
+    }
+
+    //gacha lists
+    @SubscribeEvent
+    public static void onBuildGachaLists(FMLServerAboutToStartEvent event) {
+        GachaLists.buildLists();
+//        event.enqueueWork(GachaLists::buildLists);
+//        event.enqueueWork(() -> {
+//            GachaItemLists.buildLists();
+//        });
     }
 }
