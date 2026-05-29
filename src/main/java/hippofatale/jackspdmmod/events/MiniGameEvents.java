@@ -169,7 +169,7 @@ public class MiniGameEvents {
 
     //magma fall
     private static final int magmaFallFieldSize = 8;
-    private static final BlockPos magmaFallFieldPivot = new BlockPos(-527 - magmaFallFieldSize, 103, -1894 - magmaFallFieldSize);
+    private static final BlockPos magmaFallFieldPivot = new BlockPos(-1573 - magmaFallFieldSize, 38, 83 - magmaFallFieldSize);
     private static final List<Block> magmaFallBlocks = Arrays.asList(new Block[]{
             Blocks.RED_WOOL,
             Blocks.ORANGE_WOOL,

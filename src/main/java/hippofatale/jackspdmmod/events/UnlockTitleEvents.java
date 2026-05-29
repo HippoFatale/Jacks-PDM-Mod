@@ -65,21 +65,18 @@ public class UnlockTitleEvents {
         }
     }
 
-    private static int checkPlayTimeTickCount = 0;
     private static final int checkPlayTimeTickPeriod = 60 * 20;
     @SubscribeEvent
     public static void onCheckPlayTime(TickEvent.PlayerTickEvent event) {
         if (event.player instanceof ServerPlayerEntity) {
-            checkPlayTimeTickCount++;
-            if (checkPlayTimeTickCount >= checkPlayTimeTickPeriod) {
-                ServerPlayerEntity player = (ServerPlayerEntity) event.player;
+            ServerPlayerEntity player = (ServerPlayerEntity) event.player;
+            if (player.tickCount % checkPlayTimeTickPeriod == 0) {
                 int playTimeTicks = player.getStats().getValue(Stats.CUSTOM.get(Stats.PLAY_ONE_MINUTE));
 
                 //no server no life
                 if (playTimeTicks >= 24 * 60 * 60 * 20) {
                     unlockTitle(player, 10);
                 }
-                checkPlayTimeTickCount = 0;
             }
         }
     }

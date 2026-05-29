@@ -134,22 +134,23 @@ public class ModEvents {
         }
     }
 
-    private static int priceUpdateTickCount = 60 * 20;
-    private static final int priceUpdateTickPeriod = 60 * 20;
-    //change market price
-    @SubscribeEvent
-    public static void onMidnightMarketUpdate(TickEvent.ServerTickEvent event) {
-        priceUpdateTickCount++;
-        if (priceUpdateTickCount > priceUpdateTickPeriod) {
-            LocalDate currentDate = LocalDate.now(ZoneId.of("Asia/Seoul"));
-            if (!currentDate.equals(marketLastUpdateDate)) {
-                MarketData.cropsPriceChange();
-                marketLastUpdateDate = currentDate;
-                MarketData.saveMarketData();
-            }
-            priceUpdateTickCount = 0;
-        }
-    }
+    //MarketPriceUpdateEvents
+//    private static int priceUpdateTickCount = 60 * 20;
+//    private static final int priceUpdateTickPeriod = 60 * 20;
+//    //change market price
+//    @SubscribeEvent
+//    public static void onMidnightMarketUpdate(TickEvent.ServerTickEvent event) {
+//        priceUpdateTickCount++;
+//        if (priceUpdateTickCount > priceUpdateTickPeriod) {
+//            LocalDate currentDate = LocalDate.now(ZoneId.of("Asia/Seoul"));
+//            if (!currentDate.equals(marketLastUpdateDate)) {
+//                MarketData.cropsPriceChange();
+//                marketLastUpdateDate = currentDate;
+//                MarketData.saveMarketData();
+//            }
+//            priceUpdateTickCount = 0;
+//        }
+//    }
 
 //    private static int checkNightVisionTickCount = 0;
 //    private static final int checkNightVisionTickPeriod = 1 * 20;
