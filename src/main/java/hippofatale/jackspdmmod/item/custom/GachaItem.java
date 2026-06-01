@@ -30,39 +30,33 @@ public class GachaItem extends Item {
                 ITextComponent resultName = null;
                 int quantity = 0;
                 switch (gachaCode) {
-                    case ('R'): {
+                    case 'R':
                         gachaName = (new ItemStack(ModItems.RARE_TOOL_GACHA_CUBE.get())).getHoverName().copy().withStyle(TextFormatting.DARK_PURPLE);
                         gachaResult = new ItemStack(getGachaCubeResult(GachaLists.getRareToolGacha()));
                         resultName = gachaResult.getHoverName().copy().withStyle(TextFormatting.YELLOW);
                         break;
-                    }
-                    case ('G'): {
+                    case 'G':
                         gachaName = (new ItemStack(ModItems.GREAT_GACHA_BOX.get())).getHoverName().copy().withStyle(TextFormatting.BLUE);
                         gachaResult = getGachaBoxResult(GachaLists.getGreatGacha());
                         resultName = gachaResult.getHoverName().copy().withStyle(TextFormatting.YELLOW);
                         break;
-                    }
-                    case ('U'): {
+                    case 'U':
                         gachaName = (new ItemStack(ModItems.ULTRA_GACHA_BOX.get())).getHoverName().copy().withStyle(TextFormatting.GRAY);
                         gachaResult = getGachaBoxResult(GachaLists.getUltraGacha());
                         resultName = gachaResult.getHoverName().copy().withStyle(TextFormatting.YELLOW);
                         break;
-                    }
-                    case ('M'): {
+                    case 'M':
                         gachaName = (new ItemStack(ModItems.MASTER_GACHA_BOX.get())).getHoverName().copy().withStyle(TextFormatting.LIGHT_PURPLE);;
                         gachaResult = getGachaBoxResult(GachaLists.getMasterGacha());
                         resultName = gachaResult.getHoverName().copy().withStyle(TextFormatting.YELLOW);
                         break;
-                    }
-                    case ('A'): {
+                    case 'A':
                         gachaName = (new ItemStack(ModItems.ALL_TOOL_GACHA_CUBE.get())).getHoverName().copy().withStyle(TextFormatting.DARK_GREEN);
                         gachaResult = new ItemStack(getGachaCubeResult(GachaLists.getAllToolGacha()));
                         resultName = gachaResult.getHoverName().copy().withStyle(TextFormatting.YELLOW);
                         break;
-                    }
-                    default: {
+                    default:
                         return super.use(world, player, hand);
-                    }
                 }
                 quantity = gachaResult.getCount();
                 player.inventory.add(gachaResult);

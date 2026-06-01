@@ -3,6 +3,7 @@ package hippofatale.jackspdmmod;
 import com.pixelmonmod.pixelmon.Pixelmon;
 import hippofatale.jackspdmmod.block.ModBlocks;
 import hippofatale.jackspdmmod.club.Club;
+import hippofatale.jackspdmmod.events.MiniGameRunEvents;
 import hippofatale.jackspdmmod.events.ModEvents;
 import hippofatale.jackspdmmod.events.UnlockTitleEvents;
 import hippofatale.jackspdmmod.home.Home;
@@ -127,6 +128,7 @@ public class JacksPDMMod
         Pixelmon.EVENT_BUS.register(ModEvents.class);
         MinecraftForge.EVENT_BUS.register(UnlockTitleEvents.class);
         Pixelmon.EVENT_BUS.register(UnlockTitleEvents.class);
+        Pixelmon.EVENT_BUS.register(MiniGameRunEvents.class);
     }
 
     private void setup(final FMLCommonSetupEvent event)

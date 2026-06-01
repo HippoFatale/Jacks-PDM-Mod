@@ -39,8 +39,8 @@ public class MarketPriceUpdateEvents {
             try {
                 if (server != null) {
                     server.execute(() -> {
-                        LocalDate currentDate = LocalDate.now(ZoneId.of("Asia/Seoul"));
-                        marketPriceUpdate(currentDate);
+                        LocalDate updateDate = LocalDate.now(ZoneId.of("Asia/Seoul"));
+                        marketPriceUpdate(updateDate);
                     });
                 }
             } catch (Exception e) {

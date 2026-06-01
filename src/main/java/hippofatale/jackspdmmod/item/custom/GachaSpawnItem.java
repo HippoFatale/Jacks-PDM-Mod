@@ -39,27 +39,23 @@ public class GachaSpawnItem extends Item {
             Pokemon pokemon = spec.create();
             ITextComponent spawnedName = null;
             switch (speciesType) {
-                case ('L'): {
+                case 'L':
                     spawnGachaName = (new ItemStack(ModItems.LEGENDARY_SPAWN_GACHA.get())).getHoverName().copy().withStyle(TextFormatting.GOLD);
                     pokemon.setSpecies(getSpawnGachaResult(GachaLists.getLegendarySpawnGacha()), true);
                     spawnedName = pokemon.getTranslatedName().withStyle(TextFormatting.YELLOW);
                     break;
-                }
-                case ('M'): {
+                case 'M':
                     spawnGachaName = (new ItemStack(ModItems.MYTHICAL_SPAWN_GACHA.get())).getHoverName().copy().withStyle(TextFormatting.LIGHT_PURPLE);
                     pokemon.setSpecies(getSpawnGachaResult(GachaLists.getMythicalSpawnGacha()), true);
                     spawnedName = pokemon.getFormattedDisplayName().copy().withStyle(TextFormatting.YELLOW);
                     break;
-                }
-                case ('D'): {
+                case 'D':
                     spawnGachaName = (new ItemStack(ModItems.DIGIMON_SPAWN_GACHA.get())).getHoverName().copy().withStyle(TextFormatting.BLUE);
                     pokemon.setSpecies(getSpawnGachaResult(GachaLists.getDigimonSpawnGacha()), true);
                     spawnedName = pokemon.getDisplayNameWithRibbon().copy().withStyle(TextFormatting.YELLOW);
                     break;
-                }
-                default: {
+                default:
                     return super.use(world, player, hand);
-                }
             }
             PixelmonEntity entity = PokemonSpecificationProxy.create().create(world);
             entity.setPokemon(pokemon);

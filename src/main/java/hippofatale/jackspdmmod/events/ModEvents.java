@@ -57,6 +57,7 @@ public class ModEvents {
         new BattleSpectateCommand(event.getDispatcher());
         new JoinMiniGameCommand(event.getDispatcher());
         new CasinoSwitchingCommand(event.getDispatcher());
+        new OpenMiniGameCommand(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());
     }
