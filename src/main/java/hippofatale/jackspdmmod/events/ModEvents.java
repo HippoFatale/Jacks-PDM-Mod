@@ -58,6 +58,7 @@ public class ModEvents {
         new JoinMiniGameCommand(event.getDispatcher());
         new CasinoSwitchingCommand(event.getDispatcher());
         new OpenMiniGameCommand(event.getDispatcher());
+        new ShinyTradeTicketCommand(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());
     }

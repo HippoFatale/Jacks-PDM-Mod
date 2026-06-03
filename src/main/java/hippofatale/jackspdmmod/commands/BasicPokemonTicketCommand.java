@@ -48,7 +48,7 @@ public class BasicPokemonTicketCommand extends PixelCommand {
                 PixelmonCommandUtils.endCommand("message.jackspdmmod.does_not_have_item", new Object[0]);
             }
 
-            //create pokemon from args spec
+            //create Pokémon from args spec
             Pokemon pokemon = spec.create();
             Stats stats = pokemon.getForm();
 
@@ -64,11 +64,11 @@ public class BasicPokemonTicketCommand extends PixelCommand {
                 PixelmonCommandUtils.endCommand("message.jackspdmmod.legendary_not_allowed", new Object[0]);
             }
 
-            if (player != null && Pixelmon.EVENT_BUS.post(new PokemonReceivedEvent(player, pokemon, "Command"))) {
+            if (Pixelmon.EVENT_BUS.post(new PokemonReceivedEvent(player, pokemon, "Command"))) {
                 return;
             }
 
-            if (player != null && BattleRegistry.getBattle(player) != null) {
+            if (BattleRegistry.getBattle(player) != null) {
                 StorageProxy.getPCForPlayer(profile.getId()).add(pokemon);
             } else {
                 StorageProxy.getParty(profile.getId()).add(pokemon);
