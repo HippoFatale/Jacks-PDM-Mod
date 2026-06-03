@@ -48,7 +48,8 @@ public class PlaySlotMachineC2SPacket {
                     } else {
                         player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.slot_machine_last_place"), false);
                     }
-                    ModMessages.sendToPlayer(new SetSlotMachineScreenS2CPacket(reel0, reel1, reel2, false), player);
+                    long balance = account.getBalance().longValue();
+                    ModMessages.sendToPlayer(new SetSlotMachineScreenS2CPacket(reel0, reel1, reel2, false, balance), player);
                 } else {
                     player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.not_enough_pokedollars"), false);
                 }

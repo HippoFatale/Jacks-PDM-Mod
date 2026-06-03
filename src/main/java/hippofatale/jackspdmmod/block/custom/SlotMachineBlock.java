@@ -1,5 +1,7 @@
 package hippofatale.jackspdmmod.block.custom;
 
+import com.pixelmonmod.pixelmon.api.economy.BankAccount;
+import com.pixelmonmod.pixelmon.api.economy.BankAccountProxy;
 import hippofatale.jackspdmmod.networking.ModMessages;
 import hippofatale.jackspdmmod.networking.packet.SetSlotMachineScreenS2CPacket;
 import net.minecraft.block.Block;
@@ -21,7 +23,12 @@ public class SlotMachineBlock extends Block {
     public ActionResultType use(BlockState blockState, World world, BlockPos blockPos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
         if (!world.isClientSide()) {
             ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
-            ModMessages.sendToPlayer(new SetSlotMachineScreenS2CPacket(0, 0, 0, true), serverPlayer);
+            BankAccount account = (BankAccount) BankAccountProxy.getBankAccount(serverPlayer).orElse(null);
+            if (account != null) {
+                long balance = account.getBalance().longValue();
+                ModMessages.sendToPlayer(new SetSlotMachineScreenS2CPacket(0, 0, 0, true, balance), serverPlayer);
+            }
+
         }
         return ActionResultType.CONSUME;
     }

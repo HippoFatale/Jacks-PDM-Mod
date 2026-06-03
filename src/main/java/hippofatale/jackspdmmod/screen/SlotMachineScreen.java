@@ -7,13 +7,15 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class SlotMachineScreen extends Screen {
-    private final ITextComponent title = new TranslationTextComponent("menu.jackspdmmod.slot_machine");
+    private final ITextComponent title = new StringTextComponent("· ").append(new TranslationTextComponent("menu.jackspdmmod.slot_machine"));
     private final int squareWidth = 80;
     private final int squareHeight = 80;
     private final List<ResourceLocation> imagePaths = Arrays.asList(new ResourceLocation[]{
@@ -27,20 +29,22 @@ public class SlotMachineScreen extends Screen {
     private int reel1 = 0;
     private int reel2 = 0;
     private boolean spinReel = true;
+    private long balance = 0;
 
-    public SlotMachineScreen(int reel0, int reel1, int reel2, boolean spinReel) {
+    public SlotMachineScreen(int reel0, int reel1, int reel2, boolean spinReel, long balance) {
         super(new TranslationTextComponent("menu.jackspdmmod.slot_machine"));
         this.reel0 = reel0;
         this.reel1 = reel1;
         this.reel2 = reel2;
         this.spinReel = spinReel;
+        this.balance = balance;
     }
 
     @Override
     protected void init() {
         super.init();
 
-        this.addButton(new Button(this.width / 2 + 5, this.height / 2 + 20, 60, 20,
+        this.addButton(new Button(this.width / 2 + squareWidth / 2 + 10, this.height / 2 + 10, 60, 20,
                 new TranslationTextComponent("menu.jackspdmmod.slot_machine_play"), SlotMachineScreen::play));
     }
 
@@ -75,6 +79,8 @@ public class SlotMachineScreen extends Screen {
         fill(p_230430_1_, leftX + 4, bottomY + 5, leftX + 6, bottomY + 7, 0xff1556bc);
         fill(p_230430_1_, leftX + 12, bottomY + 5, leftX + 14, bottomY + 7, 0xff1556bc);
 
+        drawCenteredString(p_230430_1_, this.font, title.copy().withStyle(TextFormatting.BOLD), (this.width / 2 + rightX - 16) / 2, topY - 12, 0xffffff);
+
 
         fillGradient(p_230430_1_, this.width / 2 - squareWidth / 2 - 10 - squareWidth, this.height / 2 - squareHeight,
                 this.width / 2 - squareWidth / 2 - 10, this.height / 2, 0xffffffff, 0xff808080);
@@ -83,8 +89,10 @@ public class SlotMachineScreen extends Screen {
         fillGradient(p_230430_1_, this.width / 2 + squareWidth / 2 + 10 , this.height / 2 - squareHeight,
                 this.width / 2 + squareWidth / 2 + 10 + squareWidth, this.height / 2, 0xffffffff, 0xff808080);
 
-        drawCenteredString(p_230430_1_, this.font, new TranslationTextComponent("menu.jackspdmmod.slot_machine_cost"), this.width / 2 - 35, this.height / 2 + 25, 0xffffff);
+        drawCenteredString(p_230430_1_, this.font, new TranslationTextComponent("menu.jackspdmmod.slot_machine_cost"), this.width / 2, this.height / 2 + 14, 0xffffff);
+        drawCenteredString(p_230430_1_, this.font, new TranslationTextComponent("menu.jackspdmmod.slot_machine_balance", Math.toIntExact(balance)), this.width / 2, this.height / 2 + 30, 0xffffff);
 
+        //reels
         minecraft.getTextureManager().bind(imagePaths.get(reel0));
         blit(p_230430_1_, this.width / 2 - squareWidth / 2 - 10 - squareWidth / 2 - imageSize / 2, this.height / 2 - squareHeight / 2 - imageSize / 2, 10,
                 0f, 0f, imageSize, imageSize, imageSize, imageSize);
@@ -94,6 +102,15 @@ public class SlotMachineScreen extends Screen {
         minecraft.getTextureManager().bind(imagePaths.get(reel2));
         blit(p_230430_1_, this.width / 2 + squareWidth / 2 + 10 + squareWidth / 2 - imageSize / 2, this.height / 2 - squareHeight / 2 - imageSize / 2, 10,
                 0f, 0f, imageSize, imageSize, imageSize, imageSize);
+
+        //rewards
+        minecraft.getTextureManager().bind(new ResourceLocation("jackspdmmod:textures/gui/slot_machine_rewards.png"));
+        blit(p_230430_1_, this.width / 2 - squareWidth / 2 - 10 - squareWidth, this.height / 2 + 10, 10,
+                0f, 0f, 64, 64, 64, 64);
+        drawString(p_230430_1_, this.font, " = ×10", this.width / 2 - squareWidth / 2 - 10 - squareWidth + 16 * 3, this.height / 2 + 14 + 16 * 0, 0xffffff);
+        drawString(p_230430_1_, this.font, " = ×10", this.width / 2 - squareWidth / 2 - 10 - squareWidth + 16 * 3, this.height / 2 + 14 + 16 * 1, 0xffffff);
+        drawString(p_230430_1_, this.font, " = ×10", this.width / 2 - squareWidth / 2 - 10 - squareWidth + 16 * 3, this.height / 2 + 14 + 16 * 2, 0xffffff);
+        drawString(p_230430_1_, this.font, " = ×10", this.width / 2 - squareWidth / 2 - 10 - squareWidth + 16 * 3, this.height / 2 + 14 + 16 * 3, 0xffffff);
 
         super.render(p_230430_1_, p_230430_2_, p_230430_3_, p_230430_4_);
     }

@@ -20,7 +20,7 @@ public class ClientHooks {
         Minecraft.getInstance().setScreen(new PlacardScreen(purchased, homeTypeIndex, homeSizeIndex, plotPriceLong, placardPos));
     }
 
-    public static void openSlotMachineScreen(int reel0, int reel1, int reel2, boolean spinReel) {
-        Minecraft.getInstance().setScreen(new SlotMachineScreen(reel0, reel1, reel2, spinReel));
+    public static void openSlotMachineScreen(int reel0, int reel1, int reel2, boolean spinReel, long balance) {
+        Minecraft.getInstance().setScreen(new SlotMachineScreen(reel0, reel1, reel2, spinReel, balance));
     }
 }

@@ -143,8 +143,8 @@ public class MagmaFall {
         //count survivors
         survivors.clear();
         for (ServerPlayerEntity player : server.getPlayerList().getPlayers()) {
-//            if ((player.getBoundingBox().intersects(field) && player.gameMode.isSurvival())) {
-            if ((player.getBoundingBox().intersects(field))) { //TODO TEST
+            if ((player.getBoundingBox().intersects(field) && player.gameMode.isSurvival())) { //TODO LIVE
+//            if ((player.getBoundingBox().intersects(field))) { //TODO TEST
                 survivors.add(player);
             }
         }
@@ -155,8 +155,8 @@ public class MagmaFall {
         remainingBlocks = platformBlockStates.filter(blockState -> blockState.is(BlockTags.WOOL)).count();
 
         //check end
-//        if (survivors.size() <= 1 || (int) remainingBlocks <= 1) {
-        if ((int) remainingBlocks <= 1) { //TODO TEST
+        if (survivors.size() <= 1 || (int) remainingBlocks <= 1) { //TODO LIVE
+//        if ((int) remainingBlocks <= 1) { //TODO TEST
             endMagmaDrop();
         } else {
             //recolor

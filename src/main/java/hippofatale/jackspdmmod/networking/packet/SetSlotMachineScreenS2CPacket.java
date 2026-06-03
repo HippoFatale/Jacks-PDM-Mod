@@ -11,12 +11,14 @@ public class SetSlotMachineScreenS2CPacket {
     private int reel1;
     private int reel2;
     private boolean spinReel;
+    private long balance;
 
-    public SetSlotMachineScreenS2CPacket(int reel0, int reel1, int reel2, boolean spinReel) {
+    public SetSlotMachineScreenS2CPacket(int reel0, int reel1, int reel2, boolean spinReel, long balance) {
         this.reel0 = reel0;
         this.reel1 = reel1;
         this.reel2 = reel2;
         this.spinReel = spinReel;
+        this.balance = balance;
     }
 
     public SetSlotMachineScreenS2CPacket(ByteBuf buf) {
@@ -24,6 +26,7 @@ public class SetSlotMachineScreenS2CPacket {
         this.reel1 = buf.readInt();
         this.reel2 = buf.readInt();
         this.spinReel = buf.readBoolean();
+        this.balance = buf.readLong();
     }
 
     public void toBytes(ByteBuf buf) {
@@ -31,12 +34,13 @@ public class SetSlotMachineScreenS2CPacket {
         buf.writeInt(reel1);
         buf.writeInt(reel2);
         buf.writeBoolean(spinReel);
+        buf.writeLong(balance);
     }
 
     public boolean handle(Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
-            ClientHooks.openSlotMachineScreen(reel0, reel1, reel2, spinReel);
+            ClientHooks.openSlotMachineScreen(reel0, reel1, reel2, spinReel, balance);
         });
         return true;
     }

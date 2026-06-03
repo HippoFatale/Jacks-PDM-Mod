@@ -68,6 +68,7 @@
   "menu.jackspdmmod.buy_plot": "땅 구매",
   "menu.jackspdmmod.slot_machine": "슬롯머신",
   "menu.jackspdmmod.slot_machine_cost": "비용: 10000P",
+  "menu.jackspdmmod.slot_machine_balance": "잔액: %sP",
   "menu.jackspdmmod.slot_machine_play": "도전!",
 
 
