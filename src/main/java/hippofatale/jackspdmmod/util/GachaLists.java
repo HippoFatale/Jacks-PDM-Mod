@@ -21,6 +21,7 @@ public class GachaLists {
     private static final List<ItemStack> ultraGacha =  new ArrayList<>();
     private static final List<ItemStack> masterGacha = new ArrayList<>();
     private static final List<Item> allToolGacha =  new ArrayList<>();
+    private static final List<ItemStack> specialGacha = new ArrayList<>();
 
     private static final Set<Integer> legendarySpawnGacha = new HashSet<>();
     private static final Set<Integer> mythicalSpawnGacha = new HashSet<>();
@@ -33,6 +34,7 @@ public class GachaLists {
         setUltraGachaBox();
         setMasterGachaBox();
         setAllToolGachaCube();
+        setSpecialGacha();
 
         setLegendarySpawnGacha();
         setMythicalSpawnGacha();
@@ -134,18 +136,20 @@ public class GachaLists {
                 new ItemStack(ModItems.RARE_TOOL_GACHA_CUBE.get()),
                 new ItemStack(ModItems.LEGENDARY_SPAWN_GACHA.get()),
                 new ItemStack(ModItems.MYTHICAL_SPAWN_GACHA.get()),
-                new ItemStack(ModItems.DIGIMON_SPAWN_GACHA.get()),
-                new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pixelmon", "master_ball"))),
-                new ItemStack(ModItems.INVITATION_CARD.get()),
-                new ItemStack(PixelmonItems.gold_bottle_cap)
+                new ItemStack(ModItems.SHINY_TRADE_TICKET.get()),
+                new ItemStack(ModItems.BASIC_SELECTION_TICKET.get()),
+                new ItemStack(PixelmonItems.silver_bottle_cap),
+                new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pixelmon", "master_ball")))
         });
 
         List<Integer> gachaChanceList = Arrays.asList(new Integer[]{
-                21,
-                2, 2, 2,
-                12,
-                18,
-                3
+                6,
+                2,
+                2,
+                5,
+                2,
+                2,
+                1
         });
 
         List<ItemStack> gachaTableList = getGachaTableList(gachaItemList, gachaChanceList);
@@ -213,6 +217,37 @@ public class GachaLists {
 
 
         allToolGacha.addAll(gachaItemList);
+    }
+    //endregion
+
+    //region Special Gacha Box
+    public static List<ItemStack> getSpecialGacha() {
+        return specialGacha;
+    }
+
+    public static void setSpecialGacha() {
+        specialGacha.clear();
+
+        List<ItemStack> gachaItemList = Arrays.asList(new ItemStack[]{
+                new ItemStack(ModItems.LEGENDARY_SPAWN_GACHA.get()),
+                new ItemStack(ModItems.MYTHICAL_SPAWN_GACHA.get()),
+                new ItemStack(ModItems.DIGIMON_SPAWN_GACHA.get()),
+                new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pixelmon", "master_ball"))),
+                new ItemStack(ModItems.INVITATION_CARD.get()),
+                new ItemStack(PixelmonItems.gold_bottle_cap)
+        });
+
+        List<Integer> gachaChanceList = Arrays.asList(new Integer[]{
+                1,
+                1,
+                2,
+                4,
+                6,
+                1
+        });
+
+        List<ItemStack> gachaTableList = getGachaTableList(gachaItemList, gachaChanceList);
+        specialGacha.addAll(gachaTableList);
     }
     //endregion
 

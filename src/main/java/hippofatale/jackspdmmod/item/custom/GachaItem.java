@@ -55,6 +55,11 @@ public class GachaItem extends Item {
                         gachaResult = new ItemStack(getGachaCubeResult(GachaLists.getAllToolGacha()));
                         resultName = gachaResult.getHoverName().copy().withStyle(TextFormatting.YELLOW);
                         break;
+                    case 'S':
+                        gachaName = (new ItemStack(ModItems.SPECIAL_GACHA_BOX.get())).getHoverName().copy().withStyle(TextFormatting.DARK_BLUE);
+                        gachaResult = getGachaBoxResult(GachaLists.getSpecialGacha());
+                        resultName = gachaResult.getHoverName().copy().withStyle(TextFormatting.YELLOW);
+                        break;
                     default:
                         return super.use(world, player, hand);
                 }

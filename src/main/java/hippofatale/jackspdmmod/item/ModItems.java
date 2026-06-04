@@ -185,6 +185,18 @@ public class ModItems {
             });
 
     //gacha
+    public static final RegistryObject<Item> ALL_TOOL_GACHA_CUBE = ITEMS.register("all_tool_gacha_cube",
+            () -> new GachaItem(new Item.Properties().tab(ModItemGroup.JACKS_PDM_GROUP), 'A') {
+                @Override
+                public void appendHoverText(ItemStack itemStack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
+                    if (Screen.hasShiftDown()) {
+                        tooltip.add(new TranslationTextComponent("item.jackspdmmod.all_tool_gacha_cube.tooltip"));
+                    } else {
+                        tooltip.add(new TranslationTextComponent("item.jackspdmmod.tooltip_shift"));
+                    }
+                    super.appendHoverText(itemStack, world, tooltip, flag);
+                }
+            });
     public static final RegistryObject<Item> RARE_TOOL_GACHA_CUBE = ITEMS.register("rare_tool_gacha_cube",
             () -> new GachaItem(new Item.Properties().tab(ModItemGroup.JACKS_PDM_GROUP), 'R') {
                 @Override
@@ -233,12 +245,12 @@ public class ModItems {
                     super.appendHoverText(itemStack, world, tooltip, flag);
                 }
             });
-    public static final RegistryObject<Item> ALL_TOOL_GACHA_CUBE = ITEMS.register("all_tool_gacha_cube",
-            () -> new GachaItem(new Item.Properties().tab(ModItemGroup.JACKS_PDM_GROUP), 'A') {
+    public static final RegistryObject<Item> SPECIAL_GACHA_BOX = ITEMS.register("special_gacha_box",
+            () -> new GachaItem(new Item.Properties().tab(ModItemGroup.JACKS_PDM_GROUP), 'S') {
                 @Override
                 public void appendHoverText(ItemStack itemStack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
                     if (Screen.hasShiftDown()) {
-                        tooltip.add(new TranslationTextComponent("item.jackspdmmod.all_tool_gacha_cube.tooltip"));
+                        tooltip.add(new TranslationTextComponent("item.jackspdmmod.special_gacha_box.tooltip"));
                     } else {
                         tooltip.add(new TranslationTextComponent("item.jackspdmmod.tooltip_shift"));
                     }

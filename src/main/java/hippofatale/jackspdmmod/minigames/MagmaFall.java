@@ -96,14 +96,13 @@ public class MagmaFall {
             }
         }
 
+        checkMagmaFall();
+
         //run magma fall
         scheduler.scheduleAtFixedRate(() -> {
             try {
                 if (server != null) {
                     server.execute(() -> {
-                        //check game condition
-                        magmaFallEvents(0, () -> checkMagmaFall());
-
                         //countdown
                         magmaFallEvents(5, () -> countdown(5));
                         magmaFallEvents(6, () -> countdown(4));
@@ -114,12 +113,15 @@ public class MagmaFall {
                         //remove
                         magmaFallEvents(10, () -> removeGlass());
                         magmaFallEvents(15, () -> removeBlock());
+
+                        //check game condition
+                        magmaFallEvents(20, () -> checkMagmaFall());
                     });
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-        }, 5, 20, TimeUnit.SECONDS);
+        }, 0, 20, TimeUnit.SECONDS);
     }
 
     private static void magmaFallEvents(int phaseTime, Runnable phase) {
