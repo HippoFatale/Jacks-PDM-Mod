@@ -72,14 +72,14 @@ public class JacksPDMMod
         put("iron_ore", 20);
         put("gold_ore", 30);
         put("diamond", 300);
-        put("emerald", 5000);
+        put("emerald", 3500);
 
-        put("melon_slice", 512);
-        put("pumpkin", 1300);
-        put("cocoa_beans", 960);
-        put("wheat", 640);
-        put("potato", 384);
-        put("carrot", 384);
+        put("melon_slice", 712);
+        put("pumpkin", 1500);
+        put("cocoa_beans", 1160);
+        put("wheat", 840);
+        put("potato", 584);
+        put("carrot", 584);
     }};
     public static Map<String, Integer> marketQuantities = new HashMap<String, Integer>(){{
         put("coal", 12);

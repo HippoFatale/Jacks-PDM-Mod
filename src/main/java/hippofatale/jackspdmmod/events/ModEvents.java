@@ -17,6 +17,7 @@ import hippofatale.jackspdmmod.title.TitleData;
 import hippofatale.jackspdmmod.util.GachaLists;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
@@ -68,13 +69,25 @@ public class ModEvents {
     public static void onPlayerFirstJoin(PlayerEvent.PlayerLoggedInEvent event) {
         if (!event.getPlayer().level.isClientSide()) {
             ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
-            if (!player.getPersistentData().getBoolean("join_reward_claimed")) {
+
+            CompoundNBT forgeData = player.getPersistentData();
+            CompoundNBT persistedData;
+
+            if (forgeData.contains(ServerPlayerEntity.PERSISTED_NBT_TAG)) {
+                persistedData = forgeData.getCompound(ServerPlayerEntity.PERSISTED_NBT_TAG);
+            } else {
+                persistedData = new CompoundNBT();
+                forgeData.put(ServerPlayerEntity.PERSISTED_NBT_TAG, persistedData);
+            }
+
+            if (!persistedData.getBoolean("join_reward_claimed")) {
                 player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.welcome"), false);
 
                 player.inventory.add(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pixelmon", "poke_ball")), 10));
                 player.inventory.add(new ItemStack(PixelmonItems.exp_share));
 
-                player.getPersistentData().putBoolean("join_reward_claimed", true);
+                persistedData.putBoolean("join_reward_claimed", true);
+                forgeData.put(ServerPlayerEntity.PERSISTED_NBT_TAG, persistedData);
             }
         }
     }

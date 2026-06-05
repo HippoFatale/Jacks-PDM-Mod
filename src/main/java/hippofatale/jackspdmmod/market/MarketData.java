@@ -16,12 +16,12 @@ import java.util.Map;
 import static hippofatale.jackspdmmod.JacksPDMMod.*;
 
 public class MarketData {
-    public static final int melonOriginalPrice = 512;
-    public static final int pumpkinOriginalPrice = 1300;
-    public static final int cocoaOriginalPrice = 960;
-    public static final int wheatOriginalPrice = 640;
-    public static final int potatoOriginalPrice = 384;
-    public static final int carrotOriginalPrice = 384;
+    public static final int melonOriginalPrice = 712;
+    public static final int pumpkinOriginalPrice = 1500;
+    public static final int cocoaOriginalPrice = 1160;
+    public static final int wheatOriginalPrice = 840;
+    public static final int potatoOriginalPrice = 584;
+    public static final int carrotOriginalPrice = 584;
 
     private static final List<Item> itemList = Arrays.asList(new Item[]{
             Items.COAL,

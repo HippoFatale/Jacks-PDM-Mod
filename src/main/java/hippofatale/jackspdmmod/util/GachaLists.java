@@ -215,6 +215,8 @@ public class GachaLists {
         gachaItemList.add(PixelmonItems.gold_bottle_cap);
         gachaItemList.add(PixelmonItems.silver_bottle_cap);
 
+        //removing items
+        gachaItemList.remove(PixelmonItems.amulet_coin);
 
         allToolGacha.addAll(gachaItemList);
     }

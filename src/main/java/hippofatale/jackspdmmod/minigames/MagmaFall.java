@@ -31,7 +31,7 @@ import java.util.stream.Stream;
 import static hippofatale.jackspdmmod.JacksPDMMod.*;
 
 public class MagmaFall {
-    public static final AxisAlignedBB field = new AxisAlignedBB(-1573, 39, 83, -1556, 41, 100);
+    public static final AxisAlignedBB field = new AxisAlignedBB(-1573, 39, 83, -1556, 51, 100);
     private static final AxisAlignedBB platform = new AxisAlignedBB(-1573, 38, 83, -1556, 39, 100);
 //    private static final Vector3d returnPoint = new Vector3d(-93, 44, -8);
     private static final int platformSize = 8;
@@ -49,8 +49,9 @@ public class MagmaFall {
     });
     private static final List<ServerPlayerEntity> survivors = new ArrayList<>();
 
-    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
+    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 //    private static ScheduledFuture<?> future;
+    private static int gameTime = 0;
     private static MinecraftServer server;
     private static World world;
 
@@ -99,47 +100,63 @@ public class MagmaFall {
         checkMagmaFall();
 
         //run magma fall
+        gameTime = 0;
         scheduler.scheduleAtFixedRate(() -> {
             try {
                 if (server != null) {
                     server.execute(() -> {
-                        //countdown
-                        magmaFallEvents(5, () -> countdown(5));
-                        magmaFallEvents(6, () -> countdown(4));
-                        magmaFallEvents(7, () -> countdown(3));
-                        magmaFallEvents(8, () -> countdown(2));
-                        magmaFallEvents(9, () -> countdown(1));
-
-                        //remove
-                        magmaFallEvents(10, () -> removeGlass());
-                        magmaFallEvents(15, () -> removeBlock());
-
-                        //check game condition
-                        magmaFallEvents(20, () -> checkMagmaFall());
-                    });
-                }
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }, 0, 20, TimeUnit.SECONDS);
-    }
-
-    private static void magmaFallEvents(int phaseTime, Runnable phase) {
-        scheduler.schedule(() -> {
-            try {
-                if (server != null) {
-                    server.execute(() -> {
-                        if (!isMiniGameRunning) {
-                            return;
+                        gameTime++;
+                        switch (gameTime) {
+                            case 5:
+                                countdown(5);
+                                break;
+                            case 6:
+                                countdown(4);
+                                break;
+                            case 7:
+                                countdown(3);
+                                break;
+                            case 8:
+                                countdown(2);
+                                break;
+                            case 9:
+                                countdown(1);
+                                break;
+                            case 10:
+                                removeGlass();
+                                break;
+                            case 15:
+                                removeBlock();
+                                break;
+                            case 20:
+                                checkMagmaFall();
+                                gameTime = 0;
+                                break;
                         }
-                        phase.run();
                     });
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-        }, phaseTime, TimeUnit.SECONDS);
+        }, 0, 1, TimeUnit.SECONDS);
     }
+
+//    private static void magmaFallEvents(int phaseTime, Runnable phase) {
+//        scheduler.schedule(() -> {
+//            try {
+//                if (server != null) {
+//                    server.execute(() -> {
+//                        if (!isMiniGameRunning) {
+//                            return;
+//                        }
+//                        phase.run();
+//                    });
+//                }
+//            } catch (Exception e) {
+//                throw new RuntimeException(e);
+//            }
+//        }, phaseTime, TimeUnit.SECONDS);
+//    }
 
     private static void checkMagmaFall() {
         //count survivors

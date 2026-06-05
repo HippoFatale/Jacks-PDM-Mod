@@ -3,7 +3,7 @@
   "item.jackspdmmod.starter_package_ticket": "스타터팩 상품권",
   "item.jackspdmmod.starter_package_ticket.tooltip": "사용 시 §e일반 포켓몬 선택권§r 또는 §9디지몬 가챠 캡슐§r을 선택해서 얻을 수 있습니다.",
   "item.jackspdmmod.basic_pokemon_ticket": "일반 포켓몬 선택권",
-  "item.jackspdmmod.basic_pokemon_ticket.tooltip": "손에 들고 §e/일반산택권 [포켓몬]§r 명령어를 사용할 수 있습니다. 사용 시 §c입력한 포켓몬의 기본 진화 형태§r를 획득합니다.",
+  "item.jackspdmmod.basic_pokemon_ticket.tooltip": "손에 들고 §e/일반선택권 [포켓몬]§r 명령어를 사용할 수 있습니다. 사용 시 §c입력한 포켓몬의 기본 진화 형태§r를 획득합니다.",
   "item.jackspdmmod.shiny_trade_ticket": "이로치 교환권",
   "item.jackspdmmod.shiny_trade_ticket.tooltip": "손에 들고 §e/이로치교환권 [슬롯(1~6)]§r 명령어를 사용할 수 있습니다. 사용 시 §c입력한 슬롯 번호§r의 포켓몬/디지몬이 §c이로치§r가 됩니다.",
   "item.jackspdmmod.tm_trade_ticket": "기술머신 교환권",
