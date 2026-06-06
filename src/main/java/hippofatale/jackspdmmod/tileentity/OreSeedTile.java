@@ -54,7 +54,7 @@ public class OreSeedTile extends TileEntity implements ITickableTileEntity {
             30,
             20,
             10,
-            3
+            1
     });
     int weightTotal = 0;
     List<Block> oreSpawnList = new ArrayList<>();
