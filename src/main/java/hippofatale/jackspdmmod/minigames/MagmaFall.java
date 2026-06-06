@@ -50,7 +50,7 @@ public class MagmaFall {
     private static final List<ServerPlayerEntity> survivors = new ArrayList<>();
 
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-//    private static ScheduledFuture<?> future;
+    private static ScheduledFuture<?> future;
     private static int gameTime = 0;
     private static MinecraftServer server;
     private static World world;
@@ -97,16 +97,16 @@ public class MagmaFall {
             }
         }
 
-        checkMagmaFall();
-
         //run magma fall
         gameTime = 0;
-        scheduler.scheduleAtFixedRate(() -> {
+        future = scheduler.scheduleAtFixedRate(() -> {
             try {
                 if (server != null) {
                     server.execute(() -> {
-                        gameTime++;
-                        switch (gameTime) {
+                        switch (gameTime % 20) {
+                            case 0:
+                                checkMagmaFall();
+                                break;
                             case 5:
                                 countdown(5);
                                 break;
@@ -128,17 +128,14 @@ public class MagmaFall {
                             case 15:
                                 removeBlock();
                                 break;
-                            case 20:
-                                checkMagmaFall();
-                                gameTime = 0;
-                                break;
                         }
+                        gameTime++;
                     });
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-        }, 0, 1, TimeUnit.SECONDS);
+        }, 5, 1, TimeUnit.SECONDS);
     }
 
 //    private static void magmaFallEvents(int phaseTime, Runnable phase) {
@@ -209,6 +206,9 @@ public class MagmaFall {
     }
 
     private static void countdown(int countdown) {
+        if (!isMiniGameRunning) {
+            return;
+        }
         for (ServerPlayerEntity player : survivors) {
             player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.magma_fall_countdown",
                     new StringTextComponent(Integer.toString(countdown)).withStyle(TextFormatting.RED)), false);
@@ -228,6 +228,9 @@ public class MagmaFall {
     }
 
     private static void removeGlass() {
+        if (!isMiniGameRunning) {
+            return;
+        }
         int y = platformMin.getY();
         for (int x = platformMin.getX(); x <= platformMax.getX(); x++) {
             for (int z = platformMin.getZ(); z <= platformMax.getZ(); z++) {
@@ -240,6 +243,9 @@ public class MagmaFall {
     }
 
     private static void removeBlock() {
+        if (!isMiniGameRunning) {
+            return;
+        }
         Stream<BlockState> platformBlockStates = world.getBlockStates(platform);
         BlockState removingBlock = platformBlockStates.filter(blockState -> blockState.is(BlockTags.WOOL)).findAny().orElse(Blocks.AIR.defaultBlockState());
 
@@ -269,6 +275,7 @@ public class MagmaFall {
                     MiniGameRunEvents.returnPoint.z);
         }
         isMiniGameRunning = false;
+        future.cancel(false);
         scheduler.shutdown();
     }
 

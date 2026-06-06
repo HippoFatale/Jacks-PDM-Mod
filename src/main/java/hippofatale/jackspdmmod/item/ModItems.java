@@ -131,6 +131,18 @@ public class ModItems {
                     super.appendHoverText(itemStack, world, tooltip, flag);
                 }
             });
+    public static final RegistryObject<Item> ZYGARDE_FORM_CHANGE_MANUAL = ITEMS.register("zygarde_form_change_manual",
+            () -> new ClubPointItem(new Item.Properties().tab(ModItemGroup.JACKS_PDM_GROUP)) {
+                @Override
+                public void appendHoverText(ItemStack itemStack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
+                    if (Screen.hasShiftDown()) {
+                        tooltip.add(new TranslationTextComponent("item.jackspdmmod.zygarde_form_change_manual.tooltip"));
+                    } else {
+                        tooltip.add(new TranslationTextComponent("item.jackspdmmod.tooltip_shift"));
+                    }
+                    super.appendHoverText(itemStack, world, tooltip, flag);
+                }
+            });
 
     //package
     public static final RegistryObject<Item> STARTER_PACKAGE = ITEMS.register("starter_package",

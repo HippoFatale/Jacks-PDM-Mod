@@ -2,6 +2,9 @@ package hippofatale.jackspdmmod.events;
 
 import hippofatale.jackspdmmod.JacksPDMMod;
 import hippofatale.jackspdmmod.market.MarketData;
+import hippofatale.jackspdmmod.networking.ModMessages;
+import hippofatale.jackspdmmod.networking.packet.CropPriceDataSyncS2CPacket;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -13,6 +16,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static hippofatale.jackspdmmod.JacksPDMMod.marketLastUpdateDate;
+import static hippofatale.jackspdmmod.JacksPDMMod.marketPrices;
 
 @Mod.EventBusSubscriber(modid = JacksPDMMod.MOD_ID)
 public class MarketPriceUpdateEvents {
@@ -53,5 +57,10 @@ public class MarketPriceUpdateEvents {
         MarketData.cropsPriceChange();
         marketLastUpdateDate = updateDate;
         MarketData.saveMarketData();
+
+        for (ServerPlayerEntity player : server.getPlayerList().getPlayers()) {
+            int[] cropPrices = {marketPrices.get("melon_slice"), marketPrices.get("pumpkin"), marketPrices.get("cocoa_beans"), marketPrices.get("wheat"), marketPrices.get("potato"), marketPrices.get("carrot")};
+            ModMessages.sendToPlayer(new CropPriceDataSyncS2CPacket(cropPrices), player);
+        }
     }
 }

@@ -172,6 +172,8 @@ public class WorldProtectionEvents {
                 BlockPos blockPos = event.getPos();
 
                 event.setCanceled(!hasBreakPermission(player, blockPos));
+            } else {
+                event.setCanceled(true);
             }
         }
     }
