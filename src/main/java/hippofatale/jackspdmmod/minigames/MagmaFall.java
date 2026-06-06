@@ -276,7 +276,8 @@ public class MagmaFall {
         }
         isMiniGameRunning = false;
         future.cancel(false);
-        scheduler.shutdown();
+        future = null;
+//        scheduler.shutdown();
     }
 
     private static ITextComponent getMagmaFallBlockText(Block block) {
