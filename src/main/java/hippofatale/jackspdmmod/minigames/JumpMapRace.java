@@ -51,7 +51,7 @@ public class JumpMapRace {
             return;
         }
 
-        //teleport applicants to field
+        //teleport applicants to field + remove rewarded tag
         for (UUID playerUUID : miniGameApplicants) {
             ServerPlayerEntity player = (ServerPlayerEntity) server.overworld().getPlayerByUUID(playerUUID);
             if (player != null && BattleRegistry.getBattle(player) == null) {
@@ -60,6 +60,7 @@ public class JumpMapRace {
                         startArea.maxY,
                         (startArea.minZ + 0.5) + (startArea.getZsize() - 1) * Math.random()
                 );
+                player.getPersistentData().remove("jump_map_race_reward_received");
             }
         }
 
@@ -125,13 +126,20 @@ public class JumpMapRace {
         }
         if (event.player instanceof ServerPlayerEntity) {
             ServerPlayerEntity player = (ServerPlayerEntity) event.player;
+            //check rewarded tag
+            if (player.getPersistentData().getBoolean("jump_map_race_reward_received")) {
+                return;
+            }
+
             if (player.getBoundingBox().intersects(goalArea) && player.gameMode.isSurvival()) {
+                //add rewarded tag
+                player.getPersistentData().putBoolean("jump_map_race_reward_received", true);
                 player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.jump_map_race_goal"), false);
-                player.inventory.add(new ItemStack(Items.NETHER_STAR, 1));
                 player.teleportTo(
                         MiniGameRunEvents.returnPoint.x,
                         MiniGameRunEvents.returnPoint.y,
                         MiniGameRunEvents.returnPoint.z);
+                player.inventory.add(new ItemStack(Items.NETHER_STAR, 1));
             }
         }
     }

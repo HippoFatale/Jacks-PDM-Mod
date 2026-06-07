@@ -10,6 +10,7 @@ import hippofatale.jackspdmmod.item.ModItems;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -235,7 +236,7 @@ public class GachaLists {
                 new ItemStack(ModItems.MYTHICAL_SPAWN_GACHA.get()),
                 new ItemStack(ModItems.DIGIMON_SPAWN_GACHA.get()),
                 new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pixelmon", "master_ball"))),
-                new ItemStack(ModItems.INVITATION_CARD.get()),
+                new ItemStack(Items.NETHER_STAR, 2),
                 new ItemStack(PixelmonItems.gold_bottle_cap)
         });
 

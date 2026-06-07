@@ -45,6 +45,11 @@ public class MarketPriceUpdateEvents {
                     server.execute(() -> {
                         LocalDate updateDate = LocalDate.now(ZoneId.of("Asia/Seoul"));
                         marketPriceUpdate(updateDate);
+
+                        for (ServerPlayerEntity player : server.getPlayerList().getPlayers()) {
+                            int[] cropPrices = {marketPrices.get("melon_slice"), marketPrices.get("pumpkin"), marketPrices.get("cocoa_beans"), marketPrices.get("wheat"), marketPrices.get("potato"), marketPrices.get("carrot")};
+                            ModMessages.sendToPlayer(new CropPriceDataSyncS2CPacket(cropPrices), player);
+                        }
                     });
                 }
             } catch (Exception e) {
@@ -57,10 +62,5 @@ public class MarketPriceUpdateEvents {
         MarketData.cropsPriceChange();
         marketLastUpdateDate = updateDate;
         MarketData.saveMarketData();
-
-        for (ServerPlayerEntity player : server.getPlayerList().getPlayers()) {
-            int[] cropPrices = {marketPrices.get("melon_slice"), marketPrices.get("pumpkin"), marketPrices.get("cocoa_beans"), marketPrices.get("wheat"), marketPrices.get("potato"), marketPrices.get("carrot")};
-            ModMessages.sendToPlayer(new CropPriceDataSyncS2CPacket(cropPrices), player);
-        }
     }
 }

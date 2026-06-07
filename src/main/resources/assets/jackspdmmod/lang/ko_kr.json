@@ -214,6 +214,9 @@
   "message.jackspdmmod.dice_of_fortune_25": "주사위가 손에서 미끄러졌습니다: %s",
   "message.jackspdmmod.dice_of_fortune_1": "주사위가 초라하게 바닥에 떨어졌습니다....: %s",
 
+  "message.jackspdmmod.event_riding_forbidden": "이벤트 참가 중에 탈것 탑승은 금지되어 있습니다.",
+  "message.jackspdmmod.event_send_out_forbidden": "이벤트 참가 중에 몬스터 소환은 금지되어 있습니다.",
+
   "message.jackspdmmod.slot_machine_1st_place": "축하합니다! 포인트를 10배 획득했습니다!",
   "message.jackspdmmod.slot_machine_last_place": "꽝! 다음 기회에....",
   "message.jackspdmmod.open_casino": "도박장 텔레포트를 §a활성화§r했습니다.",
