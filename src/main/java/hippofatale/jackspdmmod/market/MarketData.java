@@ -16,12 +16,12 @@ import java.util.Map;
 import static hippofatale.jackspdmmod.JacksPDMMod.*;
 
 public class MarketData {
-    public static final int melonOriginalPrice = 712;
-    public static final int pumpkinOriginalPrice = 1500;
-    public static final int cocoaOriginalPrice = 1160;
-    public static final int wheatOriginalPrice = 840;
-    public static final int potatoOriginalPrice = 584;
-    public static final int carrotOriginalPrice = 584;
+    public static int melonOriginalPrice = 712;
+    public static int pumpkinOriginalPrice = 1700;
+    public static int cocoaOriginalPrice = 1160;
+    public static int wheatOriginalPrice = 840;
+    public static int potatoOriginalPrice = 584;
+    public static int carrotOriginalPrice = 584;
 
     private static final List<Item> itemList = Arrays.asList(new Item[]{
             Items.COAL,
@@ -89,12 +89,12 @@ public class MarketData {
     }
 
     public static void cropsPriceChange(){
-        marketPrices.replace("melon_slice", melonOriginalPrice +  (int) (Math.random() * 201) - 100);
-        marketPrices.replace("pumpkin", pumpkinOriginalPrice +  (int) (Math.random() * 201) - 100);
-        marketPrices.replace("cocoa_beans", cocoaOriginalPrice +  (int) (Math.random() * 201) - 100);
-        marketPrices.replace("wheat", wheatOriginalPrice +  (int) (Math.random() * 201) - 100);
-        marketPrices.replace("potato", potatoOriginalPrice +  (int) (Math.random() * 201) - 100);
-        marketPrices.replace("carrot", carrotOriginalPrice +  (int) (Math.random() * 201) - 100);
+        marketPrices.replace("melon_slice", melonOriginalPrice + (int) (Math.random() * 201) - 100);
+        marketPrices.replace("pumpkin", pumpkinOriginalPrice + (int) (Math.random() * 201) - 100);
+        marketPrices.replace("cocoa_beans", cocoaOriginalPrice + (int) (Math.random() * 201) - 100);
+        marketPrices.replace("wheat", wheatOriginalPrice + (int) (Math.random() * 201) - 100);
+        marketPrices.replace("potato", potatoOriginalPrice + (int) (Math.random() * 201) - 100);
+        marketPrices.replace("carrot", carrotOriginalPrice + (int) (Math.random() * 201) - 100);
     }
 
     public static Item getItem(int itemIndex) {

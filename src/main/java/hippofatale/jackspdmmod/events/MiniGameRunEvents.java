@@ -15,6 +15,7 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -33,8 +34,6 @@ import static hippofatale.jackspdmmod.JacksPDMMod.*;
 @Mod.EventBusSubscriber(modid = JacksPDMMod.MOD_ID)
 public class MiniGameRunEvents {
     public static final Vector3d returnPoint = new Vector3d(-93, 44, -8);
-
-    private static final AxisAlignedBB eventMazeField = new AxisAlignedBB(-234 - 1, 96 - 1, -1826 + 1, 130 + 1, 109 + 1, -1890 - 1);
 
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
     private static MinecraftServer server;
@@ -151,70 +150,5 @@ public class MiniGameRunEvents {
                 DiceOfFortune.beginDiceOfFortune();
                 break;
         }
-    }
-
-    //anti-cheat
-    //tp when logged in
-    @SubscribeEvent
-    public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-        if (event.getPlayer() instanceof ServerPlayerEntity) {
-            ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
-            if ((player.getBoundingBox().intersects(MagmaFall.field) || player.getBoundingBox().intersects(JumpMapRace.field)) && player.gameMode.isSurvival()) {
-                player.teleportTo(
-                        returnPoint.x,
-                        returnPoint.y,
-                        returnPoint.z);
-            }
-        }
-    }
-
-    //no riding
-    @SubscribeEvent
-    public static void onMiniGameRiding(TickEvent.PlayerTickEvent event) {
-        if (event.player instanceof ServerPlayerEntity) {
-            ServerPlayerEntity player = (ServerPlayerEntity) event.player;
-            if (player.getBoundingBox().intersects(MagmaFall.field) || player.getBoundingBox().intersects(JumpMapRace.field)) {
-                if ((player.getVehicle() instanceof PixelmonEntity || player.getVehicle() instanceof BikeEntity) && player.gameMode.isSurvival()) {
-                    player.stopRiding();
-                    player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.mini_game_riding_forbidden").withStyle(TextFormatting.RED), false);
-                }
-            }
-        }
-    }
-
-    //cancel pokemon send out
-    @SubscribeEvent
-    public static void onMiniGamePokemonSendOut(PokemonSendOutEvent.Pre event) {
-        ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
-        if ((player.getBoundingBox().intersects(MagmaFall.field) || player.getBoundingBox().intersects(JumpMapRace.field)) && player.gameMode.isSurvival()) {
-            event.setCanceled(true);
-            player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.mini_game_send_out_forbidden").withStyle(TextFormatting.RED), false);
-        }
-
-    }
-
-    //no riding
-    @SubscribeEvent
-    public static void onEventGameRiding(TickEvent.PlayerTickEvent event) {
-        if (event.player instanceof ServerPlayerEntity) {
-            ServerPlayerEntity player = (ServerPlayerEntity) event.player;
-            if (player.getBoundingBox().intersects(eventMazeField)) {
-                if ((player.getVehicle() instanceof PixelmonEntity || player.getVehicle() instanceof BikeEntity) && player.gameMode.isSurvival()) {
-                    player.stopRiding();
-                    player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.event_riding_forbidden").withStyle(TextFormatting.RED), false);
-                }
-            }
-        }
-    }
-
-    //cancel pokemon send out
-    @SubscribeEvent
-    public static void onEventPokemonSendOut(PokemonSendOutEvent.Pre event) {
-        ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
-        if ((player.getBoundingBox().intersects(eventMazeField)) && player.gameMode.isSurvival()) {
-            event.setCanceled(true);
-            player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.event_send_out_forbidden").withStyle(TextFormatting.RED), false);
-        }
-
     }
 }

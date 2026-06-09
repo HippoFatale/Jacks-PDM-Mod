@@ -31,7 +31,7 @@ public class JumpMapRace {
     //starting point
     private static final AxisAlignedBB startArea = new AxisAlignedBB(-1557, 58, 73, -1549, 59, 87);
     private static final AxisAlignedBB goalArea = new AxisAlignedBB(-1556, 72, 97, -1553, 73, 100);
-    public static final AxisAlignedBB field = new AxisAlignedBB(-1581, 57, 73, -1549, 80, 100);
+    public static final AxisAlignedBB field = new AxisAlignedBB(-1581 - 1, 57, 73 - 1, -1549 + 1, 80, 100 + 1);
 //    private static final Vector3d returnPoint = new Vector3d(-93, 44, -8);
     private static final int timeLimit = 15; //minutes
 
@@ -55,6 +55,7 @@ public class JumpMapRace {
         for (UUID playerUUID : miniGameApplicants) {
             ServerPlayerEntity player = (ServerPlayerEntity) server.overworld().getPlayerByUUID(playerUUID);
             if (player != null && BattleRegistry.getBattle(player) == null) {
+                player.stopRiding();
                 player.teleportTo(
                         (startArea.minX + 0.5) + (startArea.getXsize() - 1) * Math.random(),
                         startArea.maxY,

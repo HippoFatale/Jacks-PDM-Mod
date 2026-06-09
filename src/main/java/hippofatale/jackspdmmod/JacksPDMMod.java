@@ -3,6 +3,7 @@ package hippofatale.jackspdmmod;
 import com.pixelmonmod.pixelmon.Pixelmon;
 import hippofatale.jackspdmmod.block.ModBlocks;
 import hippofatale.jackspdmmod.club.Club;
+import hippofatale.jackspdmmod.events.AntiCheatEvents;
 import hippofatale.jackspdmmod.events.MiniGameRunEvents;
 import hippofatale.jackspdmmod.events.ModEvents;
 import hippofatale.jackspdmmod.events.UnlockTitleEvents;
@@ -75,7 +76,7 @@ public class JacksPDMMod
         put("emerald", 3500);
 
         put("melon_slice", 712);
-        put("pumpkin", 1500);
+        put("pumpkin", 1700);
         put("cocoa_beans", 1160);
         put("wheat", 840);
         put("potato", 584);
@@ -129,6 +130,7 @@ public class JacksPDMMod
         MinecraftForge.EVENT_BUS.register(UnlockTitleEvents.class);
         Pixelmon.EVENT_BUS.register(UnlockTitleEvents.class);
         Pixelmon.EVENT_BUS.register(MiniGameRunEvents.class);
+        Pixelmon.EVENT_BUS.register(AntiCheatEvents.class);
     }
 
     private void setup(final FMLCommonSetupEvent event)

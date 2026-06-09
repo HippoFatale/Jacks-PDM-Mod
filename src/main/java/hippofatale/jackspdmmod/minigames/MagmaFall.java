@@ -31,7 +31,7 @@ import java.util.stream.Stream;
 import static hippofatale.jackspdmmod.JacksPDMMod.*;
 
 public class MagmaFall {
-    public static final AxisAlignedBB field = new AxisAlignedBB(-1573, 39, 83, -1556, 51, 100);
+    public static final AxisAlignedBB field = new AxisAlignedBB(-1573 - 1, 39, 83 - 1, -1556 + 1, 51, 100 + 1);
     private static final AxisAlignedBB platform = new AxisAlignedBB(-1573, 38, 83, -1556, 39, 100);
 //    private static final Vector3d returnPoint = new Vector3d(-93, 44, -8);
     private static final int platformSize = 8;
@@ -90,9 +90,10 @@ public class MagmaFall {
         for (UUID playerUUID : miniGameApplicants) {
             ServerPlayerEntity player = (ServerPlayerEntity) server.overworld().getPlayerByUUID(playerUUID);
             if (player != null && BattleRegistry.getBattle(player) == null) {
+                player.stopRiding();
                 player.teleportTo(
                         (platform.minX + 0.5) + (platform.getXsize() - 1) * Math.random(),
-                        platform.maxY + 1,
+                        platform.maxY + 2,
                         (platform.minZ + 0.5) + (platform.getZsize() - 1) * Math.random());
             }
         }

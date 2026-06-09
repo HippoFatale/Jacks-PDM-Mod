@@ -60,6 +60,7 @@ public class ModEvents {
         new CasinoSwitchingCommand(event.getDispatcher());
         new OpenMiniGameCommand(event.getDispatcher());
         new ShinyTradeTicketCommand(event.getDispatcher());
+        new MarketPriceCommand(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());
     }
