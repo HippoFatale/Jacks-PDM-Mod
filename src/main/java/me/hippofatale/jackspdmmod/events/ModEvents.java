@@ -1,0 +1,168 @@
+package me.hippofatale.jackspdmmod.events;
+
+import com.pixelmonmod.pixelmon.api.registries.PixelmonItems;
+import com.pixelmonmod.pixelmon.entities.npcs.NPCEntity;
+import me.hippofatale.jackspdmmod.club.ClubManager;
+import me.hippofatale.jackspdmmod.commands.*;
+import me.hippofatale.jackspdmmod.home.HomeManager;
+import me.hippofatale.jackspdmmod.market.MarketItem;
+import me.hippofatale.jackspdmmod.market.MarketManager;
+import me.hippofatale.jackspdmmod.networking.ModMessages;
+import me.hippofatale.jackspdmmod.networking.packet.CropPriceDataSyncS2CPacket;
+import me.hippofatale.jackspdmmod.networking.packet.TeleportDataSyncS2CPacket;
+import me.hippofatale.jackspdmmod.teleport.PlayerTeleportUnlockProvider;
+import me.hippofatale.jackspdmmod.teleport.TeleportData;
+import me.hippofatale.jackspdmmod.title.PlayerTitleProvider;
+import me.hippofatale.jackspdmmod.title.TitleData;
+import me.hippofatale.jackspdmmod.item.custom.GachaLists;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.server.command.ConfigCommand;
+
+import java.util.*;
+
+import static me.hippofatale.jackspdmmod.JacksPDMMod.*;
+
+@Mod.EventBusSubscriber(modid = MOD_ID)
+public class ModEvents {
+    //commands
+    @SubscribeEvent
+    public static void onCommandsRegister(RegisterCommandsEvent event) {
+        new MenuCommand(event.getDispatcher());
+        new TitleCommand(event.getDispatcher());
+        new ClubCommand(event.getDispatcher());
+        new ClubPointCommand(event.getDispatcher());
+        new BasicPokemonTicketCommand(event.getDispatcher());
+        new HomeCommand(event.getDispatcher());
+        new TMTradeTicketCommand(event.getDispatcher());
+        new TRTradeTicketCommand(event.getDispatcher());
+        new PDTransferCommand(event.getDispatcher());
+        new BattleSpectateCommand(event.getDispatcher());
+        new JoinMiniGameCommand(event.getDispatcher());
+        new CasinoSwitchingCommand(event.getDispatcher());
+        new OpenMiniGameCommand(event.getDispatcher());
+        new ShinyTradeTicketCommand(event.getDispatcher());
+
+        ConfigCommand.register(event.getDispatcher());
+    }
+
+    //first join reward
+    @SubscribeEvent
+    public static void onPlayerFirstJoin(PlayerEvent.PlayerLoggedInEvent event) {
+        if (!event.getPlayer().level.isClientSide()) {
+            ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
+
+            CompoundNBT forgeData = player.getPersistentData();
+            CompoundNBT persistedData;
+
+            if (forgeData.contains(ServerPlayerEntity.PERSISTED_NBT_TAG)) {
+                persistedData = forgeData.getCompound(ServerPlayerEntity.PERSISTED_NBT_TAG);
+            } else {
+                persistedData = new CompoundNBT();
+                forgeData.put(ServerPlayerEntity.PERSISTED_NBT_TAG, persistedData);
+            }
+
+            if (!persistedData.getBoolean("join_reward_claimed")) {
+                player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.welcome"), false);
+
+                player.inventory.add(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("pixelmon", "poke_ball")), 10));
+                player.inventory.add(new ItemStack(PixelmonItems.exp_share));
+
+                persistedData.putBoolean("join_reward_claimed", true);
+                forgeData.put(ServerPlayerEntity.PERSISTED_NBT_TAG, persistedData);
+            }
+        }
+    }
+
+    //sync data at login
+    @SubscribeEvent
+    public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+        if (!event.getPlayer().level.isClientSide()) {
+            ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
+            ClubManager.pendingInvites.putIfAbsent(player.getUUID(), new ArrayList<>());
+
+            Map<String, MarketItem> cropDataToSync = new HashMap<>();
+            for (MarketItem item : MarketManager.cropMarketItems) {
+                if (item != null && item.getRegistryName() != null) {
+                    cropDataToSync.put(item.getRegistryName(), item);
+                }
+            }
+            ModMessages.sendToPlayer(new CropPriceDataSyncS2CPacket(cropDataToSync), player);
+        }
+    }
+
+    //display title
+    @SubscribeEvent
+    public static void onPlayerNameFormat(PlayerEvent.NameFormat event) {
+        if (!event.getPlayer().level.isClientSide()) {
+            ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
+            player.getCapability(PlayerTitleProvider.PLAYER_TITLE).ifPresent(playerTitle -> {
+                if (playerTitle.getDisplayingTitleIndex() == 0) {
+                    event.setDisplayname(player.getName());
+                }
+                else {
+                    event.setDisplayname(new StringTextComponent("[")
+                            .append(TitleData.getTitleTextBold(playerTitle.getDisplayingTitleIndex()))
+                            .append("]")
+                            .append(player.getName()));
+                }
+            });
+        }
+    }
+
+    //unlock teleport
+    @SubscribeEvent
+    public static void onPlayerVisitTown(PlayerInteractEvent.EntityInteractSpecific event) {
+        if (!event.getPlayer().level.isClientSide()) {
+            if (event.getTarget() instanceof NPCEntity) {
+                ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
+                NPCEntity npc = (NPCEntity) event.getTarget();
+
+                List<Vector3d> coordinates = TeleportData.getTeleportCoordinatesList();
+                for (Vector3d coordinate : coordinates) {
+                    if (new Vector3d(npc.getX(), npc.getY(), npc.getZ()).distanceTo(coordinate) < 5) {
+                        int townIndex = coordinates.indexOf(coordinate);
+                        player.getCapability(PlayerTeleportUnlockProvider.PLAYER_TELEPORT_UNLOCK).ifPresent(playerTeleportUnlock -> {
+                            if (playerTeleportUnlock.getTeleportUnlocked(townIndex) == 0) {
+                                playerTeleportUnlock.unlockTeleport(townIndex);
+                                ModMessages.sendToPlayer(new TeleportDataSyncS2CPacket(playerTeleportUnlock.getTeleportUnlockedList(), playerTeleportUnlock.getHomeUnlocked(), playerTeleportUnlock.getClubHomeUnlocked()), player);
+                                player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.teleport_unlocked", TeleportData.getTeleportName(townIndex)), false);
+                            }
+                        });
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    //data
+    @SubscribeEvent
+    public static void onServerAboutToStart(FMLServerAboutToStartEvent event) {
+        ClubManager.load();
+        HomeManager.load();
+        MarketManager.load();
+
+        GachaLists.buildLists();
+    }
+
+    @SubscribeEvent
+    public static void onServerStopped(FMLServerStoppedEvent event) {
+        ClubManager.save();
+        HomeManager.save();
+        MarketManager.save();
+    }
+}

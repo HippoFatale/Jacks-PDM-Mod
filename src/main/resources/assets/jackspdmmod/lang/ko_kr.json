@@ -74,6 +74,12 @@
   "menu.jackspdmmod.slot_machine_cost": "비용: 10000P",
   "menu.jackspdmmod.slot_machine_balance": "잔액: %sP",
   "menu.jackspdmmod.slot_machine_play": "도전!",
+  "menu.jackspdmmod.theme": "테마",
+  "theme.jackspdmmod.devil": "DEVIL",
+  "theme.jackspdmmod.joker": "JOKER",
+  "theme.jackspdmmod.blagon": "BLAGON",
+  "theme.jackspdmmod.soteria": "SOTERIA",
+
 
 
   "title.jackspdmmod.stealth_unit": "바보",
