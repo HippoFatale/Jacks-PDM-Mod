@@ -7,6 +7,7 @@ import me.hippofatale.jackspdmmod.networking.packet.*;
 import me.hippofatale.jackspdmmod.networking.packet.ClubHomeTeleportC2SPacket;
 import me.hippofatale.jackspdmmod.networking.packet.PersonalHomeTeleportC2SPacket;
 import me.hippofatale.jackspdmmod.networking.packet.TeleportC2SPacket;
+import me.hippofatale.jackspdmmod.teleport.TeleportManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
@@ -29,38 +30,26 @@ public class TeleportScreen extends Screen {
     protected void init() {
         super.init();
 
-        //default
-        teleportButton((this.width - buttonWidth) / 2 - buttonWidth * 1, (this.height - buttonHeight) / 2 - buttonHeight * 3 - 10, 0, TeleportScreen::teleport0, false);
-        teleportButton((this.width - buttonWidth) / 2 - buttonWidth * 0, (this.height - buttonHeight) / 2 - buttonHeight * 3 - 10, 1, TeleportScreen::teleport1, false);
-        teleportButton((this.width - buttonWidth) / 2 - buttonWidth * -1, (this.height - buttonHeight) / 2 - buttonHeight * 3 - 10, 2, TeleportScreen::teleport2, false);
-        teleportButton((this.width - buttonWidth) / 2 - buttonWidth * 1, (this.height - buttonHeight) / 2 - buttonHeight * 2 - 10, 3, TeleportScreen::teleport3, false);
+        for (int i = 0; i < TeleportManager.getTeleportCount(); i++) {
+            int teleportIndex = i;
+
+            teleportButton((this.width - buttonWidth) / 2 - buttonWidth * (1 - i % 3), (this.height - buttonHeight) / 2 - buttonHeight * (3 - i / 3) - 10,
+                    teleportIndex, button -> teleport(teleportIndex), false);
+        }
 
         //homes
-        this.addButton(new Button((this.width - buttonWidth) / 2 - buttonWidth * 0, (this.height - buttonHeight) / 2 - buttonHeight * 2 - 10, buttonWidth, buttonHeight,
+        this.addButton(new Button((this.width - buttonWidth) / 2 - buttonWidth * 0, (this.height - buttonHeight) / 2 - buttonHeight * -2, buttonWidth, buttonHeight,
                 new TranslationTextComponent("menu.jackspdmmod.teleport_home"), TeleportScreen::teleportHome));
-        this.addButton(new Button((this.width - buttonWidth) / 2 - buttonWidth * -1, (this.height - buttonHeight) / 2 - buttonHeight * 2 - 10, buttonWidth, buttonHeight,
+        this.addButton(new Button((this.width - buttonWidth) / 2 - buttonWidth * -1, (this.height - buttonHeight) / 2 - buttonHeight * -2, buttonWidth, buttonHeight,
                 new TranslationTextComponent("menu.jackspdmmod.teleport_club_home"), TeleportScreen::teleportClubHome));
-
-        //towns
-        teleportButton((this.width - buttonWidth) / 2 - buttonWidth * 1, (this.height - buttonHeight) / 2 - buttonHeight * 1, 4, TeleportScreen::teleport4, false);
-        teleportButton((this.width - buttonWidth) / 2 - buttonWidth * 0, (this.height - buttonHeight) / 2 - buttonHeight * 1, 5, TeleportScreen::teleport5, false);
-        teleportButton((this.width - buttonWidth) / 2 - buttonWidth * -1, (this.height - buttonHeight) / 2 - buttonHeight * 1, 6, TeleportScreen::teleport6, false);
-        teleportButton((this.width - buttonWidth) / 2 - buttonWidth * 1, (this.height - buttonHeight) / 2 - buttonHeight * -0, 7, TeleportScreen::teleport7, false);
-        teleportButton((this.width - buttonWidth) / 2 - buttonWidth * 0, (this.height - buttonHeight) / 2 - buttonHeight * 0, 8, TeleportScreen::teleport8, false);
-        teleportButton((this.width - buttonWidth) / 2 - buttonWidth * -1, (this.height - buttonHeight) / 2 - buttonHeight * 0, 9, TeleportScreen::teleport9, false);
-        teleportButton((this.width - buttonWidth) / 2 - buttonWidth * 1, (this.height - buttonHeight) / 2 - buttonHeight * -1, 10, TeleportScreen::teleport10, false);
-        teleportButton((this.width - buttonWidth) / 2 - buttonWidth * 0, (this.height - buttonHeight) / 2 - buttonHeight * -1, 11, TeleportScreen::teleport11, false);
-        teleportButton((this.width - buttonWidth) / 2 - buttonWidth * -1, (this.height - buttonHeight) / 2 - buttonHeight * -1, 12, TeleportScreen::teleport12, false);
-        teleportButton((this.width - buttonWidth) / 2 - buttonWidth * 1, (this.height - buttonHeight) / 2 - buttonHeight * -2, 13, TeleportScreen::teleport13, false);
-        teleportButton((this.width - buttonWidth) / 2 - buttonWidth * 0, (this.height - buttonHeight) / 2 - buttonHeight * -2, 14, TeleportScreen::teleport14, false);
     }
 
-    private void teleportButton(int x, int y, int teleportIndex, Button.IPressable button, boolean isHidden) {
-        if (ClientTeleportData.getTeleportUnlocked(teleportIndex) == 1) {
+    private void teleportButton(int x, int y, int teleportIndex, Button.IPressable button, boolean isUnlocked) {
+        if (ClientTeleportData.isTeleportUnlocked(teleportIndex)) {
             this.addButton(new Button(x, y, buttonWidth, buttonHeight,
                     ClientTeleportData.getTeleportName(teleportIndex), button));
         }
-        else if (!isHidden){
+        else if (!isUnlocked){
             this.addButton(new Button(x, y, buttonWidth, buttonHeight,
                     new StringTextComponent("???"), TeleportScreen::teleportNotUnlocked));
         }
@@ -68,7 +57,7 @@ public class TeleportScreen extends Screen {
 
     @Override
     public void render(MatrixStack p_230430_1_, int p_230430_2_, int p_230430_3_, float p_230430_4_) {
-        ScreenBackgrounds.drawReRBackground(p_230430_1_, width, height, 140, 140, 90, 90, font, title);
+        ScreenBackgrounds.drawReRBackground(p_230430_1_, width, height, 140, 140, 90, 80, font, title);
         int leftX = this.width / 2 - 140;
         int topY = this.height / 2 - 90;
         int rightX = this.width / 2 + 140;
@@ -92,64 +81,8 @@ public class TeleportScreen extends Screen {
         Minecraft.getInstance().setScreen(null);
     }
 
-    private static void teleport0(Button button) {
-        ModMessages.sendToServer(new TeleportC2SPacket(0));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void teleport1(Button button) {
-        ModMessages.sendToServer(new TeleportC2SPacket(1));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void teleport2(Button button) {
-        ModMessages.sendToServer(new TeleportC2SPacket(2));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void teleport3(Button button) {
-        ModMessages.sendToServer(new TeleportC2SPacket(3));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void teleport4(Button button) {
-        ModMessages.sendToServer(new TeleportC2SPacket(4));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void teleport5(Button button) {
-        ModMessages.sendToServer(new TeleportC2SPacket(5));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void teleport6(Button button) {
-        ModMessages.sendToServer(new TeleportC2SPacket(6));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void teleport7(Button button) {
-        ModMessages.sendToServer(new TeleportC2SPacket(7));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void teleport8(Button button) {
-        ModMessages.sendToServer(new TeleportC2SPacket(8));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void teleport9(Button button) {
-        ModMessages.sendToServer(new TeleportC2SPacket(9));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void teleport10(Button button) {
-        ModMessages.sendToServer(new TeleportC2SPacket(10));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void teleport11(Button button) {
-        ModMessages.sendToServer(new TeleportC2SPacket(11));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void teleport12(Button button) {
-        ModMessages.sendToServer(new TeleportC2SPacket(12));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void teleport13(Button button) {
-        ModMessages.sendToServer(new TeleportC2SPacket(13));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void teleport14(Button button) {
-        ModMessages.sendToServer(new TeleportC2SPacket(14));
+    private static void teleport(int index) {
+        ModMessages.sendToServer(new TeleportC2SPacket(index));
         Minecraft.getInstance().setScreen(null);
     }
 

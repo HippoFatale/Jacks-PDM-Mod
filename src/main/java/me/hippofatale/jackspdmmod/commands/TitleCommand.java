@@ -6,7 +6,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import me.hippofatale.jackspdmmod.networking.ModMessages;
 import me.hippofatale.jackspdmmod.networking.packet.TitleDataSyncS2CPacket;
 import me.hippofatale.jackspdmmod.title.PlayerTitleProvider;
-import me.hippofatale.jackspdmmod.title.TitleData;
+import me.hippofatale.jackspdmmod.title.TitleManager;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
@@ -31,7 +31,7 @@ public class TitleCommand {
                 if (isUnlock) {
                     playerTitle.unlockTitle(titleIndex);
                     ModMessages.sendToPlayer(new TitleDataSyncS2CPacket(playerTitle.getDisplayingTitleIndex(), playerTitle.getTitleUnlockedList()), player);
-                    player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.title_unlocked", TitleData.getTitleTextBold(titleIndex)), false);
+                    player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.title_unlocked", TitleManager.getTitleBold(titleIndex)), false);
                 }
                 else {
                     playerTitle.lockTitle(titleIndex);

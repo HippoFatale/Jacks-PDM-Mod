@@ -7,29 +7,30 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import java.util.function.Supplier;
 
 public class TeleportDataSyncS2CPacket {
-    private int[] teleportUnlockedList = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+    private boolean[] teleportUnlockedList;
     private boolean homeUnlocked = false;
     private boolean clubHomeUnlocked = false;
 
-    public TeleportDataSyncS2CPacket(int[] teleportUnlockedList, boolean homeUnlocked, boolean clubHomeUnlocked) {
-        for (int i = 0; i < this.teleportUnlockedList.length; i++) {
-            this.teleportUnlockedList[i] = teleportUnlockedList[i];
-        }
+    public TeleportDataSyncS2CPacket(boolean[] teleportUnlockedList, boolean homeUnlocked, boolean clubHomeUnlocked) {
+        this.teleportUnlockedList = teleportUnlockedList.clone();
         this.homeUnlocked = homeUnlocked;
         this.clubHomeUnlocked = clubHomeUnlocked;
     }
 
     public TeleportDataSyncS2CPacket(ByteBuf buf) {
-        for (int i = 0; i < this.teleportUnlockedList.length; i++) {
-            this.teleportUnlockedList[i] = buf.readInt();
+        int teleportCount = buf.readInt();
+        this.teleportUnlockedList = new boolean[teleportCount];
+        for (int i = 0; i < teleportCount; i++) {
+            this.teleportUnlockedList[i] = buf.readBoolean();
         }
         this.homeUnlocked = buf.readBoolean();
         this.clubHomeUnlocked = buf.readBoolean();
     }
 
     public void toBytes(ByteBuf buf) {
-        for (int i = 0; i < this.teleportUnlockedList.length; i++) {
-            buf.writeInt(teleportUnlockedList[i]);
+        buf.writeInt(teleportUnlockedList.length);
+        for (int i = 0; i < teleportUnlockedList.length; i++) {
+            buf.writeBoolean(teleportUnlockedList[i]);
         }
         buf.writeBoolean(homeUnlocked);
         buf.writeBoolean(clubHomeUnlocked);

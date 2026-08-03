@@ -1,7 +1,7 @@
 package me.hippofatale.jackspdmmod.networking.packet;
 
 import me.hippofatale.jackspdmmod.minigames.MiniGameManager;
-import me.hippofatale.jackspdmmod.teleport.TeleportData;
+import me.hippofatale.jackspdmmod.teleport.TeleportManager;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -41,14 +41,14 @@ public class TeleportC2SPacket {
                 if (player.getVehicle() != null) {
                     Entity vehicle = player.getVehicle();
                     player.stopRiding();
-                    player.moveTo(TeleportData.getTeleportCoordinates(teleportIndex));
-                    vehicle.moveTo(TeleportData.getTeleportCoordinates(teleportIndex));
+                    player.moveTo(TeleportManager.getTeleportPos(teleportIndex));
+                    vehicle.moveTo(TeleportManager.getTeleportPos(teleportIndex));
                     player.startRiding(vehicle);
                 } else {
-                    player.moveTo(TeleportData.getTeleportCoordinates(teleportIndex));
+                    player.moveTo(TeleportManager.getTeleportPos(teleportIndex));
                 }
                 player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.teleported",
-                        TeleportData.getTeleportName(teleportIndex).copy().withStyle(TextFormatting.YELLOW)), false);
+                        TeleportManager.getTeleportName(teleportIndex).copy().withStyle(TextFormatting.YELLOW)), false);
             }
         });
         return true;

@@ -6,7 +6,7 @@ import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import me.hippofatale.jackspdmmod.networking.ModMessages;
 import me.hippofatale.jackspdmmod.networking.packet.TitleDataSyncS2CPacket;
 import me.hippofatale.jackspdmmod.title.PlayerTitleProvider;
-import me.hippofatale.jackspdmmod.title.TitleData;
+import me.hippofatale.jackspdmmod.title.TitleManager;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -25,10 +25,10 @@ import static me.hippofatale.jackspdmmod.JacksPDMMod.MOD_ID;
 public class UnlockTitleEvents {
     private static void unlockTitle(ServerPlayerEntity player, int titleIndex) {
         player.getCapability(PlayerTitleProvider.PLAYER_TITLE).ifPresent(playerTitle -> {
-            if (playerTitle.getTitleUnlocked(titleIndex) == 0) {
+            if (!playerTitle.isTitleUnlocked(titleIndex)) {
                 playerTitle.unlockTitle(titleIndex);
                 ModMessages.sendToPlayer(new TitleDataSyncS2CPacket(playerTitle.getDisplayingTitleIndex(), playerTitle.getTitleUnlockedList()), player);
-                player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.title_unlocked", TitleData.getTitleTextBold(titleIndex)), false);
+                player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.title_unlocked", TitleManager.getTitleBold(titleIndex)), false);
             }
         });
     }

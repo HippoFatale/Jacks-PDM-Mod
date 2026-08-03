@@ -15,7 +15,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -98,6 +100,17 @@ public class HomeManager {
         } catch (Exception e) {
             JacksPDMMod.LOGGER.error("하우징 AABB 범위를 복원하는 중 오류 발생!", e);
         }
+    }
+
+    public static List<Home> getSharedHomesForPlayer(UUID playerUUID) {
+        List<Home> sharedHomes = new ArrayList<>();
+        for (Map.Entry<UUID, Home> entry : personalHomes.entrySet()) {
+            Home home = entry.getValue();
+            if (home.getSharedPlayers().contains(playerUUID)) {
+                sharedHomes.add(home);
+            }
+        }
+        return sharedHomes;
     }
 
     private static class HomeSaveData {

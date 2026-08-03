@@ -11,9 +11,9 @@ import me.hippofatale.jackspdmmod.networking.ModMessages;
 import me.hippofatale.jackspdmmod.networking.packet.CropPriceDataSyncS2CPacket;
 import me.hippofatale.jackspdmmod.networking.packet.TeleportDataSyncS2CPacket;
 import me.hippofatale.jackspdmmod.teleport.PlayerTeleportUnlockProvider;
-import me.hippofatale.jackspdmmod.teleport.TeleportData;
+import me.hippofatale.jackspdmmod.teleport.TeleportManager;
 import me.hippofatale.jackspdmmod.title.PlayerTitleProvider;
-import me.hippofatale.jackspdmmod.title.TitleData;
+import me.hippofatale.jackspdmmod.title.TitleManager;
 import me.hippofatale.jackspdmmod.item.custom.GachaLists;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -115,7 +115,7 @@ public class ModEvents {
                 }
                 else {
                     event.setDisplayname(new StringTextComponent("[")
-                            .append(TitleData.getTitleTextBold(playerTitle.getDisplayingTitleIndex()))
+                            .append(TitleManager.getTitleBold(playerTitle.getDisplayingTitleIndex()))
                             .append("]")
                             .append(player.getName()));
                 }
@@ -131,15 +131,15 @@ public class ModEvents {
                 ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
                 NPCEntity npc = (NPCEntity) event.getTarget();
 
-                List<Vector3d> coordinates = TeleportData.getTeleportCoordinatesList();
+                List<Vector3d> coordinates = TeleportManager.getTeleportPosList();
                 for (Vector3d coordinate : coordinates) {
                     if (new Vector3d(npc.getX(), npc.getY(), npc.getZ()).distanceTo(coordinate) < 5) {
                         int townIndex = coordinates.indexOf(coordinate);
                         player.getCapability(PlayerTeleportUnlockProvider.PLAYER_TELEPORT_UNLOCK).ifPresent(playerTeleportUnlock -> {
-                            if (playerTeleportUnlock.getTeleportUnlocked(townIndex) == 0) {
+                            if (!playerTeleportUnlock.isTeleportUnlocked(townIndex)) {
                                 playerTeleportUnlock.unlockTeleport(townIndex);
-                                ModMessages.sendToPlayer(new TeleportDataSyncS2CPacket(playerTeleportUnlock.getTeleportUnlockedList(), playerTeleportUnlock.getHomeUnlocked(), playerTeleportUnlock.getClubHomeUnlocked()), player);
-                                player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.teleport_unlocked", TeleportData.getTeleportName(townIndex)), false);
+                                ModMessages.sendToPlayer(new TeleportDataSyncS2CPacket(playerTeleportUnlock.getTeleportUnlockedList(), playerTeleportUnlock.isHomeUnlocked(), playerTeleportUnlock.isClubHomeUnlocked()), player);
+                                player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.teleport_unlocked", TeleportManager.getTeleportName(townIndex)), false);
                             }
                         });
                         return;

@@ -4,19 +4,25 @@ import net.minecraft.nbt.CompoundNBT;
 
 public class PlayerTitle {
     private int displayingTitleIndex = 0;
-    private int[] titleUnlockedList = {1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-//    private int[] titleUnlockedList = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+    private boolean[] titleUnlockedList;
 
-    public int getTitleUnlocked(int titleIndex) {
+    public PlayerTitle() {
+        titleUnlockedList = new boolean[TitleManager.getTitleCount()];
+        for (int i = 0; i < titleUnlockedList.length; i++) {
+            titleUnlockedList[i] = TitleManager.isObtainedByDefault(i);
+        }
+    }
+
+    public boolean isTitleUnlocked(int titleIndex) {
         return titleUnlockedList[titleIndex];
     }
 
     public void unlockTitle(int titleIndex) {
-        this.titleUnlockedList[titleIndex] = 1;
+        this.titleUnlockedList[titleIndex] = true;
     }
 
     public void lockTitle(int titleIndex) {
-        this.titleUnlockedList[titleIndex] = 0;
+        this.titleUnlockedList[titleIndex] = false;
     }
 
     public int getDisplayingTitleIndex() {
@@ -27,7 +33,7 @@ public class PlayerTitle {
         this.displayingTitleIndex = titleIndex;
     }
 
-    public int[] getTitleUnlockedList() {
+    public boolean[] getTitleUnlockedList() {
         return titleUnlockedList;
     }
 
@@ -38,11 +44,26 @@ public class PlayerTitle {
 
     public void saveNBTData(CompoundNBT nbt) {
         nbt.putInt("displaying_title_index", displayingTitleIndex);
-        nbt.putIntArray("title_unlocked_list", titleUnlockedList);
+        byte[] byteArray = new byte[titleUnlockedList.length];
+        for (int i = 0; i < titleUnlockedList.length; i++) {
+            byteArray[i] = (byte) (titleUnlockedList[i] ? 1 : 0);
+        }
+        nbt.putByteArray("title_unlocked_list", byteArray);
     }
 
     public void loadNBTData(CompoundNBT nbt) {
         displayingTitleIndex = nbt.getInt("displaying_title_index");
-        titleUnlockedList = nbt.getIntArray("title_unlocked_list").clone();
+        byte[] byteArray = nbt.getByteArray("title_unlocked_list");
+        int titleCount = TitleManager.getTitleCount();
+        titleUnlockedList = new boolean[titleCount];
+        for (int i = 0; i < Math.min(byteArray.length, titleCount); i++) {
+            titleUnlockedList[i] = byteArray[i] == 1;
+        }
+        // Ensure titles obtained by default are always unlocked
+        for (int i = 0; i < titleCount; i++) {
+            if (TitleManager.isObtainedByDefault(i)) {
+                titleUnlockedList[i] = true;
+            }
+        }
     }
 }

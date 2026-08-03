@@ -31,10 +31,6 @@ public class MenuScreen extends Screen {
     protected void init() {
         super.init();
 
-//        if (ModClientConfig.SPEC.isLoaded()) {
-//
-//        }
-
         addButton(new Button(width / 2 - buttonWidth / 2, height / 2 - 55, buttonWidth, buttonHeight,
                 new TranslationTextComponent("menu.jackspdmmod.teleport"), MenuScreen::openTeleport));
         addButton(new Button(width / 2 - buttonWidth / 2, height / 2 - 25, buttonWidth, buttonHeight,
@@ -44,7 +40,7 @@ public class MenuScreen extends Screen {
         addButton(new Button(width / 2 - buttonWidth / 2, height / 2 + 35, buttonWidth, buttonHeight,
                 new TranslationTextComponent("menu.jackspdmmod.market"), MenuScreen::openMarket));
 
-        addButton(new ImageButton(width / 2 + buttonWidth / 2 - 16, height / 2 + 54, 16, 16, 0, 0, 0, themeIconPath, 16, 16, MenuScreen::openTheme));
+        addButton(new ImageButton(width / 2 + buttonWidth / 2 - 16, height / 2 + 54, 16, 16, 0, 0, 0, themeIconPath, 8, 8, MenuScreen::openTheme));
     }
 
     @Override

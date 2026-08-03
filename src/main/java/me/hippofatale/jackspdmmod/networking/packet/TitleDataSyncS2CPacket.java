@@ -8,26 +8,27 @@ import java.util.function.Supplier;
 
 public class TitleDataSyncS2CPacket {
     private int displayingTitleIndex = 0;
-    private int[] titleUnlockedList = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+    private boolean[] titleUnlockedList;
 
-    public TitleDataSyncS2CPacket(int displayingTitleIndex, int[] titleUnlockedList) {
+    public TitleDataSyncS2CPacket(int displayingTitleIndex, boolean[] titleUnlockedList) {
         this.displayingTitleIndex = displayingTitleIndex;
-        for (int i = 0; i < this.titleUnlockedList.length; i++) {
-            this.titleUnlockedList[i] = titleUnlockedList[i];
-        }
+        this.titleUnlockedList = titleUnlockedList.clone();
     }
 
     public TitleDataSyncS2CPacket(ByteBuf buf) {
         this.displayingTitleIndex = buf.readInt();
-        for (int i = 0; i < this.titleUnlockedList.length; i++) {
-            this.titleUnlockedList[i] = buf.readInt();
+        int titleCount = buf.readInt();
+        this.titleUnlockedList = new boolean[titleCount];
+        for (int i = 0; i < titleCount; i++) {
+            this.titleUnlockedList[i] = buf.readBoolean();
         }
     }
 
     public void toBytes(ByteBuf buf) {
         buf.writeInt(displayingTitleIndex);
-        for (int i = 0; i < this.titleUnlockedList.length; i++) {
-            buf.writeInt(titleUnlockedList[i]);
+        buf.writeInt(titleUnlockedList.length);
+        for (int i = 0; i < titleUnlockedList.length; i++) {
+            buf.writeBoolean(titleUnlockedList[i]);
         }
     }
 

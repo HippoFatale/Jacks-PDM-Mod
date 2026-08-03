@@ -54,7 +54,7 @@ public class MarketScreen extends Screen {
             int itemIndex = i;
             MarketItem marketItem = MarketManager.cropMarketItems.get(itemIndex);
             addButton(new Button(width / 2 + 35, (height - buttonHeight) / 2 - buttonHeight * (3 - i) - 2, buttonWidth, buttonHeight,
-                    new StringTextComponent(String.valueOf(marketItem.getDefaultPrice())).append("P"), button -> {ModMessages.sendToServer(new MarketSellC2SPacket(itemIndex));}));
+                    new StringTextComponent(String.valueOf(marketItem.getPrice())).append("P"), button -> {ModMessages.sendToServer(new MarketSellC2SPacket(itemIndex));}));
         }
 
         for (int i = 0; i < MarketManager.cropMarketItems.size(); i++) {
@@ -93,7 +93,7 @@ public class MarketScreen extends Screen {
             MarketItem marketItem = MarketManager.cropMarketItems.get(i);
             blit(p_230430_1_, width / 2 - buttonWidth + 20, (height - buttonHeight) / 2 - buttonHeight * (3 - i),
                     10, 0f, 0f, 16, 16, 16, 16);
-            drawString(p_230430_1_, font, new StringTextComponent("×").append(String.valueOf(marketItem.getQuantity())).append(": ").append(String.valueOf(marketItem.getPrice())).append("P"),
+            drawString(p_230430_1_, font, new StringTextComponent("×").append(String.valueOf(marketItem.getQuantity())).append(": ").append(String.valueOf(marketItem.getDefaultPrice())).append("P"),
                     width / 2 - buttonWidth + 20 + 17, (height - buttonHeight) / 2 - buttonHeight * (3 - i) + 4, 16777215);
         }
 

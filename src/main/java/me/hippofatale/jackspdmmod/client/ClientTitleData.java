@@ -1,64 +1,49 @@
 package me.hippofatale.jackspdmmod.client;
 
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import me.hippofatale.jackspdmmod.title.TitleManager;
 
-import java.util.Arrays;
-import java.util.List;
+import net.minecraft.util.text.ITextComponent;
 
 public class ClientTitleData {
     private static int displayingTitleIndex = 0;
-    private static int[] titleUnlockedList = {1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    private static boolean[] titleUnlockedList;
 
-    public static int getTitleUnlocked(int titleIndex) {
+    static {
+        titleUnlockedList = new boolean[TitleManager.getTitleCount()];
+        for (int i = 0; i < titleUnlockedList.length; i++) {
+            titleUnlockedList[i] = TitleManager.isObtainedByDefault(i);
+        }
+    }
+
+    public static boolean isTitleUnlocked(int titleIndex) {
         return titleUnlockedList[titleIndex];
     }
 
     public static void unlockTitle(int titleIndex) {
-        ClientTitleData.titleUnlockedList[titleIndex] = 1;
+        titleUnlockedList[titleIndex] = true;
     }
 
     public static void lockTitle(int titleIndex) {
-        ClientTitleData.titleUnlockedList[titleIndex] = 0;
+        titleUnlockedList[titleIndex] = false;
     }
 
     public static int getDisplayingTitleIndex() {
-        return ClientTitleData.displayingTitleIndex;
+        return displayingTitleIndex;
     }
 
     public static void setDisplayingTitleIndex(int titleIndex) {
         ClientTitleData.displayingTitleIndex = titleIndex;
     }
 
-    public static void setTitleUnlockedList(int[] unlockedList) {
-        ClientTitleData.titleUnlockedList = unlockedList.clone();
+    public static void setTitleUnlockedList(boolean[] unlockedList) {
+        titleUnlockedList = unlockedList.clone();
     }
-    private static List<ITextComponent> titleList = Arrays.asList(new ITextComponent[]{
-            new StringTextComponent(""),
-            new TranslationTextComponent("title.jackspdmmod.stealth_unit").withStyle(TextFormatting.YELLOW),
-            new TranslationTextComponent("title.jackspdmmod.vanguard_unit").withStyle(TextFormatting.YELLOW),
-            new TranslationTextComponent("title.jackspdmmod.artillery_unit").withStyle(TextFormatting.YELLOW),
-            new TranslationTextComponent("title.jackspdmmod.intelligence_unit").withStyle(TextFormatting.YELLOW),
-            new TranslationTextComponent("title.jackspdmmod.life_of_a_miner").withStyle(TextFormatting.YELLOW),
-            new TranslationTextComponent("title.jackspdmmod.life_of_a_farmer").withStyle(TextFormatting.YELLOW),
-            new TranslationTextComponent("title.jackspdmmod.legendary_owner").withStyle(TextFormatting.YELLOW),
-            new TranslationTextComponent("title.jackspdmmod.mythical_owner").withStyle(TextFormatting.YELLOW),
-            new TranslationTextComponent("title.jackspdmmod.digidestined").withStyle(TextFormatting.YELLOW),
-            new TranslationTextComponent("title.jackspdmmod.no_server_no_life").withStyle(TextFormatting.YELLOW),
-            new TranslationTextComponent("title.jackspdmmod.everyones_neighbor").withStyle(TextFormatting.YELLOW),
-            new TranslationTextComponent("title.jackspdmmod.blacklisted").withStyle(TextFormatting.GRAY),
-            new TranslationTextComponent("title.jackspdmmod.gold_rich").withStyle(TextFormatting.GOLD),
-            new TranslationTextComponent("title.jackspdmmod.diamond_rich").withStyle(TextFormatting.AQUA),
-            new TranslationTextComponent("title.jackspdmmod.pdm_season1_champion").withStyle(TextFormatting.DARK_RED),
-            new TranslationTextComponent("title.jackspdmmod.pdm_season2_champion").withStyle(TextFormatting.GOLD)
-    });
 
     public static ITextComponent getTitleText(int titleIndex) {
-        return titleList.get(titleIndex);
+        return TitleManager.getTitle(titleIndex);
     }
+
     public static ITextComponent getTitleTextBold(int titleIndex) {
-        return titleList.get(titleIndex).copy().withStyle(TextFormatting.BOLD);
+        return TitleManager.getTitleBold(titleIndex);
     }
 }

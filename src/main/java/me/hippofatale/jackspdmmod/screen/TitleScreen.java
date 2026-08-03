@@ -4,6 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import me.hippofatale.jackspdmmod.client.ClientTitleData;
 import me.hippofatale.jackspdmmod.networking.ModMessages;
 import me.hippofatale.jackspdmmod.networking.packet.TitleDisplayC2SPacket;
+import me.hippofatale.jackspdmmod.title.TitleManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
@@ -15,70 +16,85 @@ import net.minecraft.util.text.TranslationTextComponent;
 
 public class TitleScreen extends Screen {
     private final ITextComponent title = new StringTextComponent("· ").append(new TranslationTextComponent("menu.jackspdmmod.title"));
-    private final int buttonWidth = 80;
-    private final int bigButtonWidth = 120;
-    private final int buttonHeight = 20;
+    private int pageOffset = 0;
+    private static final int TITLES_PER_PAGE = 5;
 
     protected TitleScreen() {
+        this(0);
+    }
+
+    protected TitleScreen(int pageOffset) {
         super(new TranslationTextComponent("menu.jackspdmmod.title"));
+        this.pageOffset = pageOffset;
     }
 
     @Override
     protected void init() {
         super.init();
 
-        addButton(new Button((width - buttonWidth) / 2 - buttonWidth * 1, height / 2 - buttonHeight * 4 - 10, buttonWidth, buttonHeight,
+        buttons.clear();
+        children.clear();
+
+        int buttonWidth = 120;
+        int buttonHeight = 20;
+        int startY = height / 2 - 100;
+        int spacing = 25;
+
+        int startIndex = 1 + pageOffset * TITLES_PER_PAGE;
+        int buttonRow = 0;
+
+        for (int i = startIndex; i < TitleManager.getTitleCount() && buttonRow < TITLES_PER_PAGE; i++) {
+            // Skip only unobtained hidden titles
+            if (TitleManager.isHidden(i) && !ClientTitleData.isTitleUnlocked(i)) {
+                continue;
+            }
+
+            int titleIndex = i;
+            if (ClientTitleData.isTitleUnlocked(i)) {
+                // Obtained titles: show button with title
+                addButton(new Button(width / 2 - buttonWidth / 2, startY + spacing * (buttonRow + 1), buttonWidth, buttonHeight,
+                        ClientTitleData.getTitleText(i),
+                        (b) -> displayTitle(titleIndex)));
+            } else {
+                // Unobtained not hidden titles: show button with "???"
+                addButton(new Button(width / 2 - buttonWidth / 2, startY + spacing * (buttonRow + 1), buttonWidth, buttonHeight,
+                        new StringTextComponent("???"),
+                        (b) -> doesNotHaveTitle()));
+            }
+            buttonRow++;
+        }
+
+        int navY = startY + spacing * (TITLES_PER_PAGE + 1);
+
+        addButton(new Button(width / 2 - 30, navY, 60, buttonHeight,
                 new TranslationTextComponent("menu.jackspdmmod.remove_title"), TitleScreen::removeTitle));
 
-        titleButton((width - buttonWidth) / 2 - buttonWidth * 1, height / 2 - buttonHeight * 3, 1, TitleScreen::displayTitle1, false);
-        titleButton((width - buttonWidth) / 2 - buttonWidth * 0, height / 2 - buttonHeight * 3, 2, TitleScreen::displayTitle2, false);
-        titleButton((width - buttonWidth) / 2 - buttonWidth * -1, height / 2 - buttonHeight * 3, 3, TitleScreen::displayTitle3, false);
-        titleButton((width - buttonWidth) / 2 - buttonWidth * 1, height / 2 - buttonHeight * 2, 4, TitleScreen::displayTitle4, false);
-        titleButton((width - buttonWidth) / 2 - buttonWidth * 0, height / 2 - buttonHeight * 2, 5, TitleScreen::displayTitle5, false);
-        titleButton((width - buttonWidth) / 2 - buttonWidth * -1, height / 2 - buttonHeight * 2, 6, TitleScreen::displayTitle6, false);
-        titleButton((width - buttonWidth) / 2 - buttonWidth * 1, height / 2 - buttonHeight * 1, 7, TitleScreen::displayTitle7, false);
-        titleButton((width - buttonWidth) / 2 - buttonWidth * 0, height / 2 - buttonHeight * 1, 8, TitleScreen::displayTitle8, false);
-        titleButton((width - buttonWidth) / 2 - buttonWidth * -1, height / 2 - buttonHeight * 1, 9, TitleScreen::displayTitle9, false);
-        titleButton((width - buttonWidth) / 2 - buttonWidth * 1, height / 2 - buttonHeight * 0, 10, TitleScreen::displayTitle10, false);
-        titleButton((width - buttonWidth) / 2 - buttonWidth * 0, height / 2 - buttonHeight * 0, 11, TitleScreen::displayTitle11, false);
-        titleButton((width - buttonWidth) / 2 - buttonWidth * -1, height / 2 - buttonHeight * 0, 12, TitleScreen::displayTitle12, false);
-        titleButton((width - buttonWidth) / 2 - buttonWidth * 1, height / 2 - buttonHeight * -1, 13, TitleScreen::displayTitle13, true);
-        titleButton((width - buttonWidth) / 2 - buttonWidth * 0, height / 2 - buttonHeight * -1, 14, TitleScreen::displayTitle14, true);
+        if (pageOffset > 0) {
+            addButton(new Button(width / 2 - 60, navY, 20, 20,
+                    new StringTextComponent("<"), (b) -> changePage(-1)));
+        }
 
-        titleButtonBig(width / 2 - bigButtonWidth * 1, height / 2 - buttonHeight * -2 + 10, 15, TitleScreen::displayTitle15, true);
-        titleButtonBig(width / 2 - bigButtonWidth * 0, height / 2 - buttonHeight * -2 + 10, 16, TitleScreen::displayTitle16, true);
+        // Check if there are more visible titles beyond current page
+        int visibleCount = 0;
+        for (int i = startIndex; i < TitleManager.getTitleCount(); i++) {
+            // Skip only unobtained hidden titles
+            if (TitleManager.isHidden(i) && !ClientTitleData.isTitleUnlocked(i)) {
+                continue;
+            }
+            visibleCount++;
+            if (visibleCount > TITLES_PER_PAGE) {
+                addButton(new Button(width / 2 + 40, navY, 20, 20,
+                        new StringTextComponent(">"), (b) -> changePage(1)));
+                break;
+            }
+        }
     }
 
-    private void titleButton(int x, int y, int titleIndex, Button.IPressable button, boolean isHidden) {
-        if (ClientTitleData.getTitleUnlocked(titleIndex) == 1) {
-            addButton(new Button(x, y, buttonWidth, buttonHeight,
-                    ClientTitleData.getTitleText(titleIndex), button));
-        }
-        else if (!isHidden){
-            addButton(new Button(x, y, buttonWidth, buttonHeight,
-                    new StringTextComponent("???"), TitleScreen::doesNotHaveTitle));
-        }
-    }
-    private void titleButtonBig(int x, int y, int titleIndex, Button.IPressable button, boolean isHidden) {
-        if (ClientTitleData.getTitleUnlocked(titleIndex) == 1) {
-            addButton(new Button(x, y, bigButtonWidth, buttonHeight,
-                    ClientTitleData.getTitleText(titleIndex), button));
-        }
-        else if (!isHidden){
-            addButton(new Button(x, y, bigButtonWidth, buttonHeight,
-                    new StringTextComponent("???"), TitleScreen::doesNotHaveTitle));
-        }
-    }
 
     @Override
-    public void render(MatrixStack p_230430_1_, int p_230430_2_, int p_230430_3_, float p_230430_4_) {
-        ScreenBackgrounds.drawReRBackground(p_230430_1_, width, height, 140, 140, 90, 80, font, title);
-        int leftX = width / 2 - 140;
-        int topY = height / 2 - 90;
-        int rightX = width / 2 + 140;
-        int bottomY = height / 2 + 80;
-
-        super.render(p_230430_1_, p_230430_2_, p_230430_3_, p_230430_4_);
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        ScreenBackgrounds.drawReRBackground(matrixStack, width, height, 80, 80, 85, 80, font, title);
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
     }
 
     @Override
@@ -91,74 +107,19 @@ public class TitleScreen extends Screen {
         Minecraft.getInstance().setScreen(null);
     }
 
-    private static void displayTitle1(Button button) {
-        ModMessages.sendToServer(new TitleDisplayC2SPacket(1));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void displayTitle2(Button button) {
-        ModMessages.sendToServer(new TitleDisplayC2SPacket(2));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void displayTitle3(Button button) {
-        ModMessages.sendToServer(new TitleDisplayC2SPacket(3));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void displayTitle4(Button button) {
-        ModMessages.sendToServer(new TitleDisplayC2SPacket(4));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void displayTitle5(Button button) {
-        ModMessages.sendToServer(new TitleDisplayC2SPacket(5));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void displayTitle6(Button button) {
-        ModMessages.sendToServer(new TitleDisplayC2SPacket(6));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void displayTitle7(Button button) {
-        ModMessages.sendToServer(new TitleDisplayC2SPacket(7));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void displayTitle8(Button button) {
-        ModMessages.sendToServer(new TitleDisplayC2SPacket(8));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void displayTitle9(Button button) {
-        ModMessages.sendToServer(new TitleDisplayC2SPacket(9));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void displayTitle10(Button button) {
-        ModMessages.sendToServer(new TitleDisplayC2SPacket(10));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void displayTitle11(Button button) {
-        ModMessages.sendToServer(new TitleDisplayC2SPacket(11));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void displayTitle12(Button button) {
-        ModMessages.sendToServer(new TitleDisplayC2SPacket(12));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void displayTitle13(Button button) {
-        ModMessages.sendToServer(new TitleDisplayC2SPacket(13));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void displayTitle14(Button button) {
-        ModMessages.sendToServer(new TitleDisplayC2SPacket(14));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void displayTitle15(Button button) {
-        ModMessages.sendToServer(new TitleDisplayC2SPacket(15));
-        Minecraft.getInstance().setScreen(null);
-    }
-    private static void displayTitle16(Button button) {
-        ModMessages.sendToServer(new TitleDisplayC2SPacket(16));
+    private static void displayTitle(int titleIndex) {
+        ModMessages.sendToServer(new TitleDisplayC2SPacket(titleIndex));
         Minecraft.getInstance().setScreen(null);
     }
 
-    private static void doesNotHaveTitle(Button button) {
+    private static void doesNotHaveTitle() {
         if (Minecraft.getInstance().player != null) {
             Minecraft.getInstance().player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.does_not_have_title"), false);
         }
+    }
+
+    private void changePage(int delta) {
+        pageOffset += delta;
+        init();
     }
 }

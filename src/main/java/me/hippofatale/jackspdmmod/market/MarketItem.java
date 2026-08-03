@@ -35,5 +35,4 @@ public class MarketItem {
     }
 
     public int getQuantity() { return this.quantity; }
-    public void setQuantity(int quantity) { this.quantity = quantity; }
 }
