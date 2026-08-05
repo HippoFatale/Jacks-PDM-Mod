@@ -156,6 +156,7 @@ public class HomeCommand {
             }
 
             sharingHome.removeSharer(targetUUID);
+            HomeManager.save();
             target.displayClientMessage(new StringTextComponent(player.getName().getString()).append("님이 개인 땅 권한을 회수했습니다."), false);
             player.displayClientMessage(new StringTextComponent(target.getName().getString()).append("님에게 개인 땅 권한을 회수했습니다."), false);
             return 1;

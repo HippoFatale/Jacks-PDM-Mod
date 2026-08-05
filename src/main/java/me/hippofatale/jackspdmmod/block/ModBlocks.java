@@ -14,6 +14,7 @@ import net.minecraft.block.WoodType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -25,7 +26,12 @@ import java.util.function.Supplier;
 public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, JacksPDMMod.MOD_ID);
 
-    //ore seed
+    //ore
+    public static final RegistryObject<Block> PDM_ORE = registerBlock("pdm_ore",
+            () -> new Block(AbstractBlock.Properties.of(Material.STONE)
+                    .harvestTool(ToolType.PICKAXE)
+                    .harvestLevel(0)
+                    .strength(3.0f, 3.0f)));
     public static final RegistryObject<Block> ORE_SEED = registerBlock("ore_seed",
             () -> new OreSeedBlock(AbstractBlock.Properties.of(Material.STONE)));
 

@@ -111,12 +111,48 @@ public class PlacardTile extends SignTileEntity {
     @Override
     public CompoundNBT save(CompoundNBT nbt) {
         nbt.putBoolean("purchased", purchased);
+        if (pivot != null) {
+            nbt.putInt("pivotX", pivot.getX());
+            nbt.putInt("pivotY", pivot.getY());
+            nbt.putInt("pivotZ", pivot.getZ());
+        }
+        if (plotType != null) {
+            nbt.putString("plotType", plotType.name());
+        }
+        if (plotSize != null) {
+            nbt.putString("plotSize", plotSize.name());
+        }
+        if (teleportPos != null) {
+            nbt.putInt("teleportX", teleportPos.getX());
+            nbt.putInt("teleportY", teleportPos.getY());
+            nbt.putInt("teleportZ", teleportPos.getZ());
+        }
         return super.save(nbt);
     }
 
     @Override
     public void load(BlockState blockState, CompoundNBT nbt) {
         purchased = nbt.getBoolean("purchased");
+        if (nbt.contains("pivotX")) {
+            pivot = new BlockPos(nbt.getInt("pivotX"), nbt.getInt("pivotY"), nbt.getInt("pivotZ"));
+        }
+        if (nbt.contains("plotType")) {
+            try {
+                plotType = HomeType.valueOf(nbt.getString("plotType"));
+            } catch (IllegalArgumentException e) {
+                plotType = null;
+            }
+        }
+        if (nbt.contains("plotSize")) {
+            try {
+                plotSize = HomeSize.valueOf(nbt.getString("plotSize"));
+            } catch (IllegalArgumentException e) {
+                plotSize = null;
+            }
+        }
+        if (nbt.contains("teleportX")) {
+            teleportPos = new BlockPos(nbt.getInt("teleportX"), nbt.getInt("teleportY"), nbt.getInt("teleportZ"));
+        }
         super.load(blockState, nbt);
     }
 }

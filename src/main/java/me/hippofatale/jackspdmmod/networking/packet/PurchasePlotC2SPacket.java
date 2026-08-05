@@ -63,6 +63,7 @@ public class PurchasePlotC2SPacket {
                                 account.take(placard.getPlotPrice());
                                 placard.setPurchased(true);
                                 HomeManager.personalHomes.put(player.getUUID(), new Home(placard, player.getUUID()));
+                                HomeManager.save();
 
                                 player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.purchased_home"), false);
                             } else {
@@ -91,6 +92,7 @@ public class PurchasePlotC2SPacket {
                                 account.take(placard.getPlotPrice());
                                 placard.setPurchased(true);
                                 HomeManager.clubHomes.put(playerClub, new Home(placard, playerClub));
+                                HomeManager.save();
                                 player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.purchased_club_home"), false);
                             } else {
                                 player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.not_enough_pokedollars"), false);

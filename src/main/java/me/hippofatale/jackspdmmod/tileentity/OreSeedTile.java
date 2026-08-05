@@ -1,5 +1,6 @@
 package me.hippofatale.jackspdmmod.tileentity;
 
+import me.hippofatale.jackspdmmod.block.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -39,22 +40,24 @@ public class OreSeedTile extends TileEntity implements ITickableTileEntity {
             new Vector3i(0, 2, 0)
     });
     List<Block> oreSpawnType = Arrays.asList(new Block[]{
-            Blocks.COAL_ORE,
-            Blocks.LAPIS_ORE,
-            Blocks.REDSTONE_ORE,
-            Blocks.IRON_ORE,
-            Blocks.GOLD_ORE,
-            Blocks.DIAMOND_ORE,
-            Blocks.EMERALD_ORE
+            ModBlocks.PDM_ORE.get()
+//            Blocks.COAL_ORE,
+//            Blocks.LAPIS_ORE,
+//            Blocks.REDSTONE_ORE,
+//            Blocks.IRON_ORE,
+//            Blocks.GOLD_ORE,
+//            Blocks.DIAMOND_ORE,
+//            Blocks.EMERALD_ORE
     });
     List<Integer> oreSpawnWeight = Arrays.asList(new Integer[]{ //config
-            70,
-            50,
-            40,
-            30,
-            20,
-            10,
-            3
+            1
+//            70,
+//            50,
+//            40,
+//            30,
+//            20,
+//            10,
+//            3
     });
     int weightTotal = 0;
     List<Block> oreSpawnList = new ArrayList<>();

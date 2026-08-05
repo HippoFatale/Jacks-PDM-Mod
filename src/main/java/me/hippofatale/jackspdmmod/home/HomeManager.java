@@ -2,7 +2,6 @@ package me.hippofatale.jackspdmmod.home;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import me.hippofatale.jackspdmmod.JacksPDMMod;
 import me.hippofatale.jackspdmmod.club.Club;
 import me.hippofatale.jackspdmmod.club.ClubManager;
@@ -14,7 +13,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,18 +32,21 @@ public class HomeManager {
             if (parentDir != null && !parentDir.exists()) {
                 parentDir.mkdirs();
             }
-            try (FileWriter writer = new FileWriter(FILE)) {
-                HomeSaveData data = new HomeSaveData();
-                data.personal = personalHomes;
 
-                data.clubRawMap = new HashMap<>();
-                for (Map.Entry<Club, Home> entry : clubHomes.entrySet()) {
-                    if (entry.getKey() != null && entry.getValue() != null) {
-                        data.clubRawMap.put(entry.getKey().getClubName(), entry.getValue());
-                    }
+            HomeSaveData data = new HomeSaveData();
+            data.personal = personalHomes;
+
+            data.clubRawMap = new HashMap<>();
+            for (Map.Entry<Club, Home> entry : clubHomes.entrySet()) {
+                if (entry.getKey() != null && entry.getValue() != null) {
+                    data.clubRawMap.put(entry.getKey().getClubName(), entry.getValue());
                 }
+            }
 
-                GSON.toJson(data, writer);
+            String json = GSON.toJson(data);
+
+            try (FileWriter writer = new FileWriter(FILE)) {
+                writer.write(json);
             }
         } catch (IOException e) {
             JacksPDMMod.LOGGER.error("하우징 데이터를 저장하는 중 오류가 발생했습니다!", e);

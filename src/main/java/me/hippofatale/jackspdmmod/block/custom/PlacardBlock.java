@@ -52,6 +52,7 @@ public class PlacardBlock extends StandingSignBlock {
                 PlacardTile placard = (PlacardTile) tileEntity;
                 placard.setPlotType(this.plotType);
                 placard.setPlotSize(this.plotSize);
+                placard.setRotation(blockState.getValue(ROTATION));
             }
         }
     }
