@@ -9,6 +9,7 @@ import me.hippofatale.jackspdmmod.market.MarketItem;
 import me.hippofatale.jackspdmmod.market.MarketManager;
 import me.hippofatale.jackspdmmod.networking.ModMessages;
 import me.hippofatale.jackspdmmod.networking.packet.CropPriceDataSyncS2CPacket;
+import me.hippofatale.jackspdmmod.networking.packet.PlayerTitleDataSyncS2CPacket;
 import me.hippofatale.jackspdmmod.networking.packet.TeleportDataSyncS2CPacket;
 import me.hippofatale.jackspdmmod.teleport.PlayerTeleportUnlockProvider;
 import me.hippofatale.jackspdmmod.teleport.TeleportManager;
@@ -55,6 +56,7 @@ public class ModEvents {
         new CasinoSwitchingCommand(event.getDispatcher());
         new OpenMiniGameCommand(event.getDispatcher());
         new ShinyTradeTicketCommand(event.getDispatcher());
+        new RankPointCommand(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());
     }
@@ -101,6 +103,20 @@ public class ModEvents {
                 }
             }
             ModMessages.sendToPlayer(new CropPriceDataSyncS2CPacket(cropDataToSync), player);
+
+            // Sync player's title to all other players
+            player.getCapability(PlayerTitleProvider.PLAYER_TITLE).ifPresent(playerTitle -> {
+                ModMessages.sendToAll(new PlayerTitleDataSyncS2CPacket(player.getUUID(), playerTitle.getDisplayingTitleIndex()));
+            });
+
+            // Sync all existing players' titles to the new player
+            for (ServerPlayerEntity otherPlayer : player.level.getServer().getPlayerList().getPlayers()) {
+                if (otherPlayer != player) {
+                    otherPlayer.getCapability(PlayerTitleProvider.PLAYER_TITLE).ifPresent(otherTitle -> {
+                        ModMessages.sendToPlayer(new PlayerTitleDataSyncS2CPacket(otherPlayer.getUUID(), otherTitle.getDisplayingTitleIndex()), player);
+                    });
+                }
+            }
         }
     }
 

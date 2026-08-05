@@ -68,6 +68,18 @@ public class ModMessages {
                 .encoder(TitleDataSyncS2CPacket::toBytes)
                 .consumer(TitleDataSyncS2CPacket::handle)
                 .add();
+        net.messageBuilder(PlayerTitleDataSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(PlayerTitleDataSyncS2CPacket::new)
+                .encoder(PlayerTitleDataSyncS2CPacket::toBytes)
+                .consumer(PlayerTitleDataSyncS2CPacket::handle)
+                .add();
+
+        //rankpoint
+        net.messageBuilder(RankPointDataSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(RankPointDataSyncS2CPacket::new)
+                .encoder(RankPointDataSyncS2CPacket::toBytes)
+                .consumer(RankPointDataSyncS2CPacket::handle)
+                .add();
 
         //market
         net.messageBuilder(MarketSellC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
@@ -146,5 +158,9 @@ public class ModMessages {
 
     public static <MSG> void sendToPlayer(MSG message, ServerPlayerEntity player) {
         INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), message);
+    }
+
+    public static <MSG> void sendToAll(MSG message) {
+        INSTANCE.send(PacketDistributor.ALL.noArg(), message);
     }
 }

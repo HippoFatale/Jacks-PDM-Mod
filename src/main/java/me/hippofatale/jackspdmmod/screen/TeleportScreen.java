@@ -33,14 +33,14 @@ public class TeleportScreen extends Screen {
         for (int i = 0; i < TeleportManager.getTeleportCount(); i++) {
             int teleportIndex = i;
 
-            teleportButton((this.width - buttonWidth) / 2 - buttonWidth * (1 - i % 3), (this.height - buttonHeight) / 2 - buttonHeight * (3 - i / 3) - 10,
+            teleportButton((this.width - buttonWidth) / 2 - buttonWidth * (1 - i % 3), this.height / 2 - buttonHeight * (3 - i / 3) - 10,
                     teleportIndex, button -> teleport(teleportIndex), false);
         }
 
         //homes
-        this.addButton(new Button((this.width - buttonWidth) / 2 - buttonWidth * 0, (this.height - buttonHeight) / 2 - buttonHeight * -2, buttonWidth, buttonHeight,
+        this.addButton(new Button((this.width - buttonWidth) / 2 - buttonWidth * 0, this.height / 2 - buttonHeight * -3 - 10, buttonWidth, buttonHeight,
                 new TranslationTextComponent("menu.jackspdmmod.teleport_home"), TeleportScreen::teleportHome));
-        this.addButton(new Button((this.width - buttonWidth) / 2 - buttonWidth * -1, (this.height - buttonHeight) / 2 - buttonHeight * -2, buttonWidth, buttonHeight,
+        this.addButton(new Button((this.width - buttonWidth) / 2 - buttonWidth * -1, this.height / 2 - buttonHeight * -3 - 10, buttonWidth, buttonHeight,
                 new TranslationTextComponent("menu.jackspdmmod.teleport_club_home"), TeleportScreen::teleportClubHome));
     }
 
@@ -57,7 +57,7 @@ public class TeleportScreen extends Screen {
 
     @Override
     public void render(MatrixStack p_230430_1_, int p_230430_2_, int p_230430_3_, float p_230430_4_) {
-        ScreenBackgrounds.drawReRBackground(p_230430_1_, width, height, 140, 140, 90, 80, font, title);
+        ScreenBackgrounds.drawReRBackground(p_230430_1_, width, height, 140, 140, 80, 80, font, title);
         int leftX = this.width / 2 - 140;
         int topY = this.height / 2 - 90;
         int rightX = this.width / 2 + 140;

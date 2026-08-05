@@ -30,6 +30,7 @@ public class TitleDisplayC2SPacket {
             player.getCapability(PlayerTitleProvider.PLAYER_TITLE).ifPresent(playerTitle -> {
                 playerTitle.setDisplayingTitleIndex(titleIndex);
                 ModMessages.sendToPlayer(new TitleDataSyncS2CPacket(playerTitle.getDisplayingTitleIndex(), playerTitle.getTitleUnlockedList()), player);
+                ModMessages.sendToAll(new PlayerTitleDataSyncS2CPacket(player.getUUID(), playerTitle.getDisplayingTitleIndex()));
             });
             player.refreshDisplayName();
         });

@@ -2,8 +2,10 @@ package me.hippofatale.jackspdmmod.events;
 
 import me.hippofatale.jackspdmmod.JacksPDMMod;
 import me.hippofatale.jackspdmmod.networking.ModMessages;
+import me.hippofatale.jackspdmmod.networking.packet.RankPointDataSyncS2CPacket;
 import me.hippofatale.jackspdmmod.networking.packet.TeleportDataSyncS2CPacket;
 import me.hippofatale.jackspdmmod.networking.packet.TitleDataSyncS2CPacket;
+import me.hippofatale.jackspdmmod.rank.PlayerRankPointProvider;
 import me.hippofatale.jackspdmmod.storage.PlayerStorageProvider;
 import me.hippofatale.jackspdmmod.teleport.PlayerTeleportUnlockProvider;
 import me.hippofatale.jackspdmmod.title.PlayerTitleProvider;
@@ -37,6 +39,11 @@ public class CapabilityEvents {
             if (!event.getObject().getCapability(PlayerTitleProvider.PLAYER_TITLE).isPresent()) {
                 event.addCapability(new ResourceLocation(JacksPDMMod.MOD_ID, "properties_title"), new PlayerTitleProvider());
             }
+
+            //rankpoint
+            if (!event.getObject().getCapability(PlayerRankPointProvider.PLAYER_RANK_POINT).isPresent()) {
+                event.addCapability(new ResourceLocation(JacksPDMMod.MOD_ID, "properties_rankpoint"), new PlayerRankPointProvider());
+            }
         }
     }
 
@@ -51,6 +58,10 @@ public class CapabilityEvents {
             
             player.getCapability(PlayerTeleportUnlockProvider.PLAYER_TELEPORT_UNLOCK).ifPresent(playerTeleportUnlock -> {
                 ModMessages.sendToPlayer(new TeleportDataSyncS2CPacket(playerTeleportUnlock.getTeleportUnlockedList(), playerTeleportUnlock.isHomeUnlocked(), playerTeleportUnlock.isClubHomeUnlocked()), player);
+            });
+
+            player.getCapability(PlayerRankPointProvider.PLAYER_RANK_POINT).ifPresent(playerRankPoint -> {
+                ModMessages.sendToPlayer(new RankPointDataSyncS2CPacket(player.getUUID(), playerRankPoint.getRankPoints()), player);
             });
         }
     }
@@ -78,6 +89,13 @@ public class CapabilityEvents {
             //title
             event.getOriginal().getCapability(PlayerTitleProvider.PLAYER_TITLE).ifPresent(oldStore -> {
                 event.getPlayer().getCapability(PlayerTitleProvider.PLAYER_TITLE).ifPresent(newStore -> {
+                    newStore.copyFrom(oldStore);
+                });
+            });
+
+            //rankpoint
+            event.getOriginal().getCapability(PlayerRankPointProvider.PLAYER_RANK_POINT).ifPresent(oldStore -> {
+                event.getPlayer().getCapability(PlayerRankPointProvider.PLAYER_RANK_POINT).ifPresent(newStore -> {
                     newStore.copyFrom(oldStore);
                 });
             });
