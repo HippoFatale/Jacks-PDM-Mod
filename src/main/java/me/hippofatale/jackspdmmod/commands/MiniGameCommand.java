@@ -11,8 +11,8 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 
-public class OpenMiniGameCommand {
-    public OpenMiniGameCommand(CommandDispatcher<CommandSource> dispatcher) {
+public class MiniGameCommand {
+    public MiniGameCommand(CommandDispatcher<CommandSource> dispatcher) {
         dispatcher.register(Commands.literal("미니게임").requires((command) -> {
                     return command.hasPermission(2);
                 })
@@ -25,6 +25,13 @@ public class OpenMiniGameCommand {
                 .then(Commands.literal("운명의주사위").executes((command) -> {
                     return openDiceOfFortune(command.getSource());
                 }))
+                .then(Commands.literal("중지").executes((command) -> {
+                    return haltMiniGame(command.getSource(), true);
+                }))
+                .then(Commands.literal("재개").executes((command) -> {
+                    return haltMiniGame(command.getSource(), false);
+                }))
+
         );
     }
 
@@ -62,5 +69,16 @@ public class OpenMiniGameCommand {
             MiniGameRunEvents.openMiniGame(MiniGameType.DICE_OF_FORTUNE);
             return 1;
         }
+    }
+
+    private int haltMiniGame(CommandSource source, boolean isHalt) throws CommandSyntaxException {
+        ServerPlayerEntity player = source.getPlayerOrException();
+        MiniGameManager.isMiniGameHalted = isHalt;
+        if (isHalt) {
+            player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.mini_game_halted").withStyle(TextFormatting.YELLOW), false);
+        } else {
+            player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.mini_game_resumed").withStyle(TextFormatting.YELLOW), false);
+        }
+        return 1;
     }
 }

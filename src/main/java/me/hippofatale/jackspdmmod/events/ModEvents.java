@@ -1,9 +1,6 @@
 package me.hippofatale.jackspdmmod.events;
 
 import com.pixelmonmod.pixelmon.api.events.BeatTrainerEvent;
-import com.pixelmonmod.pixelmon.api.events.battles.BattleEndEvent;
-import com.pixelmonmod.pixelmon.api.events.battles.BattleEvent;
-import com.pixelmonmod.pixelmon.api.pokemon.boss.BossTier;
 import com.pixelmonmod.pixelmon.api.pokemon.boss.BossTiers;
 import com.pixelmonmod.pixelmon.api.registries.PixelmonItems;
 import com.pixelmonmod.pixelmon.entities.npcs.NPCEntity;
@@ -61,7 +58,7 @@ public class ModEvents {
         new BattleSpectateCommand(event.getDispatcher());
         new JoinMiniGameCommand(event.getDispatcher());
         new CasinoSwitchingCommand(event.getDispatcher());
-        new OpenMiniGameCommand(event.getDispatcher());
+        new MiniGameCommand(event.getDispatcher());
         new ShinyTradeTicketCommand(event.getDispatcher());
         new RankPointCommand(event.getDispatcher());
 

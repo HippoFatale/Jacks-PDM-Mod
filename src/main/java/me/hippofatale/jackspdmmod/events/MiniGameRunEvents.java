@@ -74,6 +74,10 @@ public class MiniGameRunEvents {
             return;
         }
 
+        if (MiniGameManager.isMiniGameHalted) {
+            return;
+        }
+
         //enable join command
         MiniGameManager.isMiniGameOpen = true;
         MiniGameManager.miniGameType = openedMiniGame;

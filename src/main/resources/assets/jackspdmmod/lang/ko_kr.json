@@ -201,6 +201,10 @@
   "message.jackspdmmod.mini_game_already_joined": "이번 회차의 미니 게임에 이미 참가 신청이 되어있습니다.",
   "message.jackspdmmod.mini_game_already_running": "이미 미니 게임이 진행 중이거나, 다른 미니 게임이 시작할 예정입니다.",
 
+  "message.jackspdmmod.mini_game_halted": "미니 게임 시스템이 중지되었습니다. 현재 개최/진행 중인 미니 게임은 취소되지 않습니다.",
+  "message.jackspdmmod.mini_game_resumed": "미니 게임 시스템이 재개되었습니다.",
+
+
   "message.jackspdmmod.magma_fall_winner": "§d마그마 드롭§r 미니 게임에서 우승했습니다. 축하합니다!",
   "message.jackspdmmod.magma_fall_survivors": "생존자가 %s명 남았습니다.",
   "message.jackspdmmod.magma_fall_countdown": "%s초 뒤에 유리 바닥이 사라집니다.",
