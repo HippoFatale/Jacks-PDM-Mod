@@ -5,6 +5,7 @@ import com.pixelmonmod.pixelmon.api.pokemon.boss.BossTiers;
 import com.pixelmonmod.pixelmon.api.registries.PixelmonItems;
 import com.pixelmonmod.pixelmon.entities.npcs.NPCEntity;
 import me.hippofatale.jackspdmmod.club.ClubManager;
+import me.hippofatale.jackspdmmod.minigames.MiniGameManager;
 import me.hippofatale.jackspdmmod.commands.*;
 import me.hippofatale.jackspdmmod.home.HomeManager;
 import me.hippofatale.jackspdmmod.market.MarketItem;
@@ -204,6 +205,7 @@ public class ModEvents {
         ClubManager.load();
         HomeManager.load();
         MarketManager.load();
+        MiniGameManager.load();
 
         GachaLists.buildLists();
     }
@@ -213,5 +215,6 @@ public class ModEvents {
         ClubManager.save();
         HomeManager.save();
         MarketManager.save();
+        MiniGameManager.save();
     }
 }

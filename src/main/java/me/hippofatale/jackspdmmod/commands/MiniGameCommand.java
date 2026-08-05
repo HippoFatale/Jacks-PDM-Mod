@@ -74,6 +74,7 @@ public class MiniGameCommand {
     private int haltMiniGame(CommandSource source, boolean isHalt) throws CommandSyntaxException {
         ServerPlayerEntity player = source.getPlayerOrException();
         MiniGameManager.isMiniGameHalted = isHalt;
+        MiniGameManager.save();
         if (isHalt) {
             player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.mini_game_halted").withStyle(TextFormatting.YELLOW), false);
         } else {

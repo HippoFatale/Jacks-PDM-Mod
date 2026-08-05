@@ -23,6 +23,7 @@ public class CasinoSwitchingCommand {
     private int openCasino(CommandSource source) throws CommandSyntaxException {
         ServerPlayerEntity player = source.getPlayerOrException();
         MiniGameManager.isCasinoOpen = true;
+        MiniGameManager.save();
         player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.open_casino"), false);
         return 1;
     }
@@ -30,6 +31,7 @@ public class CasinoSwitchingCommand {
     private int closeCasino(CommandSource source) throws CommandSyntaxException {
         ServerPlayerEntity player = source.getPlayerOrException();
         MiniGameManager.isCasinoOpen = false;
+        MiniGameManager.save();
         player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.close_casino"), false);
         return 1;
     }
