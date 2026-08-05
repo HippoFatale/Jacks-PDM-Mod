@@ -35,12 +35,12 @@ public class RankManager {
 
     private static void initializeRanks() {
         rankTiers = new RankTier[] {
-            new RankTier(2000, "§4S§r", new ResourceLocation("jackspdmmod:textures/rank/rank_s.png")),
-            new RankTier(1500, "§cA§r", new ResourceLocation("jackspdmmod:textures/rank/rank_a.png")),
-            new RankTier(1000, "§6B§r", new ResourceLocation("jackspdmmod:textures/rank/rank_b.png")),
-            new RankTier(600, "§5C§r", new ResourceLocation("jackspdmmod:textures/rank/rank_c.png")),
-            new RankTier(300, "§9D§r", new ResourceLocation("jackspdmmod:textures/rank/rank_d.png")),
-            new RankTier(100, "§2E§r", new ResourceLocation("jackspdmmod:textures/rank/rank_e.png")),
+            new RankTier(255, "§4S§r", new ResourceLocation("jackspdmmod:textures/rank/rank_s.png")),
+            new RankTier(175, "§cA§r", new ResourceLocation("jackspdmmod:textures/rank/rank_a.png")),
+            new RankTier(115, "§6B§r", new ResourceLocation("jackspdmmod:textures/rank/rank_b.png")),
+            new RankTier(65, "§5C§r", new ResourceLocation("jackspdmmod:textures/rank/rank_c.png")),
+            new RankTier(30, "§9D§r", new ResourceLocation("jackspdmmod:textures/rank/rank_d.png")),
+            new RankTier(10, "§2E§r", new ResourceLocation("jackspdmmod:textures/rank/rank_e.png")),
             new RankTier(PlayerRankPoint.MIN_POINTS, "§8F§r", new ResourceLocation("jackspdmmod:textures/rank/rank_f.png"))
         };
     }

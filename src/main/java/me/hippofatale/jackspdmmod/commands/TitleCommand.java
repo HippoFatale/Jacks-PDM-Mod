@@ -20,7 +20,7 @@ public class TitleCommand {
     public TitleCommand(CommandDispatcher<CommandSource> dispatcher) {
         dispatcher.register(Commands.literal("칭호").requires((command) -> {
             return command.hasPermission(2);})
-                .then(Commands.argument("플레이어", EntityArgument.player()).then(Commands.argument("칭호번호", IntegerArgumentType.integer(1, 15)).executes((command) -> {
+                .then(Commands.argument("플레이어", EntityArgument.player()).then(Commands.argument("칭호번호", IntegerArgumentType.integer(1, TitleManager.getTitleCount() - 1)).executes((command) -> {
                     return unlockTitle(command.getSource(), EntityArgument.getPlayer(command, "플레이어"), IntegerArgumentType.getInteger(command, "칭호번호"), true);}).
                         then(Commands.literal("뺏기").executes((command) -> {
                             return unlockTitle(command.getSource(), EntityArgument.getPlayer(command, "플레이어"), IntegerArgumentType.getInteger(command, "칭호번호"), false);})))));

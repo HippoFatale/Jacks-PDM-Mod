@@ -23,24 +23,30 @@ import java.util.UUID;
 
 public class HomeManager {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    private static final File FILE = new File(FMLPaths.CONFIGDIR.get().toFile(), "jackspdmmod_homes.json");
+    private static final File FILE = new File(FMLPaths.CONFIGDIR.get().toFile(), "jackspdmmod/homes.json");
 
     public static final Map<UUID, Home> personalHomes = new HashMap<>();
     public static final Map<Club, Home> clubHomes = new HashMap<>();
 
     public static void save() {
-        try (FileWriter writer = new FileWriter(FILE)) {
-            HomeSaveData data = new HomeSaveData();
-            data.personal = personalHomes;
-
-            data.clubRawMap = new HashMap<>();
-            for (Map.Entry<Club, Home> entry : clubHomes.entrySet()) {
-                if (entry.getKey() != null && entry.getValue() != null) {
-                    data.clubRawMap.put(entry.getKey().getClubName(), entry.getValue());
-                }
+        try {
+            File parentDir = FILE.getParentFile();
+            if (parentDir != null && !parentDir.exists()) {
+                parentDir.mkdirs();
             }
+            try (FileWriter writer = new FileWriter(FILE)) {
+                HomeSaveData data = new HomeSaveData();
+                data.personal = personalHomes;
 
-            GSON.toJson(data, writer);
+                data.clubRawMap = new HashMap<>();
+                for (Map.Entry<Club, Home> entry : clubHomes.entrySet()) {
+                    if (entry.getKey() != null && entry.getValue() != null) {
+                        data.clubRawMap.put(entry.getKey().getClubName(), entry.getValue());
+                    }
+                }
+
+                GSON.toJson(data, writer);
+            }
         } catch (IOException e) {
             JacksPDMMod.LOGGER.error("하우징 데이터를 저장하는 중 오류가 발생했습니다!", e);
         }

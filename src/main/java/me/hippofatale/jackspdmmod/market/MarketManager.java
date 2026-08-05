@@ -19,20 +19,26 @@ import java.util.List;
 
 public class MarketManager {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    private static final File FILE = new File(FMLPaths.CONFIGDIR.get().toFile(), "jackspdmmod_market.json");
+    private static final File FILE = new File(FMLPaths.CONFIGDIR.get().toFile(), "jackspdmmod/market.json");
 
     public static LocalDate lastUpdateDate = LocalDate.now(ZoneId.of("Asia/Seoul"));
     public static List<MarketItem> oreMarketItems = new ArrayList<>();
     public static List<MarketItem> cropMarketItems = new ArrayList<>();
 
     public static void save() {
-        try (FileWriter writer = new FileWriter(FILE)) {
-            MarketContainer container = new MarketContainer();
-            container.lastUpdateDate = lastUpdateDate.toString();
-            container.oreMarketItems = MarketManager.oreMarketItems;
-            container.cropMarketItems = MarketManager.cropMarketItems;
+        try {
+            File parentDir = FILE.getParentFile();
+            if (parentDir != null && !parentDir.exists()) {
+                parentDir.mkdirs();
+            }
+            try (FileWriter writer = new FileWriter(FILE)) {
+                MarketContainer container = new MarketContainer();
+                container.lastUpdateDate = lastUpdateDate.toString();
+                container.oreMarketItems = MarketManager.oreMarketItems;
+                container.cropMarketItems = MarketManager.cropMarketItems;
 
-            GSON.toJson(container, writer);
+                GSON.toJson(container, writer);
+            }
         } catch (IOException e) {
             JacksPDMMod.LOGGER.error("채집물 데이터를 저장하는 중 오류가 발생했습니다!", e);
         }

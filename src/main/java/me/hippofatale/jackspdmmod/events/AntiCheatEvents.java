@@ -63,6 +63,7 @@ public class AntiCheatEvents {
         }
     }
 
+    //TODO add pixelmon fishingrod
     @SubscribeEvent
     public static void onUseFishingRod(PlayerInteractEvent.RightClickItem event) {
         if (event.getPlayer() instanceof ServerPlayerEntity) {
@@ -75,7 +76,6 @@ public class AntiCheatEvents {
         }
     }
 
-    //TODO
     //no riding
     @SubscribeEvent
     public static void onRiding(EntityMountEvent event) {

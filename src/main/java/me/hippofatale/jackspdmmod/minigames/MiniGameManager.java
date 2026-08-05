@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class MiniGameManager {
+    public static boolean isMiniGameHalted = false;
     public static boolean isMiniGameOpen = false;
     public static boolean isMiniGameRunning = false;
     public static MiniGameType miniGameType = MiniGameType.DICE_OF_FORTUNE;

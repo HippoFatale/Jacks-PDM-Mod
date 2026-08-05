@@ -1,5 +1,10 @@
 package me.hippofatale.jackspdmmod.events;
 
+import com.pixelmonmod.pixelmon.api.events.BeatTrainerEvent;
+import com.pixelmonmod.pixelmon.api.events.battles.BattleEndEvent;
+import com.pixelmonmod.pixelmon.api.events.battles.BattleEvent;
+import com.pixelmonmod.pixelmon.api.pokemon.boss.BossTier;
+import com.pixelmonmod.pixelmon.api.pokemon.boss.BossTiers;
 import com.pixelmonmod.pixelmon.api.registries.PixelmonItems;
 import com.pixelmonmod.pixelmon.entities.npcs.NPCEntity;
 import me.hippofatale.jackspdmmod.club.ClubManager;
@@ -10,7 +15,9 @@ import me.hippofatale.jackspdmmod.market.MarketManager;
 import me.hippofatale.jackspdmmod.networking.ModMessages;
 import me.hippofatale.jackspdmmod.networking.packet.CropPriceDataSyncS2CPacket;
 import me.hippofatale.jackspdmmod.networking.packet.PlayerTitleDataSyncS2CPacket;
+import me.hippofatale.jackspdmmod.networking.packet.RankPointDataSyncS2CPacket;
 import me.hippofatale.jackspdmmod.networking.packet.TeleportDataSyncS2CPacket;
+import me.hippofatale.jackspdmmod.rank.PlayerRankPointProvider;
 import me.hippofatale.jackspdmmod.teleport.PlayerTeleportUnlockProvider;
 import me.hippofatale.jackspdmmod.teleport.TeleportManager;
 import me.hippofatale.jackspdmmod.title.PlayerTitleProvider;
@@ -163,6 +170,35 @@ public class ModEvents {
                 }
             }
         }
+    }
+
+    //rank point
+    @SubscribeEvent
+    public static void onBeatTrainer(BeatTrainerEvent event) {
+        ServerPlayerEntity player = event.player;
+        String tierId = event.trainer.getBossTier().getID();
+        int gainedPoints;
+        switch (tierId) {
+            case BossTiers.EQUAL:
+                gainedPoints = 1;
+                break;
+            case BossTiers.COMMON:
+                gainedPoints = 3;
+                break;
+            case BossTiers.UNCOMMON:
+                gainedPoints = 5;
+                break;
+            default:
+                return;
+        }
+
+        player.getCapability(PlayerRankPointProvider.PLAYER_RANK_POINT).ifPresent(playerRankPoint -> {
+            int oldRankPoint = playerRankPoint.getRankPoints();
+            playerRankPoint.addRankPoints(gainedPoints);
+            int newRankPoint = playerRankPoint.getRankPoints();
+            ModMessages.sendToPlayer(new RankPointDataSyncS2CPacket(player.getUUID(), playerRankPoint.getRankPoints()), player);
+            player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.rank_point_earned", Integer.toString(gainedPoints), Integer.toString(oldRankPoint), Integer.toString(newRankPoint)), false);
+        });
     }
 
     //data

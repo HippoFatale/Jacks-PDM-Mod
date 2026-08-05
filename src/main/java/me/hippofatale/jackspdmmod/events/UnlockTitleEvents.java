@@ -88,11 +88,11 @@ public class UnlockTitleEvents {
 
         //gold rich
         if (balance.compareTo(new BigDecimal("1000000.0")) >= 0) {
-            unlockTitle(player, 13);
+            unlockTitle(player, 12);
         }
         //diamond rich
         if (balance.compareTo(new BigDecimal("10000000.0")) >= 0) {
-            unlockTitle(player, 14);
+            unlockTitle(player, 13);
         }
     }
 }

@@ -15,15 +15,21 @@ import java.util.*;
 
 public class ClubManager {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    private static final File FILE = new File(FMLPaths.CONFIGDIR.get().toFile(), "jackspdmmod_clubs.json");
+    private static final File FILE = new File(FMLPaths.CONFIGDIR.get().toFile(), "jackspdmmod/clubs.json");
 
     public static List<Club> clubs = new ArrayList<>();
     public static final Map<UUID, Club> belongingClubs = new HashMap<>();
     public static final Map<UUID, List<Club>> pendingInvites = new HashMap<>();
 
     public static void save() {
-        try (FileWriter writer = new FileWriter(FILE)) {
-            GSON.toJson(clubs, writer);
+        try {
+            File parentDir = FILE.getParentFile();
+            if (parentDir != null && !parentDir.exists()) {
+                parentDir.mkdirs();
+            }
+            try (FileWriter writer = new FileWriter(FILE)) {
+                GSON.toJson(clubs, writer);
+            }
         } catch (IOException e) {
             JacksPDMMod.LOGGER.error("동아리 데이터를 저장하는 중 오류가 발생했습니다!", e);
         }
