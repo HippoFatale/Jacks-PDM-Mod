@@ -6,6 +6,7 @@ import me.hippofatale.jackspdmmod.minigames.JumpMapRace;
 import me.hippofatale.jackspdmmod.minigames.MagmaFall;
 import me.hippofatale.jackspdmmod.minigames.MiniGameManager;
 import me.hippofatale.jackspdmmod.minigames.MiniGameType;
+import me.hippofatale.jackspdmmod.teleport.TeleportManager;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.vector.Vector3d;
@@ -24,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 
 @Mod.EventBusSubscriber(modid = JacksPDMMod.MOD_ID)
 public class MiniGameRunEvents {
-    public static final Vector3d returnPoint = new Vector3d(-93, 44, -8);
+    public static final Vector3d returnPoint = TeleportManager.getTeleportPos(0);
 
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
     private static MinecraftServer server;

@@ -10,13 +10,13 @@ import java.util.stream.Collectors;
 
 public class TeleportManager {
     private static final List<TeleportPoint> teleportList = Arrays.asList(new TeleportPoint[] {
+        new TeleportPoint(new TranslationTextComponent("teleport.jackspdmmod.revolution_city"),
+                new Vector3d(13, 69, 964), true),
+
         new TeleportPoint(new TranslationTextComponent("teleport.jackspdmmod.mine"),
                 new Vector3d(-794, 80, 2048), true),
         new TeleportPoint(new TranslationTextComponent("teleport.jackspdmmod.field"),
                 new Vector3d(-117, 171, 1498), true),
-
-        new TeleportPoint(new TranslationTextComponent("teleport.jackspdmmod.revolution_city"),
-                new Vector3d(13, 69, 964), true),
         new TeleportPoint(new TranslationTextComponent("teleport.jackspdmmod.revolution_city_north"),
                 new Vector3d(9, 69, 821), true),
         new TeleportPoint(new TranslationTextComponent("teleport.jackspdmmod.revolution_city_south"),
