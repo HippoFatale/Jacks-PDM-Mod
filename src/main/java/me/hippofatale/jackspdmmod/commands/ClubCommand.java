@@ -24,8 +24,8 @@ import java.util.UUID;
 public class ClubCommand {
     public ClubCommand(CommandDispatcher<CommandSource> dispatcher) {
         dispatcher.register(Commands.literal("길드")
-                .then(Commands.literal("만들기").then(Commands.argument("동아리명", StringArgumentType.greedyString()).executes((command) -> {
-                    return createClub(command.getSource(), StringArgumentType.getString(command, "동아리명"));})))
+                .then(Commands.literal("만들기").then(Commands.argument("길드명", StringArgumentType.greedyString()).executes((command) -> {
+                    return createClub(command.getSource(), StringArgumentType.getString(command, "길드명"));})))
 
                 .then(Commands.literal("초대").then(Commands.argument("플레이어", EntityArgument.player()).executes((command) -> {
                     return invite(command.getSource(), EntityArgument.getPlayer(command, "플레이어"));})))
@@ -33,8 +33,8 @@ public class ClubCommand {
                 .then(Commands.literal("추방").then(Commands.argument("플레이어", EntityArgument.player()).executes((command) -> {
                     return kick(command.getSource(), EntityArgument.getPlayer(command, "플레이어"));})))
 
-                .then(Commands.literal("가입").then(Commands.argument("동아리명", StringArgumentType.greedyString()).executes((command) -> {
-                    return join(command.getSource(), StringArgumentType.getString(command, "동아리명"));})))
+                .then(Commands.literal("가입").then(Commands.argument("길드명", StringArgumentType.greedyString()).executes((command) -> {
+                    return join(command.getSource(), StringArgumentType.getString(command, "길드명"));})))
 
                 .then(Commands.literal("탈퇴").executes((command) -> {
                     return leave(command.getSource());}))
@@ -56,13 +56,13 @@ public class ClubCommand {
 
         if (clubName.isEmpty()) {
             //TODO add translation
-            player.displayClientMessage(new StringTextComponent("올바른 동아리 이름을 입력해주세요.").withStyle(net.minecraft.util.text.TextFormatting.RED), false);
+            player.displayClientMessage(new StringTextComponent("올바른 길드 이름을 입력해주세요.").withStyle(net.minecraft.util.text.TextFormatting.RED), false);
             return 0;
         }
 
         if (clubName.length() < 2 || clubName.length() > 10) {
             //TODO add translation
-            player.displayClientMessage(new StringTextComponent("동아리 이름은 2자 이상 10자 이하로 입력해주세요.").withStyle(net.minecraft.util.text.TextFormatting.RED), false);
+            player.displayClientMessage(new StringTextComponent("길드 이름은 2자 이상 10자 이하로 입력해주세요.").withStyle(net.minecraft.util.text.TextFormatting.RED), false);
             return 0;
         }
 
@@ -122,7 +122,7 @@ public class ClubCommand {
 
         if (ClubManager.belongingClubs.containsKey(target.getUUID())) {
             //TODO add translation
-            player.displayClientMessage(new StringTextComponent("해당 플레이어는 이미 다른 동아리에 가입되어 있습니다.").withStyle(net.minecraft.util.text.TextFormatting.RED), false);
+            player.displayClientMessage(new StringTextComponent("해당 플레이어는 이미 다른 길드에 가입되어 있습니다.").withStyle(net.minecraft.util.text.TextFormatting.RED), false);
             return 0;
         }
 

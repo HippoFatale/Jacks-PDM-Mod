@@ -13,20 +13,18 @@ public class TeleportManager {
         new TeleportPoint(new TranslationTextComponent("teleport.jackspdmmod.mine"),
                 new Vector3d(-794, 80, 2048), true),
         new TeleportPoint(new TranslationTextComponent("teleport.jackspdmmod.field"),
-                new Vector3d(13, 69, 964), true), //TODO get coordinates
-        new TeleportPoint(new TranslationTextComponent("teleport.jackspdmmod.game_center"),
-                new Vector3d(13, 69, 964), true), //TODO get coordinates
+                new Vector3d(-117, 171, 1498), true),
 
         new TeleportPoint(new TranslationTextComponent("teleport.jackspdmmod.revolution_city"),
                 new Vector3d(13, 69, 964), true),
         new TeleportPoint(new TranslationTextComponent("teleport.jackspdmmod.revolution_city_north"),
-                new Vector3d(9, 69, 821), false),
+                new Vector3d(9, 69, 821), true),
         new TeleportPoint(new TranslationTextComponent("teleport.jackspdmmod.revolution_city_south"),
-                new Vector3d( 9, 69, 1113), false),
+                new Vector3d( -71, 69, 1084), true),
         new TeleportPoint(new TranslationTextComponent("teleport.jackspdmmod.revolution_city_west"),
-                new Vector3d(-131, 69, 653), false),
+                new Vector3d(-130, 69, 963), false),
         new TeleportPoint(new TranslationTextComponent("teleport.jackspdmmod.revolution_city_east"),
-                new Vector3d(148, 69, 974), false),
+                new Vector3d(146, 69, 1010), false),
 
         new TeleportPoint(new TranslationTextComponent("teleport.jackspdmmod.start_town"),
                 new Vector3d(-201, 65, 242), false),

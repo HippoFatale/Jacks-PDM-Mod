@@ -2,6 +2,7 @@ package me.hippofatale.jackspdmmod.events;
 
 import com.pixelmonmod.pixelmon.entities.bikes.BikeEntity;
 import me.hippofatale.jackspdmmod.JacksPDMMod;
+import me.hippofatale.jackspdmmod.block.ModBlocks;
 import me.hippofatale.jackspdmmod.club.Club;
 import me.hippofatale.jackspdmmod.club.ClubManager;
 import me.hippofatale.jackspdmmod.home.Home;
@@ -115,7 +116,7 @@ public class WorldProtectionEvents {
             ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
             BlockPos blockPos = event.getPos();
 
-            if (event.getWorld().getBlockState(blockPos).getBlock().is(Tags.Blocks.ORES)) {
+            if (event.getWorld().getBlockState(blockPos).getBlock().is(ModBlocks.PDM_ORE.get()) && isInMine(blockPos)) {
                 return;
             }
 
@@ -126,10 +127,10 @@ public class WorldProtectionEvents {
 
 
     public static boolean isInMine(BlockPos blockPos) {
-        int minX = -494;
-        int maxX = -60;
-        int minZ = 1264;
-        int maxZ = 1506;
+        int minX = -899;
+        int maxX = -722;
+        int minZ = 2002;
+        int maxZ = 2147;
 
         if (blockPos.getX() < minX) {
             return false;
@@ -153,7 +154,7 @@ public class WorldProtectionEvents {
             ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
             BlockPos blockPos = event.getPos();
 
-            if (event.getWorld().getBlockState(blockPos).getBlock().is(Tags.Blocks.ORES) && isInMine(blockPos)) {
+            if (event.getWorld().getBlockState(blockPos).getBlock().is(ModBlocks.PDM_ORE.get()) && isInMine(blockPos)) {
                 return;
             }
 

@@ -31,21 +31,21 @@ public class MenuScreen extends Screen {
     protected void init() {
         super.init();
 
-        addButton(new Button(width / 2 - buttonWidth / 2, height / 2 - 55, buttonWidth, buttonHeight,
+        addButton(new Button(width / 2 - buttonWidth / 2, height / 2 - 70, buttonWidth, buttonHeight,
                 new TranslationTextComponent("menu.jackspdmmod.teleport"), MenuScreen::openTeleport));
-        addButton(new Button(width / 2 - buttonWidth / 2, height / 2 - 25, buttonWidth, buttonHeight,
+        addButton(new Button(width / 2 - buttonWidth / 2, height / 2 - 40, buttonWidth, buttonHeight,
                 new TranslationTextComponent("menu.jackspdmmod.storage"), MenuScreen::openStorage));
-        addButton(new Button(width / 2 - buttonWidth / 2, height / 2 + 5, buttonWidth, buttonHeight,
+        addButton(new Button(width / 2 - buttonWidth / 2, height / 2 - 10, buttonWidth, buttonHeight,
                 new TranslationTextComponent("menu.jackspdmmod.title"), MenuScreen::openTitle));
-        addButton(new Button(width / 2 - buttonWidth / 2, height / 2 + 35, buttonWidth, buttonHeight,
+        addButton(new Button(width / 2 - buttonWidth / 2, height / 2 + 20, buttonWidth, buttonHeight,
                 new TranslationTextComponent("menu.jackspdmmod.market"), MenuScreen::openMarket));
-
-        addButton(new ImageButton(width / 2 + buttonWidth / 2 - 16, height / 2 + 54, 16, 16, 0, 0, 0, themeIconPath, 8, 8, MenuScreen::openTheme));
+        addButton(new Button(width / 2 - buttonWidth / 2, height / 2 + 50, buttonWidth, buttonHeight,
+                new TranslationTextComponent("menu.jackspdmmod.theme"), MenuScreen::openTheme));
     }
 
     @Override
     public void render(MatrixStack p_230430_1_, int p_230430_2_, int p_230430_3_, float p_230430_4_) {
-        ScreenBackgrounds.drawReRBackground(p_230430_1_, width, height, 60, 60, 65, 65, font, title);
+        ScreenBackgrounds.drawReRBackground(p_230430_1_, width, height, 60, 60, 80, 80, font, title);
         int leftX = width / 2 - 60;
         int topY = height / 2 - 65;
         int rightX = width / 2 + 60;

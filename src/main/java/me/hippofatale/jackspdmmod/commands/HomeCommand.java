@@ -33,7 +33,7 @@ public class HomeCommand {
                         .then(Commands.literal("개인").executes((command) -> {
                             return demolishHome(command.getSource(), HomeType.PERSONAL);}))
 
-                        .then(Commands.literal("동아리").executes((command) -> {
+                        .then(Commands.literal("길드").executes((command) -> {
                             return demolishHome(command.getSource(), CLUB);}))
                 )
 

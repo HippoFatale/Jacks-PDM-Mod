@@ -31,7 +31,7 @@ public class ClubManager {
                 GSON.toJson(clubs, writer);
             }
         } catch (IOException e) {
-            JacksPDMMod.LOGGER.error("동아리 데이터를 저장하는 중 오류가 발생했습니다!", e);
+            JacksPDMMod.LOGGER.error("길드 데이터를 저장하는 중 오류가 발생했습니다!", e);
         }
     }
 
@@ -58,7 +58,7 @@ public class ClubManager {
                 }
             }
         } catch (IOException e) {
-            JacksPDMMod.LOGGER.error("동아리 데이터를 로드하는 중 오류가 발생했습니다!", e);
+            JacksPDMMod.LOGGER.error("길드 데이터를 로드하는 중 오류가 발생했습니다!", e);
             clubs = new ArrayList<>();
         }
     }

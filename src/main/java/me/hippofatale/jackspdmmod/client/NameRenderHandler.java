@@ -11,11 +11,13 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.api.distmarker.Dist;
 
-@Mod.EventBusSubscriber(modid = JacksPDMMod.MOD_ID)
+@Mod.EventBusSubscriber(modid = JacksPDMMod.MOD_ID, value = Dist.CLIENT)
 public class NameRenderHandler {
 
     @SubscribeEvent
@@ -39,7 +41,7 @@ public class NameRenderHandler {
         // Render rank texture
         matrixStack.pushPose();
         // Position rank above name (or above title if title exists)
-        float rankY = hasTitle ? player.getBbHeight() + 1.1f : player.getBbHeight() + 0.5f; //TODO adjust Y
+        float rankY = hasTitle ? player.getBbHeight() + 0.85f : player.getBbHeight() + 0.65f;
         matrixStack.translate(0.0, rankY, 0.0);
         matrixStack.mulPose(Minecraft.getInstance().getEntityRenderDispatcher().cameraOrientation());
         matrixStack.scale(-0.1F, -0.1F, 0.1F);
@@ -88,10 +90,10 @@ public class NameRenderHandler {
 
         // Render title text above character name
         if (hasTitle) {
-            ITextComponent titleText = TitleManager.getTitleBold(titleIndex);
-            
+            ITextComponent titleText = new StringTextComponent("<").append(TitleManager.getTitleBold(titleIndex)).append(">");
+
             matrixStack.pushPose();
-            matrixStack.translate(0.0, player.getBbHeight() + 0.9, 0.0); //TODO adjust Y
+            matrixStack.translate(0.0, player.getBbHeight() + 0.7, 0.0);
             matrixStack.mulPose(Minecraft.getInstance().getEntityRenderDispatcher().cameraOrientation());
             matrixStack.scale(-0.02F, -0.02F, 0.02F);
             

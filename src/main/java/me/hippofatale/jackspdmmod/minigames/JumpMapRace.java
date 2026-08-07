@@ -24,9 +24,9 @@ import java.util.concurrent.TimeUnit;
 @Mod.EventBusSubscriber(modid = JacksPDMMod.MOD_ID)
 public class JumpMapRace {
     //starting point
-    private static final AxisAlignedBB startArea = new AxisAlignedBB(-1557, 58, 73, -1549, 59, 87);
-    private static final AxisAlignedBB goalArea = new AxisAlignedBB(-1556, 72, 97, -1553, 73, 100);
-    public static final AxisAlignedBB field = new AxisAlignedBB(-1581 - 1, 57, 73 - 1, -1549 + 1, 80, 100 + 1);
+    private static final AxisAlignedBB startArea = new AxisAlignedBB(-695, 69, 1024, -677 + 1, 69 + 1, 1035 + 1);
+    private static final AxisAlignedBB goalArea = new AxisAlignedBB(-701, 77, 1011, -699 + 1, 77 + 1, 1013 + 1);
+    public static final AxisAlignedBB field = new AxisAlignedBB(-701, 68, 1004, -677 + 1, 95 + 1, 1035 + 1);
 //    private static final Vector3d returnPoint = new Vector3d(-93, 44, -8);
     private static final int timeLimit = 15; //minutes
 

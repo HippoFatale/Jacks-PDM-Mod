@@ -65,7 +65,7 @@ public class PlacardScreen extends Screen {
                 break;
             }
             case 2: {
-                typeInfo = new TranslationTextComponent("menu.jackspdmmod.plot_type_info").append("동아리 땅");
+                typeInfo = new TranslationTextComponent("menu.jackspdmmod.plot_type_info").append("길드 땅");
                 priceInfo = new TranslationTextComponent("menu.jackspdmmod.plot_price_info").append(Integer.toString(plotPrice.intValue())).append("P");
 //                priceInfo = new TranslationTextComponent("menu.jackspdmmod.plot_price_info").append(Integer.toString(plotPrice.intValue())).append("학점");
                 break;

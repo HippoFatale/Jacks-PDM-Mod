@@ -30,8 +30,8 @@ import java.util.stream.Stream;
 import static me.hippofatale.jackspdmmod.JacksPDMMod.*;
 
 public class MagmaFall {
-    public static final AxisAlignedBB field = new AxisAlignedBB(-1573 - 1, 39, 83 - 1, -1556 + 1, 51, 100 + 1);
-    private static final AxisAlignedBB platform = new AxisAlignedBB(-1573, 38, 83, -1556, 39, 100);
+    public static final AxisAlignedBB field = new AxisAlignedBB(-710, 71, 1059, -674 + 1, 95 + 1, 1097 + 1);
+    private static final AxisAlignedBB platform = new AxisAlignedBB(-701, 75, 1070, -685 + 1, 75 + 1, 1086 + 1);
 //    private static final Vector3d returnPoint = new Vector3d(-93, 44, -8);
     private static final int platformSize = 8;
     private static final BlockPos platformMin = new BlockPos(platform.minX, platform.minY, platform.minZ);
