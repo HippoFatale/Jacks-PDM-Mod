@@ -1,5 +1,6 @@
 package me.hippofatale.jackspdmmod.events;
 
+import com.pixelmonmod.pixelmon.api.registries.PixelmonItems;
 import com.pixelmonmod.pixelmon.items.CurryDishItem;
 import me.hippofatale.jackspdmmod.JacksPDMMod;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -20,7 +21,7 @@ public class ItemRestrictionEvents {
     //item ban
     private static boolean isBannedItem(Item item) {
         List<Item> bannedItemList = Arrays.asList(new Item[]{
-
+                PixelmonItems.luck_incense
         });
         for (Item listedItem : bannedItemList) {
             if (item.equals(listedItem)) {

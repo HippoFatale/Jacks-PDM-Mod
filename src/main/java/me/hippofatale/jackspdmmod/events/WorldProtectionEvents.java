@@ -10,18 +10,14 @@ import me.hippofatale.jackspdmmod.home.HomeManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.entity.player.*;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-
-import static me.hippofatale.jackspdmmod.JacksPDMMod.*;
 
 @Mod.EventBusSubscriber(modid = JacksPDMMod.MOD_ID)
 public class WorldProtectionEvents {
@@ -35,7 +31,7 @@ public class WorldProtectionEvents {
 
         for (Home personalHome : HomeManager.personalHomes.values()) {
             if (personalHome.isInBounds(blockPos)) {
-                if (personalHome.getOwningPlayerOrClub().equals(Optional.of(playerUUID))) {
+                if (personalHome.getOwningPlayerOrClubName().equals(Optional.of(playerUUID))) {
                     return true;
                 }
 
@@ -51,8 +47,11 @@ public class WorldProtectionEvents {
             if (clubHome.isInBounds(blockPos)) {
                 Club playerClub = ClubManager.belongingClubs.get(playerUUID);
 
-                if (playerClub != null && clubHome.getOwningPlayerOrClub().equals(Optional.of(playerClub))) {
-                    return true;
+                if (playerClub != null && clubHome.getOwningPlayerOrClubName().isPresent()) {
+                    Club owningClub = (Club) clubHome.getOwningPlayerOrClubName().get();
+                    if (owningClub != null && owningClub.getClubName().equals(playerClub.getClubName())) {
+                        return true;
+                    }
                 }
 
                 return false;
@@ -71,7 +70,7 @@ public class WorldProtectionEvents {
 
         for (Home personalHome : HomeManager.personalHomes.values()) {
             if (personalHome.isInBounds(blockPos)) {
-                if (personalHome.getOwningPlayerOrClub().equals(Optional.of(playerUUID))) {
+                if (personalHome.getOwningPlayerOrClubName().equals(Optional.of(playerUUID))) {
                     return true;
                 }
 
@@ -87,8 +86,11 @@ public class WorldProtectionEvents {
             if (clubHome.isInBounds(blockPos)) {
                 Club playerClub = ClubManager.belongingClubs.get(playerUUID);
 
-                if (playerClub != null && clubHome.getOwningPlayerOrClub().equals(Optional.of(playerClub))) {
-                    return true;
+                if (playerClub != null && clubHome.getOwningPlayerOrClubName().isPresent()) {
+                    Club owningClub = (Club) clubHome.getOwningPlayerOrClubName().get();
+                    if (owningClub != null && owningClub.getClubName().equals(playerClub.getClubName())) {
+                        return true;
+                    }
                 }
 
                 return false; // 다른 동아리방 상자는 오픈 차단

@@ -5,7 +5,6 @@ import me.hippofatale.jackspdmmod.club.ClubManager;
 import me.hippofatale.jackspdmmod.tileentity.PlacardTile;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
 
 import java.util.*;
 
@@ -15,7 +14,7 @@ public class Home {
     private BlockPos placardPos;
     private HomeType homeType;
     private UUID owningPlayer;
-    private Club owningClub;
+    private String owningClubName;
     private HomeSize homeSize;
     private final BlockPos startPos;
     private final BlockPos endPos;
@@ -42,7 +41,7 @@ public class Home {
     public Home(PlacardTile placard, Club club) {
         this.placardPos = placard.getBlockPos();
         this.homeType = placard.getPlotType();
-        this.owningClub = club;
+        this.owningClubName = club.getClubName();
 
         this.homeSize = placard.getPlotSize();
         this.startPos = placard.getPivot();
@@ -54,12 +53,12 @@ public class Home {
         this.maxSharedPlayers = DEFAULT_MAX_SHARED_PLAYERS;
     }
 
-    public Optional<Object> getOwningPlayerOrClub() {
+    public Optional<Object> getOwningPlayerOrClubName() {
         switch (this.homeType) {
             case PERSONAL:
                 return Optional.ofNullable(this.owningPlayer);
             case CLUB:
-                return Optional.ofNullable(this.owningClub);
+                return Optional.ofNullable(ClubManager.getClub(this.owningClubName));
         }
         return Optional.empty();
     }

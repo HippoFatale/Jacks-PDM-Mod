@@ -62,4 +62,13 @@ public class ClubManager {
             clubs = new ArrayList<>();
         }
     }
+
+    public static Club getClub(String clubName) {
+        for (Club club : clubs) {
+            if (club.getClubName().equals(clubName)) {
+                return club;
+            }
+        }
+        return null;
+    }
 }
