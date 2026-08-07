@@ -82,7 +82,7 @@ public class PurchasePlotC2SPacket {
                             player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.not_president"), false);
                             break;
                         }
-                        if (HomeManager.clubHomes.get(ClubManager.belongingClubs.get(player.getUUID())) != null) {
+                        if (HomeManager.clubHomes.get(playerClub.getClubName()) != null) {
                             player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.already_has_club_home"), false);
                             break;
                         }
@@ -91,7 +91,7 @@ public class PurchasePlotC2SPacket {
                             if (account.hasBalance(placard.getPlotPrice())) {
                                 account.take(placard.getPlotPrice());
                                 placard.setPurchased(true);
-                                HomeManager.clubHomes.put(playerClub, new Home(placard, playerClub));
+                                HomeManager.clubHomes.put(playerClub.getClubName(), new Home(placard, playerClub));
                                 HomeManager.save();
                                 player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.purchased_club_home"), false);
                             } else {

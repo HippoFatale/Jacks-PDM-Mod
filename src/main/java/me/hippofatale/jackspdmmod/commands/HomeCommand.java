@@ -87,7 +87,7 @@ public class HomeCommand {
                     return 0;
                 }
 
-                Home clubHome = HomeManager.clubHomes.get(playerClub);
+                Home clubHome = HomeManager.clubHomes.get(playerClub.getClubName());
 
                 if (clubHome == null) {
                     player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.no_club_home"), false);
@@ -100,7 +100,7 @@ public class HomeCommand {
                     placard.setPurchased(false);
                 }
 
-                HomeManager.clubHomes.remove(playerClub);
+                HomeManager.clubHomes.remove(playerClub.getClubName());
                 HomeManager.save();
                 player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.demolished_club_home"), false);
                 return 1;

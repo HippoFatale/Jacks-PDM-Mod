@@ -231,7 +231,7 @@ public class ClubCommand {
                 return 0;
             }
 
-            if (HomeManager.clubHomes.containsKey(playerClub)) {
+            if (HomeManager.clubHomes.containsKey(playerClub.getClubName())) {
                 player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.has_club_home"), false);
                 return 0;
             }

@@ -50,7 +50,7 @@ public class ModEvents {
         new MenuCommand(event.getDispatcher());
         new TitleCommand(event.getDispatcher());
         new ClubCommand(event.getDispatcher());
-        new ClubPointCommand(event.getDispatcher());
+//        new ClubPointCommand(event.getDispatcher());
         new BasicPokemonTicketCommand(event.getDispatcher());
         new HomeCommand(event.getDispatcher());
         new TMTradeTicketCommand(event.getDispatcher());
@@ -58,7 +58,7 @@ public class ModEvents {
         new PDTransferCommand(event.getDispatcher());
         new BattleSpectateCommand(event.getDispatcher());
         new JoinMiniGameCommand(event.getDispatcher());
-        new CasinoSwitchingCommand(event.getDispatcher());
+//        new CasinoSwitchingCommand(event.getDispatcher());
         new MiniGameCommand(event.getDispatcher());
         new ShinyTradeTicketCommand(event.getDispatcher());
         new RankPointCommand(event.getDispatcher());

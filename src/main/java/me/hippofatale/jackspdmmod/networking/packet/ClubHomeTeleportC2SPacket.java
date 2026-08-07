@@ -32,8 +32,8 @@ public class ClubHomeTeleportC2SPacket {
             if (player != null) {
                 if (!ClubManager.belongingClubs.containsKey(player.getUUID())) {
                     player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.not_in_club"), false);
-                } else if (HomeManager.clubHomes.get(ClubManager.belongingClubs.get(player.getUUID())) != null) {
-                    BlockPos teleportPos = HomeManager.clubHomes.get(ClubManager.belongingClubs.get(player.getUUID())).getTeleportPos();
+                } else if (HomeManager.clubHomes.get(ClubManager.belongingClubs.get(player.getUUID()).getClubName()) != null) {
+                    BlockPos teleportPos = HomeManager.clubHomes.get(ClubManager.belongingClubs.get(player.getUUID()).getClubName()).getTeleportPos();
                     if (player.getVehicle() != null) {
                         Entity vehicle = player.getVehicle();
                         vehicle.teleportToWithTicket(teleportPos.getX() + 0.5, teleportPos.getY(), teleportPos.getZ() + 0.5);

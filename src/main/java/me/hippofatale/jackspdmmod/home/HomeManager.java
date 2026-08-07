@@ -24,7 +24,7 @@ public class HomeManager {
     private static final File FILE = new File(FMLPaths.CONFIGDIR.get().toFile(), "jackspdmmod/homes.json");
 
     public static final Map<UUID, Home> personalHomes = new HashMap<>();
-    public static final Map<Club, Home> clubHomes = new HashMap<>();
+    public static final Map<String, Home> clubHomes = new HashMap<>();
 
     public static void save() {
         try {
@@ -35,13 +35,7 @@ public class HomeManager {
 
             HomeSaveData data = new HomeSaveData();
             data.personal = personalHomes;
-
-            data.clubRawMap = new HashMap<>();
-            for (Map.Entry<Club, Home> entry : clubHomes.entrySet()) {
-                if (entry.getKey() != null && entry.getValue() != null) {
-                    data.clubRawMap.put(entry.getKey().getClubName(), entry.getValue());
-                }
-            }
+            data.clubRawMap = clubHomes;
 
             String json = GSON.toJson(data);
 
@@ -75,21 +69,8 @@ public class HomeManager {
                 clubHomes.clear();
                 if (data.clubRawMap != null) {
                     for (Map.Entry<String, Home> entry : data.clubRawMap.entrySet()) {
-                        String clubName = entry.getKey();
-                        Home home = entry.getValue();
-
-                        Club actualClub = null;
-                        for (Club c : ClubManager.clubs) {
-                            if (c.getClubName().equals(clubName)) {
-                                actualClub = c;
-                                break;
-                            }
-                        }
-
-                        if (actualClub != null) {
-                            rebuildHomeArea(home);
-                            clubHomes.put(actualClub, home);
-                        }
+                        rebuildHomeArea(entry.getValue());
+                        clubHomes.put(entry.getKey(), entry.getValue());
                     }
                 }
             }
