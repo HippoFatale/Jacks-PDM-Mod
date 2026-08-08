@@ -330,7 +330,7 @@ public class GachaLists {
     //endregion
 
     private static List<ItemStack> getGachaTableList(List<ItemStack> itemStackList, List<Integer> chanceList) {
-        List<ItemStack> gachaTableList = new ArrayList<>(Collections.emptyList());
+        List<ItemStack> gachaTableList = new ArrayList<>();
 
         if (itemStackList.size() != chanceList.size()) {
             return itemStackList;

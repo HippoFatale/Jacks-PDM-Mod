@@ -15,6 +15,7 @@ import java.util.*;
 
 public class GachaItem extends Item {
     private char gachaCode;
+    private Random random = new Random();
     public GachaItem(Properties properties, char gachaCode) {
         super(properties);
         this.gachaCode = gachaCode;
@@ -47,7 +48,7 @@ public class GachaItem extends Item {
                         gachaResult = getGachaBoxResult(GachaLists.getUltraGacha());
                         break;
                     case 'M':
-                        gachaName = (new ItemStack(ModItems.MASTER_GACHA_BOX.get())).getHoverName().copy().withStyle(TextFormatting.LIGHT_PURPLE);;
+                        gachaName = (new ItemStack(ModItems.MASTER_GACHA_BOX.get())).getHoverName().copy().withStyle(TextFormatting.LIGHT_PURPLE);
                         gachaResult = getGachaBoxResult(GachaLists.getMasterGacha());
                         break;
                     case 'A':
@@ -64,7 +65,15 @@ public class GachaItem extends Item {
                 if (!gachaResult.isEmpty()) {
                     int quantity = gachaResult.getCount();
                     ITextComponent resultName = gachaResult.getHoverName().copy().withStyle(TextFormatting.YELLOW);
-                    player.inventory.add(gachaResult);
+                    
+                    int handSlot = player.inventory.selected;
+                    for (int i = 0; i < player.inventory.items.size(); i++) {
+                        if (i != handSlot && player.inventory.items.get(i).isEmpty()) {
+                            player.inventory.items.set(i, gachaResult.copy());
+                            break;
+                        }
+                    }
+                    player.inventory.setChanged();
 
                     player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.gacha_result",
                             gachaName.copy().withStyle(TextFormatting.BOLD),
