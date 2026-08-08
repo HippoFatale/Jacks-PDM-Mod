@@ -93,7 +93,7 @@ public class WorldProtectionEvents {
                     }
                 }
 
-                return false; // 다른 동아리방 상자는 오픈 차단
+                return false;
             }
         }
 
@@ -118,7 +118,7 @@ public class WorldProtectionEvents {
             ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
             BlockPos blockPos = event.getPos();
 
-            if (event.getWorld().getBlockState(blockPos).getBlock().is(ModBlocks.PDM_ORE.get()) && isInMine(blockPos)) {
+            if (event.getWorld().getBlockState(blockPos).getBlock().is(ModBlocks.PDM_ORE.get())) {
                 return;
             }
 
@@ -127,36 +127,13 @@ public class WorldProtectionEvents {
         }
     }
 
-
-    public static boolean isInMine(BlockPos blockPos) {
-        int minX = -899;
-        int maxX = -722;
-        int minZ = 2002;
-        int maxZ = 2147;
-
-        if (blockPos.getX() < minX) {
-            return false;
-        }
-        if (blockPos.getX() > maxX) {
-            return false;
-        }
-        if (blockPos.getZ() < minZ) {
-            return false;
-        }
-        if (blockPos.getZ() > maxZ) {
-            return false;
-        }
-
-        return true;
-    }
-
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onBreakBlock(BlockEvent.BreakEvent event) {
         if (!event.getWorld().isClientSide()) {
             ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
             BlockPos blockPos = event.getPos();
 
-            if (event.getWorld().getBlockState(blockPos).getBlock().is(ModBlocks.PDM_ORE.get()) && isInMine(blockPos)) {
+            if (event.getWorld().getBlockState(blockPos).getBlock().is(ModBlocks.PDM_ORE.get())) {
                 return;
             }
 

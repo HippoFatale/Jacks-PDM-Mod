@@ -31,13 +31,6 @@ public class TeleportC2SPacket {
         context.enqueueWork(() -> {
             ServerPlayerEntity player = context.getSender();
             if (player != null) {
-                if (teleportIndex == 3 && !player.isCreative()) {
-                    if (!MiniGameManager.isCasinoOpen) {
-                        player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.casino_is_closed").withStyle(TextFormatting.YELLOW), false);
-                        return;
-                    }
-                }
-
                 if (player.getVehicle() != null) {
                     Entity vehicle = player.getVehicle();
                     player.stopRiding();

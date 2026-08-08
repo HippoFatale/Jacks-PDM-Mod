@@ -8,6 +8,7 @@ import me.hippofatale.jackspdmmod.events.MiniGameRunEvents;
 import me.hippofatale.jackspdmmod.events.ModEvents;
 import me.hippofatale.jackspdmmod.events.UnlockTitleEvents;
 import me.hippofatale.jackspdmmod.item.ModItems;
+import me.hippofatale.jackspdmmod.market.MarketManager;
 import me.hippofatale.jackspdmmod.networking.ModMessages;
 import me.hippofatale.jackspdmmod.storage.PlayerStorageInventory;
 import me.hippofatale.jackspdmmod.teleport.PlayerTeleportUnlock;
@@ -130,6 +131,7 @@ public class JacksPDMMod
         // do something that can only be done on the client
         LOGGER.info("Got game settings {}", event.getMinecraftSupplier().get().options);
         ClientRegistry.bindTileEntityRenderer(ModTileEntities.PLACARD_TILE.get(), SignTileEntityRenderer::new);
+        MarketManager.load();
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event)
