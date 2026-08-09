@@ -63,6 +63,20 @@ public class CapabilityEvents {
             player.getCapability(PlayerRankPointProvider.PLAYER_RANK_POINT).ifPresent(playerRankPoint -> {
                 ModMessages.sendToPlayer(new RankPointDataSyncS2CPacket(player.getUUID(), playerRankPoint.getRankPoints()), player);
             });
+
+            // Broadcast this player's rank points to all other players
+            player.getCapability(PlayerRankPointProvider.PLAYER_RANK_POINT).ifPresent(playerRankPoint -> {
+                ModMessages.sendToAll(new RankPointDataSyncS2CPacket(player.getUUID(), playerRankPoint.getRankPoints()));
+            });
+
+            // Send all other players' rank points to this player
+            for (ServerPlayerEntity otherPlayer : player.level.getServer().getPlayerList().getPlayers()) {
+                if (otherPlayer != player) {
+                    otherPlayer.getCapability(PlayerRankPointProvider.PLAYER_RANK_POINT).ifPresent(otherRankPoint -> {
+                        ModMessages.sendToPlayer(new RankPointDataSyncS2CPacket(otherPlayer.getUUID(), otherRankPoint.getRankPoints()), player);
+                    });
+                }
+            }
         }
     }
 

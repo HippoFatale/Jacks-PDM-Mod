@@ -194,7 +194,7 @@ public class ModEvents {
             int oldRankPoint = playerRankPoint.getRankPoints();
             playerRankPoint.addRankPoints(gainedPoints);
             int newRankPoint = playerRankPoint.getRankPoints();
-            ModMessages.sendToPlayer(new RankPointDataSyncS2CPacket(player.getUUID(), playerRankPoint.getRankPoints()), player);
+            ModMessages.sendToAll(new RankPointDataSyncS2CPacket(player.getUUID(), playerRankPoint.getRankPoints()));
             player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.rank_point_earned", Integer.toString(gainedPoints), Integer.toString(oldRankPoint), Integer.toString(newRankPoint)), false);
         });
     }

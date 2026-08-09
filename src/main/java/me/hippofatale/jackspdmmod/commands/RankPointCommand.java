@@ -69,7 +69,7 @@ public class RankPointCommand {
         ServerPlayerEntity player = source.getPlayerOrException();
         target.getCapability(PlayerRankPointProvider.PLAYER_RANK_POINT).ifPresent(playerRankPoint -> {
             playerRankPoint.setRankPoints(point);
-            ModMessages.sendToPlayer(new RankPointDataSyncS2CPacket(target.getUUID(), playerRankPoint.getRankPoints()), target);
+            ModMessages.sendToAll(new RankPointDataSyncS2CPacket(target.getUUID(), playerRankPoint.getRankPoints()));
             player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.rank_point_changed", target.getName(), Integer.toString(playerRankPoint.getRankPoints())), false);
             target.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.rank_point_changed", target.getName(), Integer.toString(playerRankPoint.getRankPoints())), false);
         });
@@ -81,7 +81,7 @@ public class RankPointCommand {
         ServerPlayerEntity player = source.getPlayerOrException();
         target.getCapability(PlayerRankPointProvider.PLAYER_RANK_POINT).ifPresent(playerRankPoint -> {
             playerRankPoint.addRankPoints(point);
-            ModMessages.sendToPlayer(new RankPointDataSyncS2CPacket(target.getUUID(), playerRankPoint.getRankPoints()), target);
+            ModMessages.sendToAll(new RankPointDataSyncS2CPacket(target.getUUID(), playerRankPoint.getRankPoints()));
             player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.rank_point_changed", target.getName(), Integer.toString(playerRankPoint.getRankPoints())), false);
             target.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.rank_point_changed", target.getName(), Integer.toString(playerRankPoint.getRankPoints())), false);
         });
@@ -93,7 +93,7 @@ public class RankPointCommand {
         ServerPlayerEntity player = source.getPlayerOrException();
         target.getCapability(PlayerRankPointProvider.PLAYER_RANK_POINT).ifPresent(playerRankPoint -> {
             playerRankPoint.removeRankPoints(point);
-            ModMessages.sendToPlayer(new RankPointDataSyncS2CPacket(target.getUUID(), playerRankPoint.getRankPoints()), target);
+            ModMessages.sendToAll(new RankPointDataSyncS2CPacket(target.getUUID(), playerRankPoint.getRankPoints()));
             player.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.rank_point_changed", target.getName(), Integer.toString(playerRankPoint.getRankPoints())), false);
             target.displayClientMessage(new TranslationTextComponent("message.jackspdmmod.rank_point_changed", target.getName(), Integer.toString(playerRankPoint.getRankPoints())), false);
         });
