@@ -50,7 +50,7 @@ public class BasicPokemonTicketCommand extends PixelCommand {
 
             //create Pokémon from args spec
             Pokemon pokemon = spec.create();
-            Stats stats = pokemon.getForm();
+            Stats stats = pokemon.getForm().getBaseEvolution().getDefaultForm();
 
             //init
             pokemon.setSpecies(stats.getBaseEvolution(), true);
